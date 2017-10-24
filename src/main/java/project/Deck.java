@@ -31,7 +31,7 @@ public class Deck {
 	public void shuffle(){
 		mydeck = new Stack<>();
 		Random rand = new Random();
-		//rand.setSeed(System.currentTimeMillis());
+		rand.setSeed(System.currentTimeMillis());
 		
 		//integer array representing the number of cards by color that 
 		//need to be added into the deck
@@ -52,7 +52,6 @@ public class Deck {
 			}
 			
 			if(toAdd[tempIndex] != 0){
-				//System.out.println(tempIndex);
 				mydeck.push(tempIndex);
 				toAdd[tempIndex] = toAdd[tempIndex] - 1;
 			}
