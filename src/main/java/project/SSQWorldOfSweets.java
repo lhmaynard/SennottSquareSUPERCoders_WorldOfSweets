@@ -9,7 +9,8 @@ public class SSQWorldOfSweets extends JPanel{
 	//private static JLabel deckLabel = new JLabel("Deck Information");
 	static String names[];
 	static String symbols[];
-	static JLabel Player1, Player2, Player3, Player4;			//Tokens of Each of the Players
+	//Tokens of Each of the Players
+	static JLabel Player1, Player2, Player3, Player4;
 	static int players;
 	public static void main(String args[]){
 
@@ -20,7 +21,7 @@ public class SSQWorldOfSweets extends JPanel{
 			});
 	}
 	private static void createAndShowGUI(){
-		JFrame f = new MyFrame("Candy Land Knockoff");
+		JFrame f = new MyFrame("World of Sweets!");
 		nameEntry();							//Commented Out of Testing		
 		addPanel(f.getContentPane());
 
@@ -33,36 +34,44 @@ public class SSQWorldOfSweets extends JPanel{
 		JPanel playerInfo = new JPanel();
 		JPanel gameArea = new JPanel();
 		
-		JLabel deckLabel = new JLabel("Deck Information");			//DECK LABEL
+		//DECK LABEL
+		JLabel deckLabel = new JLabel("Deck Information");
 		deckLabel.setFont(new Font("Century", Font.BOLD, 30));
 		
-		JButton deck = new JButton("Cards Shown Here");			//DECK PANEL AREA
-		deck.setPreferredSize(new Dimension(200, 200));
-		deckInfo.setLayout(new BorderLayout());
-		deckInfo.add(deckLabel, BorderLayout.NORTH);
-		deckInfo.add(deck, BorderLayout.EAST);
+		//DECK PANEL AREA
+		JButton deck = new JButton("Click to draw card");
 		
-		JLabel playerLabel = new JLabel("Player Information");		//Player Panel area
+		
+		deckInfo.add(deckLabel);
+		deckInfo.add(deck);
+		
+		//Player Panel area
+		JLabel playerLabel = new JLabel("Player Information");		
 		playerLabel.setFont(new Font("Century", Font.ITALIC, 25));
 		playerInfo.setLayout(new BorderLayout());
 		playerInfo.add(playerLabel, BorderLayout.NORTH);
 		
-		deckInfo.setBackground(Color.pink);									//Setting colors of Panels
+		//Setting colors of Panels
+		deckInfo.setBackground(Color.pink);
 		playerInfo.setBackground(Color.pink);
 		gameArea.setBackground(Color.white);
 		
-		deckInfo.setPreferredSize(new Dimension(200, 200));					//Setting size for areas
+		//Setting size for areas
+		deckInfo.setPreferredSize(new Dimension(200, 200));					
 		playerInfo.setPreferredSize(new Dimension(250, 200));
 		gameArea.setPreferredSize(new Dimension(750,750));
-	
-		addSpace(gameArea);												//Calling addSpace to add spaces to game Area
-		editPlayerInfo(playerInfo);										//Edits and adds elements to playerInfo Panel
+		
+		//Calling addSpace to add spaces to game Area
+		addSpace(gameArea);
+		//Edits and adds elements to playerInfo Panel									
+		editPlayerInfo(playerInfo);
 		
 		p.add(playerInfo, BorderLayout.EAST);
 		p.add(deckInfo, BorderLayout.SOUTH);
 		p.add(gameArea, BorderLayout.CENTER);
 	}
-	private static void addSpace(JPanel gameArea){						//Add Play spaces to the game area
+	//Add Play spaces to the game area
+	private static void addSpace(JPanel gameArea){						
 		JButton[] buttons = new JButton[50];
 		JButton endZone = new JButton("End");
 		
@@ -80,13 +89,15 @@ public class SSQWorldOfSweets extends JPanel{
 		beginZone.add(L4, BorderLayout.WEST);
 		
 		gameArea.add(beginZone);
-		for(int i = 0; i < 50; i++){			//Array of JButtons that is the game board spaces
+		for(int i = 0; i < 50; i++){
+			//Array of JButtons that is the game board spaces			
 			buttons[i] = new JButton(Integer.toString(i));
 			buttons[i].add(L1, BorderLayout.NORTH);
 		}
 		gameArea.setLayout(new GridLayout(7, 7, 10, 10));
 		for(int i = 0; i < 50; i++){
-			if((i % 5) == 0 ){				//Hard Coding colors of Spaces
+			//Hard Coding colors of Spaces
+			if((i % 5) == 0 ){				
 				buttons[i].setBackground(Color.red);
 			}
 			if((i % 5) == 1){
