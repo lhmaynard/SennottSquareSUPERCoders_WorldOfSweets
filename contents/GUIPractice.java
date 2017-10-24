@@ -28,7 +28,19 @@ public class GUIPractice extends JPanel{
 	private static void addSpace(JPanel gameArea){
 		JButton[] buttons = new JButton[25];
 		JButton endZone = new JButton("End");
+		
 		JButton beginZone = new JButton("Begin");
+		JLabel L1 = new JLabel("1");
+		L1.setHorizontalAlignment(JLabel.CENTER);
+		JLabel L2 = new JLabel("2");
+		JLabel L3 = new JLabel("3");
+		L3.setHorizontalAlignment(JLabel.CENTER);
+		JLabel L4 = new JLabel("4");
+		beginZone.setLayout(new BorderLayout());
+		beginZone.add(L1, BorderLayout.NORTH);
+		beginZone.add(L2, BorderLayout.EAST);
+		beginZone.add(L3, BorderLayout.SOUTH);
+		beginZone.add(L4, BorderLayout.WEST);
 		
 		gameArea.add(beginZone);
 		for(int i = 0; i < 25; i++){			//Array of JButtons that is the game board spaces
@@ -51,8 +63,10 @@ public class GUIPractice extends JPanel{
 			if(i == 4 || i == 9 || i == 14 || i == 19 || i == 24){
 				buttons[i].setBackground(Color.orange);
 			}
+			
 			gameArea.add(buttons[i]);
 		}	
+	
 		gameArea.add(endZone);
 		
 	}
