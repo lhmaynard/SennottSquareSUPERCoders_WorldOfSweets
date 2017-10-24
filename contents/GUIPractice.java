@@ -48,7 +48,7 @@ public class GUIPractice extends JPanel{
 		playerInfo.setLayout(new BorderLayout());
 		playerInfo.add(playerLabel, BorderLayout.NORTH);
 		
-		createSpaces(gameArea);
+		//createSpaces(gameArea);
 		
 		deckInfo.setBackground(Color.pink);
 		playerInfo.setBackground(Color.red);
