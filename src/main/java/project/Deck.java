@@ -31,7 +31,7 @@ public class Deck {
 	public void shuffle(){
 		mydeck = new Stack<>();
 		Random rand = new Random();
-		rand.setSeed(System.currentTimeMillis());
+		//rand.setSeed(System.currentTimeMillis());
 		
 		//integer array representing the number of cards by color that 
 		//need to be added into the deck
@@ -41,7 +41,18 @@ public class Deck {
 			
 			int tempIndex = rand.nextInt(10);
 			
+			//Since double cards are more frequent at the beginning of the 
+			//deck because there are only 2 of each and the method used to
+			//select cards makes the distribution less than random, for each
+			//double card that is selected, another random card pull will be
+			//done to eliminate the uneven distribution of double cards in 
+			//the beginning of the deck
+			if(tempIndex > 4){
+				tempIndex = rand.nextInt(10);
+			}
+			
 			if(toAdd[tempIndex] != 0){
+				//System.out.println(tempIndex);
 				mydeck.push(tempIndex);
 				toAdd[tempIndex] = toAdd[tempIndex] - 1;
 			}
