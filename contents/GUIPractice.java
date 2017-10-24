@@ -7,8 +7,8 @@ import javax.swing.*;
 public class GUIPractice extends JPanel{
 
 	//private static JLabel deckLabel = new JLabel("Deck Information");
-	
-	
+	static String names[];
+	static String symbols[];
 	public static void main(String args[]){
 
 			javax.swing.SwingUtilities.invokeLater(new Runnable() {
@@ -19,9 +19,9 @@ public class GUIPractice extends JPanel{
 	}
 	private static void createAndShowGUI(){
 		JFrame f = new MyFrame("Candy Land Knockoff");
-		
+		//nameEntry();							//Commented Out of Testing		
 		addPanel(f.getContentPane());
-		//f.show();
+
 		f.pack();
 		f.setVisible(true);
 	}
@@ -69,6 +69,31 @@ public class GUIPractice extends JPanel{
 	
 		gameArea.add(endZone);
 		
+	}
+	private static void nameEntry(){							//Name Entry WOrk in PRogress
+		String[] numOfPlayers = {"2", "3", "4"};
+		String[] symbolsOfPlayers = {"@", "#", "$", "%"};
+		Object playersO = JOptionPane.showInputDialog(null, "Welcome to World Of Sweets! How many players are here?", "Selection", JOptionPane.DEFAULT_OPTION, null, numOfPlayers, "2");
+		int players = Integer.parseInt(playersO.toString());
+		//String name = JOptionPane.showInputDialog(null, "What is your name?");
+		if (players == 2){
+			names = new String[2];
+			names[0] = JOptionPane.showInputDialog(null, "What is your name?", "Player 1", JOptionPane.QUESTION_MESSAGE);
+			names[1] = JOptionPane.showInputDialog(null, "What is your name?", "Player 2", JOptionPane.QUESTION_MESSAGE);
+		}
+		else if(players == 3){
+			names = new String[3];
+			names[0] = JOptionPane.showInputDialog(null, "What is your name?", "Player 1", JOptionPane.QUESTION_MESSAGE);
+			names[1] = JOptionPane.showInputDialog(null, "What is your name?", "Player 2", JOptionPane.QUESTION_MESSAGE);
+			names[2] = JOptionPane.showInputDialog(null, "What is your name?", "Player 3", JOptionPane.QUESTION_MESSAGE);
+		}
+		else{
+			names = new String[4];
+			names[0] = JOptionPane.showInputDialog(null, "What is your name?", "Player 1", JOptionPane.QUESTION_MESSAGE);
+			names[1] = JOptionPane.showInputDialog(null, "What is your name?", "Player 2", JOptionPane.QUESTION_MESSAGE);
+			names[2] = JOptionPane.showInputDialog(null, "What is your name?", "Player 3", JOptionPane.QUESTION_MESSAGE);
+			names[3] = JOptionPane.showInputDialog(null, "What is your name?", "Player 4", JOptionPane.QUESTION_MESSAGE);
+		}
 	}
 	private static void addPanel(Container p){
 		p.setLayout(new BorderLayout());
