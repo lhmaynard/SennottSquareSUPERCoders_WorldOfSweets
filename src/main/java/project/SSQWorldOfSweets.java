@@ -30,20 +30,14 @@ public class SSQWorldOfSweets extends JPanel{
 	}
 	private static void addPanel(Container p){
 		p.setLayout(new BorderLayout());
-		JPanel deckInfo = new JPanel();
+		JPanel deckArea = new JPanel();
 		JPanel playerInfo = new JPanel();
 		JPanel gameArea = new JPanel();
 		
-		//DECK LABEL
-		JLabel deckLabel = new JLabel("Deck Information");
-		deckLabel.setFont(new Font("Century", Font.BOLD, 30));
-		
 		//DECK PANEL AREA
-		JButton deck = new JButton("Click to draw card");
+		drawDeckArea(deckArea);
+	
 		
-		
-		deckInfo.add(deckLabel);
-		deckInfo.add(deck);
 		
 		//Player Panel area
 		JLabel playerLabel = new JLabel("Player Information");		
@@ -52,12 +46,12 @@ public class SSQWorldOfSweets extends JPanel{
 		playerInfo.add(playerLabel, BorderLayout.NORTH);
 		
 		//Setting colors of Panels
-		deckInfo.setBackground(Color.pink);
+		deckArea.setBackground(Color.pink);
 		playerInfo.setBackground(Color.pink);
 		gameArea.setBackground(Color.white);
 		
 		//Setting size for areas
-		deckInfo.setPreferredSize(new Dimension(200, 200));					
+		deckArea.setPreferredSize(new Dimension(200, 200));					
 		playerInfo.setPreferredSize(new Dimension(250, 200));
 		gameArea.setPreferredSize(new Dimension(750,750));
 		
@@ -67,9 +61,91 @@ public class SSQWorldOfSweets extends JPanel{
 		editPlayerInfo(playerInfo);
 		
 		p.add(playerInfo, BorderLayout.EAST);
-		p.add(deckInfo, BorderLayout.SOUTH);
+		p.add(deckArea, BorderLayout.SOUTH);
 		p.add(gameArea, BorderLayout.CENTER);
 	}
+	
+	
+	private static void drawDeckArea(JPanel deckArea){
+		deckArea.setLayout( new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+		
+		JLabel deckLabel = new JLabel("Deck Information", SwingConstants.CENTER);
+		deckLabel.setFont(new Font("Century", Font.BOLD, 30));
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 0.0;
+		c.gridwidth = 3;
+		c.gridx = 1;
+		c.gridy = 0;
+		deckArea.add(deckLabel, c);
+		
+		JLabel blankLabel = new JLabel("");
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 1.0;
+		c.ipady = 0;
+		c.gridwidth = 1;
+		c.gridx =0;
+		c.gridy = 1;
+		deckArea.add(blankLabel, c);
+		
+		JButton drawDeck = new JButton("Deck Goes Here");
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 0.75;
+		c.ipady = 100;
+		c.gridwidth = 1;
+		c.gridx = 1;
+		c.gridy = 1;
+		deckArea.add(drawDeck, c);
+		
+		blankLabel = new JLabel("");
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 0.25;
+		c.ipady = 0;
+		c.gridwidth = 1;
+		c.gridx =2;
+		c.gridy = 1;
+		deckArea.add(blankLabel, c);
+		
+		JButton drawDeck2 = new JButton("Card Goes Here");
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 0.75;
+		c.ipady = 100;
+		c.gridwidth = 1;
+		c.gridx = 3;
+		c.gridy = 1;
+		deckArea.add(drawDeck2, c);
+		
+		blankLabel = new JLabel("");
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 1.0;
+		c.ipady = 0;
+		c.gridwidth = 1;
+		c.gridx =4;
+		c.gridy = 1;
+		deckArea.add(blankLabel, c);
+		
+		
+		JButton drawButton = new JButton("Click to draw card");
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 0.0;
+		c.ipady = 0;
+		c.gridwidth = 1;
+		c.gridx = 1;
+		c.gridy = 2;
+		deckArea.add(drawButton, c);
+		
+		JLabel lastLabel = new JLabel("Last Card Drawn", SwingConstants.CENTER);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 0.75;
+		c.ipady = 0;
+		c.gridwidth = 1;
+		c.gridx = 3;
+		c.gridy = 2;
+		deckArea.add(lastLabel, c);
+	}
+	
+	
 	//Add Play spaces to the game area
 	private static void addSpace(JPanel gameArea){						
 		JButton[] buttons = new JButton[50];
