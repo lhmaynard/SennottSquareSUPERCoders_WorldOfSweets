@@ -25,6 +25,7 @@ public class SSQWorldOfSweets extends JPanel{
 		nameEntry();							//Commented Out of Testing		
 		addPanel(f.getContentPane());
 
+			
 		f.pack();
 		f.setVisible(true);
 	}
@@ -149,26 +150,33 @@ public class SSQWorldOfSweets extends JPanel{
 	//Add Play spaces to the game area
 	private static void addSpace(JPanel gameArea){						
 		JButton[] buttons = new JButton[50];
-		JButton endZone = new JButton("End");
-		
-		JButton beginZone = new JButton("Begin");
-		JLabel L1 = new JLabel("1");
-		L1.setHorizontalAlignment(JLabel.CENTER);
-		JLabel L2 = new JLabel("2");
-		JLabel L3 = new JLabel("3");
-		L3.setHorizontalAlignment(JLabel.CENTER);
-		JLabel L4 = new JLabel("4");
+		JButton endZone = new JButton("Grandmother's House");
+		endZone.setBackground(Color.magenta);
+		endZone.setMinimumSize(new Dimension(100, 300));
+		JButton beginZone = new JButton("Start");
+		beginZone.setBackground(Color.white);
 		beginZone.setLayout(new BorderLayout());
-		beginZone.add(L1, BorderLayout.NORTH);
-		beginZone.add(L2, BorderLayout.EAST);
-		beginZone.add(L3, BorderLayout.SOUTH);
-		beginZone.add(L4, BorderLayout.WEST);
-		
+		switch (players){
+			case 4: 
+				JLabel L4 = new JLabel(symbols[3]);
+				beginZone.add(L4, BorderLayout.WEST);
+			case 3:
+				JLabel L3 = new JLabel(symbols[2]);
+				beginZone.add(L3, BorderLayout.EAST);
+			case 2:
+				JLabel L1 = new JLabel(symbols[0]);
+				L1.setHorizontalAlignment(JLabel.CENTER);
+				JLabel L2 = new JLabel(symbols[1]);
+				L2.setHorizontalAlignment(JLabel.CENTER);
+				beginZone.add(L1, BorderLayout.NORTH);
+				beginZone.add(L2, BorderLayout.SOUTH);
+				
+		}
 		gameArea.add(beginZone);
+		
 		for(int i = 0; i < 50; i++){
 			//Array of JButtons that is the game board spaces			
-			buttons[i] = new JButton(Integer.toString(i));
-			buttons[i].add(L1, BorderLayout.NORTH);
+			buttons[i] = new JButton();
 		}
 		gameArea.setLayout(new GridLayout(7, 7, 10, 10));
 		for(int i = 0; i < 50; i++){
@@ -198,17 +206,17 @@ public class SSQWorldOfSweets extends JPanel{
 	private static void editPlayerInfo(JPanel playerInfo){
 		playerInfo.setLayout(new GridLayout(8, 1));
 		if (players == 2){
-			Player2 = new JLabel("Player 2: " + names[1]);
-			Player1 = new JLabel("Player 1: " + names[0]);
+			Player2 = new JLabel("Player 2: " + names[1] + " " + symbols[1]);
+			Player1 = new JLabel("Player 1: " + names[0] + " " + symbols[0]);
 			Player1.setFont(new Font("Century", Font.BOLD, 15));
 			Player2.setFont(new Font("Century", Font.BOLD, 15));
 			playerInfo.add(Player1);
 			playerInfo.add(Player2);
 		}
 		else if(players == 3){
-			Player2 = new JLabel("Player 2: " + names[1]);
-			Player1 = new JLabel("Player 1: " + names[0]);
-			Player3 = new JLabel("Player 3: " + names[2]);
+			Player2 = new JLabel("Player 2: " + names[1] + " " + symbols[1]);
+			Player1 = new JLabel("Player 1: " + names[0] + " " + symbols[0]);
+			Player3 = new JLabel("Player 3: " + names[2] + " " + symbols[2]);
 			Player1.setFont(new Font("Century", Font.BOLD, 15));
 			Player2.setFont(new Font("Century", Font.BOLD, 15));
 			Player3.setFont(new Font("Century", Font.BOLD, 15));
@@ -217,10 +225,10 @@ public class SSQWorldOfSweets extends JPanel{
 			playerInfo.add(Player3);
 		}
 		else{
-			Player2 = new JLabel("Player 2: " + names[1]);
-			Player1 = new JLabel("Player 1: " + names[0]);
-			Player3 = new JLabel("Player 3: " + names[2]);
-			Player4 = new JLabel("Player 4: " + names[3]);
+			Player2 = new JLabel("Player 2: " + names[1] + " " + symbols[1]);
+			Player1 = new JLabel("Player 1: " + names[0] + " " + symbols[0]);
+			Player3 = new JLabel("Player 3: " + names[2] + " " + symbols[2]);
+			Player4 = new JLabel("Player 4: " + names[3] + " " + symbols[3]);
 			Player1.setFont(new Font("Century", Font.BOLD, 15));
 			Player2.setFont(new Font("Century", Font.BOLD, 15));
 			Player3.setFont(new Font("Century", Font.BOLD, 15));
