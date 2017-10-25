@@ -136,6 +136,13 @@ public class SSQWorldOfSweets extends JPanel{
 		c.gridx = 1;
 		c.gridy = 2;
 		deckArea.add(drawButton, c);
+		drawButton.addActionListener(new ActionListener()
+    {
+      public void actionPerformed(ActionEvent e)
+      {
+        draw();
+      }
+    });
 
 		JLabel lastLabel = new JLabel("Last Card Drawn", SwingConstants.CENTER);
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -147,6 +154,10 @@ public class SSQWorldOfSweets extends JPanel{
 		deckArea.add(lastLabel, c);
 	}
 
+	//draw card and display
+	private static void draw(){
+
+	}
 
 	//Add Play spaces to the game area
 	private static void addSpace(JPanel gameArea){
