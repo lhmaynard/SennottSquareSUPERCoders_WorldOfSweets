@@ -25,7 +25,6 @@ public class SSQWorldOfSweets extends JPanel{
 	static int lastCardDrawn = -1;
 	static Deck gameDeck;
 	static int curPlayer=1;
-	static JPanel deckArea;
 	static JButton drawDeck2;
 	
 	/**
@@ -59,35 +58,21 @@ public class SSQWorldOfSweets extends JPanel{
 	 */
 	private static void addPanel(Container p){
 		p.setLayout(new BorderLayout());
-		deckArea = new JPanel();
-		JPanel playerInfo = new JPanel();
+		JPanel deckArea = new JPanel();
+		JPanel playerArea = new JPanel();
 		JPanel gameArea = new JPanel();
 
-		//DECK PANEL AREA
+		//Call to draw deckArea panel
 		drawDeckArea(deckArea);
 		
-		//Player Panel area
-		JLabel playerLabel = new JLabel("Player Information");
-		playerLabel.setFont(new Font("Century", Font.BOLD, 25));
-		playerInfo.setLayout(new BorderLayout());
-		playerInfo.add(playerLabel, BorderLayout.NORTH);
-
-		//Setting colors of Panels
-		deckArea.setBackground(Color.pink);
-		playerInfo.setBackground(Color.pink);
-		gameArea.setBackground(Color.white);
-
-		//Setting size for areas
-		deckArea.setPreferredSize(new Dimension(200, 200));
-		playerInfo.setPreferredSize(new Dimension(250, 200));
-		gameArea.setPreferredSize(new Dimension(750,750));
-
-		//Calling addSpace to add spaces to game Area
-		addSpace(gameArea);
-		//Edits and adds elements to playerInfo Panel
-		editPlayerInfo(playerInfo);
-
-		p.add(playerInfo, BorderLayout.EAST);
+		//Call to draw gameArea panel
+		drawGameArea(gameArea);
+		
+		//Call to draw playerArea panel
+		drawPlayerArea(playerArea);
+	
+		//Adding Panels to the window
+		p.add(playerArea, BorderLayout.EAST);
 		p.add(deckArea, BorderLayout.SOUTH);
 		p.add(gameArea, BorderLayout.CENTER);
 		
@@ -97,8 +82,14 @@ public class SSQWorldOfSweets extends JPanel{
 	 * 
 	 */
 	private static void drawDeckArea(JPanel deckArea){
-		deckArea.setLayout( new GridBagLayout());
+		deckArea.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
+		
+		//Setting background color of deckArea panel
+		deckArea.setBackground(Color.pink);
+		
+		//Settinf size of deckArea panel
+		deckArea.setPreferredSize(new Dimension(700, 200));
 
 		JLabel deckLabel = new JLabel("Deck Information", SwingConstants.CENTER);
 		deckLabel.setFont(new Font("Century", Font.BOLD, 30));
@@ -195,7 +186,104 @@ public class SSQWorldOfSweets extends JPanel{
 		c.gridy = 2;
 		deckArea.add(lastLabel, c);
 	}
+	
+	/**Add Play spaces to the game area
+	 * 
+	 */
+	private static void drawGameArea(JPanel gameArea){
+		//Setting background color of gameArea panel
+		gameArea.setBackground(Color.white);
+		
+		//Setting size of gameArea panel
+		gameArea.setPreferredSize(new Dimension(800,800));
+		
+		JButton[] buttons = new JButton[50];
+		JButton endZone = new JButton("Grandmother's House");
+		endZone.setBackground(Color.magenta);
+		endZone.setMinimumSize(new Dimension(100, 300));
+		endZone.setOpaque(true);
+		endZone.setBorderPainted(false);
 
+		JButton beginZone = new JButton("Start");
+		beginZone.setBackground(Color.white);
+		beginZone.setLayout(new BorderLayout());
+		beginZone.setOpaque(true);
+		beginZone.setBorderPainted(false);
+		switch (players){
+			case 4:
+				JLabel L4 = new JLabel(symbols[3]);
+				beginZone.add(L4, BorderLayout.WEST);
+			case 3:
+				JLabel L3 = new JLabel(symbols[2]);
+				beginZone.add(L3, BorderLayout.EAST);
+			case 2:
+				JLabel L1 = new JLabel(symbols[0]);
+				L1.setHorizontalAlignment(JLabel.CENTER);
+				JLabel L2 = new JLabel(symbols[1]);
+				L2.setHorizontalAlignment(JLabel.CENTER);
+				beginZone.add(L1, BorderLayout.NORTH);
+				beginZone.add(L2, BorderLayout.SOUTH);
+		}
+		gameArea.add(beginZone);
+
+		for(int i = 0; i < 50; i++){
+			//Array of JButtons that is the game board spaces
+			buttons[i] = new JButton();
+		}
+		gameArea.setLayout(new GridLayout(7, 7, 10, 10));
+		for(int i = 0; i < 50; i++){
+			//Hard Coding colors of Spaces
+			if((i % 5) == 0 ){
+				buttons[i].setBackground(Color.red);
+			}
+			if((i % 5) == 1){
+				buttons[i].setBackground(Color.yellow);
+			}
+			if((i % 5) == 2){
+				buttons[i].setBackground(Color.blue);
+			}
+			if((i % 5) == 3){
+				buttons[i].setBackground(Color.green);
+			}
+			if((i % 5) == 4){
+				buttons[i].setBackground(Color.orange);
+			}
+
+			buttons[i].setOpaque(true);
+			buttons[i].setBorderPainted(false);
+
+			gameArea.add(buttons[i]);
+		}
+
+		gameArea.add(endZone);
+
+	}
+	
+	/**
+	 * 
+	 */
+	private static void drawPlayerArea(JPanel playerArea)
+	{
+		//Setting main label in playerArea panel
+		JLabel playerLabel = new JLabel("Player Information");
+		playerLabel.setFont(new Font("Century", Font.BOLD, 25));
+		playerArea.setLayout(new BorderLayout());
+		playerArea.add(playerLabel, BorderLayout.NORTH);
+		
+		//Setting background color in playerArea panel
+		playerArea.setBackground(Color.pink);
+		
+		//Setting size of playerArea panel
+		playerArea.setPreferredSize(new Dimension(300, 800));
+		
+		playerArea.setLayout(new GridLayout(8, 1));
+		JLabel[] allLabels;
+		allLabels = generatePlayers(players);
+		for(int i= 0; i<players; i++) {
+			playerArea.add(allLabels[i]);
+		}
+	}
+	
 	/**draw card and display
 	 * 
 	 */
@@ -266,85 +354,6 @@ public class SSQWorldOfSweets extends JPanel{
 			drawDeck2.repaint();
 		}
 	}
-
-	/**Add Play spaces to the game area
-	 * 
-	 */
-	private static void addSpace(JPanel gameArea){
-		JButton[] buttons = new JButton[50];
-		JButton endZone = new JButton("Grandmother's House");
-		endZone.setBackground(Color.magenta);
-		endZone.setMinimumSize(new Dimension(100, 300));
-		endZone.setOpaque(true);
-		endZone.setBorderPainted(false);
-
-		JButton beginZone = new JButton("Start");
-		beginZone.setBackground(Color.white);
-		beginZone.setLayout(new BorderLayout());
-		beginZone.setOpaque(true);
-		beginZone.setBorderPainted(false);
-		switch (players){
-			case 4:
-				JLabel L4 = new JLabel(symbols[3]);
-				beginZone.add(L4, BorderLayout.WEST);
-			case 3:
-				JLabel L3 = new JLabel(symbols[2]);
-				beginZone.add(L3, BorderLayout.EAST);
-			case 2:
-				JLabel L1 = new JLabel(symbols[0]);
-				L1.setHorizontalAlignment(JLabel.CENTER);
-				JLabel L2 = new JLabel(symbols[1]);
-				L2.setHorizontalAlignment(JLabel.CENTER);
-				beginZone.add(L1, BorderLayout.NORTH);
-				beginZone.add(L2, BorderLayout.SOUTH);
-		}
-		gameArea.add(beginZone);
-
-		for(int i = 0; i < 50; i++){
-			//Array of JButtons that is the game board spaces
-			buttons[i] = new JButton();
-		}
-		gameArea.setLayout(new GridLayout(7, 7, 10, 10));
-		for(int i = 0; i < 50; i++){
-			//Hard Coding colors of Spaces
-			if((i % 5) == 0 ){
-				buttons[i].setBackground(Color.red);
-			}
-			if((i % 5) == 1){
-				buttons[i].setBackground(Color.yellow);
-			}
-			if((i % 5) == 2){
-				buttons[i].setBackground(Color.blue);
-			}
-			if((i % 5) == 3){
-				buttons[i].setBackground(Color.green);
-			}
-			if((i % 5) == 4){
-				buttons[i].setBackground(Color.orange);
-			}
-
-			buttons[i].setOpaque(true);
-			buttons[i].setBorderPainted(false);
-
-			gameArea.add(buttons[i]);
-		}
-
-		gameArea.add(endZone);
-
-	}
-	
-	/**
-	 * 
-	 */
-	private static void editPlayerInfo(JPanel playerInfo)
-	{
-		playerInfo.setLayout(new GridLayout(8, 1));
-		JLabel[] allLabels;
-		allLabels = generatePlayers(players);
-		for(int i= 0; i<players; i++) {
-			playerInfo.add(allLabels[i]);
-		}
-	}
 	
 	/**
 	 * 
@@ -352,13 +361,12 @@ public class SSQWorldOfSweets extends JPanel{
 	private static JLabel[] generatePlayers(int num)
 	{
 		JLabel[] playerLabels = new JLabel[num];
-		Random r = new Random();
-		r.setSeed(System.currentTimeMillis());
+		
 		for(int i = 0; i<num; i++) {
 			playerLabels[i] = new JLabel("Player " + (i + 1) + ": " + names[i] + ": " + symbols[i]);
 			playerLabels[i].setFont(new Font("Century", Font.BOLD, 15));
-      //set color of initial player labels randomly
-			playerLabels[i].setForeground(new Color(r.nextInt(256), r.nextInt(256), r.nextInt(256)));
+			
+			playerLabels[i].setForeground(new Color(0,0,0));
 		}
 		return playerLabels;
 	}
@@ -377,27 +385,27 @@ public class SSQWorldOfSweets extends JPanel{
 		names = new String[4];
 		symbols = new String[4];
 		names[0] = JOptionPane.showInputDialog(null, "What is your name?", "Player 1", JOptionPane.QUESTION_MESSAGE);
-		playersO = JOptionPane.showInputDialog(null, "What Token would you like?", "Player 1", JOptionPane.DEFAULT_OPTION, null, symbolsOfPlayers, "$");
+		playersO = JOptionPane.showInputDialog(null, "What Token would you like?", "Player 1", JOptionPane.DEFAULT_OPTION, null, symbolsOfPlayers, "@");
 		String str = playersO.toString();
 		al.remove(str);
 		symbolsOfPlayers=al.toArray(new String[al.size()]);
 		symbols[0] = str;
 		names[1] = JOptionPane.showInputDialog(null, "What is your name?", "Player 2", JOptionPane.QUESTION_MESSAGE);
-		playersO = JOptionPane.showInputDialog(null, "What Token would you like?", "Player 2", JOptionPane.DEFAULT_OPTION, null, symbolsOfPlayers, "$");
+		playersO = JOptionPane.showInputDialog(null, "What Token would you like?", "Player 2", JOptionPane.DEFAULT_OPTION, null, symbolsOfPlayers, symbolsOfPlayers[0]);
 		str = playersO.toString();
 		al.remove(str);
 		symbolsOfPlayers=al.toArray(new String[al.size()]);
 		symbols[1] = playersO.toString();
 		if(players>2){
 			names[2] = JOptionPane.showInputDialog(null, "What is your name?", "Player 3", JOptionPane.QUESTION_MESSAGE);
-			playersO = JOptionPane.showInputDialog(null, "What Token would you like?", "Player 3", JOptionPane.DEFAULT_OPTION, null, symbolsOfPlayers, "$");
+			playersO = JOptionPane.showInputDialog(null, "What Token would you like?", "Player 3", JOptionPane.DEFAULT_OPTION, null, symbolsOfPlayers, symbolsOfPlayers[0]);
 			str = playersO.toString();
 			al.remove(str);
 			symbolsOfPlayers=al.toArray(new String[al.size()]);
 			symbols[2] = playersO.toString();
 			if(players==4){
 				names[3] = JOptionPane.showInputDialog(null, "What is your name?", "Player 4", JOptionPane.QUESTION_MESSAGE);
-				playersO = JOptionPane.showInputDialog(null, "What Token would you like?", "Player 4", JOptionPane.DEFAULT_OPTION, null, symbolsOfPlayers, "$");
+				playersO = JOptionPane.showInputDialog(null, "What Token would you like?", "Player 4", JOptionPane.DEFAULT_OPTION, null, symbolsOfPlayers, symbolsOfPlayers[0]);
 				str = playersO.toString();
 				al.remove(str);
 				symbolsOfPlayers=al.toArray(new String[al.size()]);
@@ -413,7 +421,7 @@ public class SSQWorldOfSweets extends JPanel{
 class MyFrame extends JFrame {
 	public MyFrame(String n){
 		setTitle(n);
-		setSize(1000,1000);
+		setSize(1100,1000);
 		setLocationRelativeTo(null);
 
 		addWindowListener(new WindowAdapter() {
