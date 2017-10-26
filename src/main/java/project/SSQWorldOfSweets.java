@@ -33,6 +33,7 @@ public class SSQWorldOfSweets extends JPanel{
 
 		f.pack();
 		f.setVisible(true);
+		JOptionPane.showMessageDialog(null, "It is "+names[curPlayer-1]+"'s turn!", "Whose turn is it?", JOptionPane.PLAIN_MESSAGE);
 	}
 	private static void addPanel(Container p){
 		p.setLayout(new BorderLayout());
@@ -69,6 +70,7 @@ public class SSQWorldOfSweets extends JPanel{
 		p.add(playerInfo, BorderLayout.EAST);
 		p.add(deckArea, BorderLayout.SOUTH);
 		p.add(gameArea, BorderLayout.CENTER);
+		
 	}
 
 
@@ -158,7 +160,7 @@ public class SSQWorldOfSweets extends JPanel{
 				//move()
 				curPlayer++;
 				if(curPlayer==players+1) curPlayer=1;
-				JOptionPane.showMessageDialog(null, "It is "+names[curPlayer-1]+"'s turn!");
+				JOptionPane.showMessageDialog(null, "It is "+names[curPlayer-1]+"'s turn!", "Whose turn is it?", JOptionPane.PLAIN_MESSAGE);
       }
     });
 
@@ -177,7 +179,6 @@ public class SSQWorldOfSweets extends JPanel{
 
 		if(gameDeck.empty() == false){
 			lastCardDrawn = gameDeck.drawCard();
-			JOptionPane.showMessageDialog(null, "You drew a "+lastCardDrawn+" card!");
 
 			try {
 			if(lastCardDrawn == -1){
