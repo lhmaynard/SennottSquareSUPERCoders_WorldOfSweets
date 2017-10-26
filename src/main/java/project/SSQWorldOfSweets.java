@@ -10,8 +10,6 @@ public class SSQWorldOfSweets extends JPanel{
 	//private static JLabel deckLabel = new JLabel("Deck Information");
 	static String names[];
 	static String symbols[];
-	//Tokens of Each of the Players
-	static JLabel Player1, Player2, Player3, Player4;
 	static int players;
 	static int lastCardDrawn = -1;
 	static Deck gameDeck;
@@ -167,7 +165,7 @@ public class SSQWorldOfSweets extends JPanel{
 
 	//draw card and display
 	private static void draw(){
-		
+
 		if(gameDeck.empty() == false){
 			lastCardDrawn = gameDeck.drawCard();
 			JOptionPane.showMessageDialog(null, "You drew a "+lastCardDrawn+" card!");
@@ -202,7 +200,6 @@ public class SSQWorldOfSweets extends JPanel{
 				L2.setHorizontalAlignment(JLabel.CENTER);
 				beginZone.add(L1, BorderLayout.NORTH);
 				beginZone.add(L2, BorderLayout.SOUTH);
-
 		}
 		gameArea.add(beginZone);
 
@@ -235,44 +232,33 @@ public class SSQWorldOfSweets extends JPanel{
 		gameArea.add(endZone);
 
 	}
-	private static void editPlayerInfo(JPanel playerInfo){
-		playerInfo.setLayout(new GridLayout(8, 1));
-		if (players == 2){
-			Player2 = new JLabel("Player 2: " + names[1] + " " + symbols[1]);
-			Player1 = new JLabel("Player 1: " + names[0] + " " + symbols[0]);
-			Player1.setFont(new Font("Century", Font.BOLD, 15));
-			Player2.setFont(new Font("Century", Font.BOLD, 15));
-			playerInfo.add(Player1);
-			playerInfo.add(Player2);
-		}
-		else if(players == 3){
-			Player2 = new JLabel("Player 2: " + names[1] + " " + symbols[1]);
-			Player1 = new JLabel("Player 1: " + names[0] + " " + symbols[0]);
-			Player3 = new JLabel("Player 3: " + names[2] + " " + symbols[2]);
-			Player1.setFont(new Font("Century", Font.BOLD, 15));
-			Player2.setFont(new Font("Century", Font.BOLD, 15));
-			Player3.setFont(new Font("Century", Font.BOLD, 15));
-			playerInfo.add(Player1);
-			playerInfo.add(Player2);
-			playerInfo.add(Player3);
-		}
-		else{
-			Player2 = new JLabel("Player 2: " + names[1] + " " + symbols[1]);
-			Player1 = new JLabel("Player 1: " + names[0] + " " + symbols[0]);
-			Player3 = new JLabel("Player 3: " + names[2] + " " + symbols[2]);
-			Player4 = new JLabel("Player 4: " + names[3] + " " + symbols[3]);
-			Player1.setFont(new Font("Century", Font.BOLD, 15));
-			Player2.setFont(new Font("Century", Font.BOLD, 15));
-			Player3.setFont(new Font("Century", Font.BOLD, 15));
-			Player4.setFont(new Font("Century", Font.BOLD, 15));
-			playerInfo.add(Player1);
-			playerInfo.add(Player2);
-			playerInfo.add(Player3);
-			playerInfo.add(Player4);
-		}
 
+  private static void editPlayerInfo(JPanel playerInfo)
+  {
+		playerInfo.setLayout(new GridLayout(8, 1));
+		JLabel[] allLabels;
+		allLabels = generatePlayers(players);
+		for(int i= 0; i<players; i++) {
+			playerInfo.add(allLabels[i]);
+		}
 	}
-	private static void nameEntry(){							//Name Entry WOrk in PRogress
+
+	private static JLabel[] generatePlayers(int num)
+	{
+		JLabel[] playerLabels = new JLabel[num];
+		Random r = new Random();
+		r.setSeed(System.currentTimeMillis());
+		for(int i = 0; i<num; i++) {
+			playerLabels[i] = new JLabel("Player " + i + ": " + names[i] + ": " + symbols[i]);
+			playerLabels[i].setFont(new Font("Century", Font.BOLD, 15));
+      //set color of initial player labels randomly
+			playerLabels[i].setForeground(new Color(r.nextInt(256), r.nextInt(256), r.nextInt(256)));
+		}
+		return playerLabels;
+	}
+
+	private static void nameEntry()
+  {							//Name Entry Work in PRogress
 		String[] numOfPlayers = {"2", "3", "4"};
 		String[] symbolsOfPlayers = {"@", "#", "$", "%"};
 		ArrayList<String> al = new ArrayList<String>(Arrays.asList("@", "#", "$", "%"));
