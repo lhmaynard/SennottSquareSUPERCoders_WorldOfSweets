@@ -313,7 +313,7 @@ public class SSQWorldOfSweets extends JPanel{
 		Random r = new Random();
 		r.setSeed(System.currentTimeMillis());
 		for(int i = 0; i<num; i++) {
-			playerLabels[i] = new JLabel("Player " + i + ": " + names[i] + ": " + symbols[i]);
+			playerLabels[i] = new JLabel("Player " + (i + 1) + ": " + names[i] + ": " + symbols[i]);
 			playerLabels[i].setFont(new Font("Century", Font.BOLD, 15));
       //set color of initial player labels randomly
 			playerLabels[i].setForeground(new Color(r.nextInt(256), r.nextInt(256), r.nextInt(256)));
