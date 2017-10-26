@@ -3,7 +3,7 @@
  * SennottSquareSUPERCoders
  * World of Sweets Project
  */
-
+package project;
 import java.util.Stack;
 import java.util.Random;
 

@@ -13,11 +13,14 @@ public class SSQWorldOfSweets extends JPanel{
 	//Tokens of Each of the Players
 	static JLabel Player1, Player2, Player3, Player4;
 	static int players;
+	static int lastCardDrawn = -1;
+	static Deck gameDeck;
 	public static void main(String args[]){
 
 			javax.swing.SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
 					createAndShowGUI();
+					gameDeck = new Deck();
 				}
 			});
 	}
@@ -91,10 +94,18 @@ public class SSQWorldOfSweets extends JPanel{
 		c.gridy = 1;
 		deckArea.add(blankLabel, c);
 
-		JButton drawDeck = new JButton("Deck Goes Here");
+
+		JButton drawDeck = new JButton();
+		try {
+			ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./CardBack.png"));
+			drawDeck.setIcon(img);
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.weightx = 0.75;
-		c.ipady = 100;
+		//c.ipady = 50;
 		c.gridwidth = 1;
 		c.gridx = 1;
 		c.gridy = 1;
@@ -156,6 +167,15 @@ public class SSQWorldOfSweets extends JPanel{
 
 	//draw card and display
 	private static void draw(){
+		
+		if(gameDeck.empty() == false){
+			lastCardDrawn = gameDeck.drawCard();
+			JOptionPane.showMessageDialog(null, "You drew a "+lastCardDrawn+" card!");
+		}
+		else{
+			JOptionPane.showMessageDialog(null, "You ran out of cards in the deck! Click OK to shuffle!");
+			gameDeck.shuffle();
+		}
 
 	}
 
