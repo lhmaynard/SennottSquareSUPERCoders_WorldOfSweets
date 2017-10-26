@@ -326,7 +326,7 @@ public class SSQWorldOfSweets extends JPanel{
 		String[] numOfPlayers = {"2", "3", "4"};
 		String[] symbolsOfPlayers = {"@", "#", "$", "%"};
 		ArrayList<String> al = new ArrayList<String>(Arrays.asList("@", "#", "$", "%"));
-		Object playersO = JOptionPane.showInputDialog(null, "Welcome to World Of Sweets! How many players are here?", "Selection", JOptionPane.DEFAULT_OPTION, null, numOfPlayers, "2");
+		Object playersO = JOptionPane.showInputDialog(null, "How many players are here?", "Welcome to World Of Sweets!", JOptionPane.DEFAULT_OPTION, null, numOfPlayers, "2");
 		players = Integer.parseInt(playersO.toString());
 
 		names = new String[4];
