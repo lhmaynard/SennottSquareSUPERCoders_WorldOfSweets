@@ -7,7 +7,7 @@ import java.util.*;
 
 public class SSQWorldOfSweets extends JPanel{
 
-	//private static JLabel deckLabel = new JLabel("Deck Information");
+
 	static String names[];
 	static String symbols[];
 	static int players;
@@ -44,7 +44,7 @@ public class SSQWorldOfSweets extends JPanel{
 
 		//Player Panel area
 		JLabel playerLabel = new JLabel("Player Information");
-		playerLabel.setFont(new Font("Century", Font.ITALIC, 25));
+		playerLabel.setFont(new Font("Century", Font.BOLD, 25));
 		playerInfo.setLayout(new BorderLayout());
 		playerInfo.add(playerLabel, BorderLayout.NORTH);
 
@@ -313,7 +313,7 @@ public class SSQWorldOfSweets extends JPanel{
 		Random r = new Random();
 		r.setSeed(System.currentTimeMillis());
 		for(int i = 0; i<num; i++) {
-			playerLabels[i] = new JLabel("Player " + i + ": " + names[i] + ": " + symbols[i]);
+			playerLabels[i] = new JLabel("Player " + (i + 1) + ": " + names[i] + ": " + symbols[i]);
 			playerLabels[i].setFont(new Font("Century", Font.BOLD, 15));
       //set color of initial player labels randomly
 			playerLabels[i].setForeground(new Color(r.nextInt(256), r.nextInt(256), r.nextInt(256)));
@@ -326,7 +326,7 @@ public class SSQWorldOfSweets extends JPanel{
 		String[] numOfPlayers = {"2", "3", "4"};
 		String[] symbolsOfPlayers = {"@", "#", "$", "%"};
 		ArrayList<String> al = new ArrayList<String>(Arrays.asList("@", "#", "$", "%"));
-		Object playersO = JOptionPane.showInputDialog(null, "Welcome to World Of Sweets! How many players are here?", "Selection", JOptionPane.DEFAULT_OPTION, null, numOfPlayers, "2");
+		Object playersO = JOptionPane.showInputDialog(null, "How many players are here?", "Welcome to World Of Sweets!", JOptionPane.DEFAULT_OPTION, null, numOfPlayers, "2");
 		players = Integer.parseInt(playersO.toString());
 
 		names = new String[4];
