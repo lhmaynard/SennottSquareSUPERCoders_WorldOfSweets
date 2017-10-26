@@ -1,22 +1,33 @@
 /**
  * Deck.java
  * SennottSquareSUPERCoders
+ * 
+ * Leonard Maynard	git- lhmaynard
+ * Zachary Mell		git- zacharymell
+ * Kevin Moore		git- KMoore21
+ * Brandon Palonis	git- brandonp728
+ * 
  * World of Sweets Project
  */
+ 
 package project;
 import java.util.Stack;
 import java.util.Random;
 import java.util.ArrayList;
 
+/**
+ * 
+ */
 public class Deck {
+	//global variable
 	private Stack<Integer> mydeck;
 	
 	/**
 	 * This is the no-args constructor for the Deck class
 	 * It will call the shuffle method
+	 * 
 	 * @param none
 	 * @return none
-	 * 
 	 */
 	public Deck(){
 		shuffle();
@@ -24,11 +35,12 @@ public class Deck {
 	
 	
 	/**
-	 * This method is used to "shuffle" the deck and create a new stack
-	 * with integers representing the corresponding "color" of the card.
-	 * @param none
-	 * @return none
+	 * This shuffle method is used to "shuffle" the deck and create a 
+	 * new stack with integers representing the corresponding "color" 
+	 * of the card.
 	 * 
+	 * @param none
+	 * @return none 
 	 */
 	public void shuffle(){
 		mydeck = new Stack<>();
@@ -79,9 +91,12 @@ public class Deck {
 			mydeck.push(card);
 		}
 	}
+	
 	/**
-	 * This method "draws" a card and pops its value off of the "deck" (stack)
-	 * And returns an integer that is associated with a vard value
+	 * This drawCard method "draws" a card and pops its value off of 
+	 * the "deck" (stack), and returns an integer that is associated 
+	 * with a vard value
+	 * 
 	 * @param none
 	 * @return	0	A single red card
 	 * @return	1	A single yellow card
@@ -93,14 +108,14 @@ public class Deck {
 	 * @return	7	A double blue card
 	 * @return	8	A double green card
 	 * @return	9	A double orange card
-	 * 
 	 */
 	public int drawCard(){
 		int card = mydeck.pop();
 		return card;
 	}
+	
 	/**
-	 * This method is used to determine if the "deck" (stack) is empty and
+	 * This empty method is used to determine if the "deck" (stack) is empty and
 	 * needs to be reshuffled
 	 * @param none
 	 * @return	true	if there are no more "cards" in the deck

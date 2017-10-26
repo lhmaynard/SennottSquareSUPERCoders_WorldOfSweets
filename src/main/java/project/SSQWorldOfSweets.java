@@ -1,5 +1,16 @@
-package project;
+/**
+ * SSQWorldOfSweets.java
+ * SennottSquareSUPERCoders
+ * 
+ * Leonard Maynard	git- lhmaynard
+ * Zachary Mell		git- zacharymell
+ * Kevin Moore		git- KMoore21
+ * Brandon Palonis	git- brandonp728
+ * 
+ * World of Sweets Project
+ */
 
+package project;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -7,7 +18,7 @@ import java.util.*;
 
 public class SSQWorldOfSweets extends JPanel{
 
-
+	//Global variables
 	static String names[];
 	static String symbols[];
 	static int players;
@@ -16,6 +27,10 @@ public class SSQWorldOfSweets extends JPanel{
 	static int curPlayer=1;
 	static JPanel deckArea;
 	static JButton drawDeck2;
+	
+	/**
+	 * 
+	 */
 	public static void main(String args[]){
 
 			javax.swing.SwingUtilities.invokeLater(new Runnable() {
@@ -25,16 +40,23 @@ public class SSQWorldOfSweets extends JPanel{
 				}
 			});
 	}
+	
+	/**
+	 * 
+	 */
 	private static void createAndShowGUI(){
 		JFrame f = new MyFrame("World of Sweets!");
 		nameEntry();
 		addPanel(f.getContentPane());
-
-
+		
 		f.pack();
 		f.setVisible(true);
 		JOptionPane.showMessageDialog(null, "It is "+names[curPlayer-1]+"'s turn!", "Whose turn is it?", JOptionPane.PLAIN_MESSAGE);
 	}
+	
+	/**
+	 * 
+	 */
 	private static void addPanel(Container p){
 		p.setLayout(new BorderLayout());
 		deckArea = new JPanel();
@@ -43,9 +65,7 @@ public class SSQWorldOfSweets extends JPanel{
 
 		//DECK PANEL AREA
 		drawDeckArea(deckArea);
-
-
-
+		
 		//Player Panel area
 		JLabel playerLabel = new JLabel("Player Information");
 		playerLabel.setFont(new Font("Century", Font.BOLD, 25));
@@ -73,7 +93,9 @@ public class SSQWorldOfSweets extends JPanel{
 		
 	}
 
-
+	/**
+	 * 
+	 */
 	private static void drawDeckArea(JPanel deckArea){
 		deckArea.setLayout( new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
@@ -174,75 +196,65 @@ public class SSQWorldOfSweets extends JPanel{
 		deckArea.add(lastLabel, c);
 	}
 
-	//draw card and display
+	/**draw card and display
+	 * 
+	 */
 	private static void draw(){
 
 		if(gameDeck.empty() == false){
 			lastCardDrawn = gameDeck.drawCard();
 
 			try {
-			if(lastCardDrawn == -1){
-				ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./NoCard.png"));
-				drawDeck2.setIcon(img);
-			}
-			else if(lastCardDrawn == 0){
-				ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./RedCard.png"));
-				drawDeck2.setIcon(img);
-			}
-			else if(lastCardDrawn == 1){
-				ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./YellowCard.png"));
-				drawDeck2.setIcon(img);
-			}
-			else if(lastCardDrawn == 2){
-				ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./BlueCard.png"));
-				drawDeck2.setIcon(img);
-			}
-			else if(lastCardDrawn == 3){
-				ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./GreenCard.png"));
-				drawDeck2.setIcon(img);
-			}
-			else if(lastCardDrawn == 4){
-				ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./OrangeCard.png"));
-				drawDeck2.setIcon(img);
-			}
-			else if(lastCardDrawn == 5){
-				ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./DoubleRedCard.png"));
-				drawDeck2.setIcon(img);
-			}
-			else if(lastCardDrawn == 6){
-				ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./DoubleYellowCard.png"));
-				drawDeck2.setIcon(img);
-			}
-			else if(lastCardDrawn == 7){
-				ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./DoubleBlueCard.png"));
-				drawDeck2.setIcon(img);
-			}
-			else if(lastCardDrawn == 8){
-				ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./DoubleGreenCard.png"));
-				drawDeck2.setIcon(img);
-			}
-			else if(lastCardDrawn == 9){
-				ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./DoubleOrangeCard.png"));
-				drawDeck2.setIcon(img);
-			}
+				if(lastCardDrawn == -1){
+					ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./NoCard.png"));
+					drawDeck2.setIcon(img);
+				}
+				else if(lastCardDrawn == 0){
+					ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./RedCard.png"));
+					drawDeck2.setIcon(img);
+				}
+				else if(lastCardDrawn == 1){
+					ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./YellowCard.png"));
+					drawDeck2.setIcon(img);
+				}
+				else if(lastCardDrawn == 2){
+					ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./BlueCard.png"));
+					drawDeck2.setIcon(img);
+				}
+				else if(lastCardDrawn == 3){
+					ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./GreenCard.png"));
+					drawDeck2.setIcon(img);
+				}
+				else if(lastCardDrawn == 4){
+					ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./OrangeCard.png"));
+					drawDeck2.setIcon(img);
+				}
+				else if(lastCardDrawn == 5){
+					ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./DoubleRedCard.png"));
+					drawDeck2.setIcon(img);
+				}
+				else if(lastCardDrawn == 6){
+					ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./DoubleYellowCard.png"));
+					drawDeck2.setIcon(img);
+				}
+				else if(lastCardDrawn == 7){
+					ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./DoubleBlueCard.png"));
+					drawDeck2.setIcon(img);
+				}
+				else if(lastCardDrawn == 8){
+					ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./DoubleGreenCard.png"));
+					drawDeck2.setIcon(img);
+				}
+				else if(lastCardDrawn == 9){
+					ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./DoubleOrangeCard.png"));
+					drawDeck2.setIcon(img);
+				}
 			
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-		drawDeck2.repaint();
-			//We need to figure out how to refresh the panel here
-			//So that it will run through drawing the deck panel again
-			//so that it will redraw the last card dealt
-			//I tried doing a bunch of things like passing in the JPanel and
-			//revalidating and repainting it, but it did not work
-			//
-			//lenny or brandon, if you can figure out how to refresh the page
-			//it should show the cards as they are drawn in the second box
-			//
-			//The only way that I got it to work was if i regenerated a whole
-			//new window of the game, but i KNOW there has to be a simpler way
-			//i am just not familiar with the flow of the program when you add
-			//event listeners
+			} catch (Exception e) {
+				System.out.println(e);
+			}
+			drawDeck2.repaint();
+			
 		}
 		else{
 			lastCardDrawn = -1;
@@ -252,12 +264,12 @@ public class SSQWorldOfSweets extends JPanel{
 			JOptionPane.showMessageDialog(null, "You ran out of cards in the deck! Click OK to shuffle!");
 			gameDeck.shuffle();
 			drawDeck2.repaint();
-			//Same thing about comments above
 		}
-
 	}
 
-	//Add Play spaces to the game area
+	/**Add Play spaces to the game area
+	 * 
+	 */
 	private static void addSpace(JPanel gameArea){
 		JButton[] buttons = new JButton[50];
 		JButton endZone = new JButton("Grandmother's House");
@@ -320,9 +332,12 @@ public class SSQWorldOfSweets extends JPanel{
 		gameArea.add(endZone);
 
 	}
-
-  private static void editPlayerInfo(JPanel playerInfo)
-  {
+	
+	/**
+	 * 
+	 */
+	private static void editPlayerInfo(JPanel playerInfo)
+	{
 		playerInfo.setLayout(new GridLayout(8, 1));
 		JLabel[] allLabels;
 		allLabels = generatePlayers(players);
@@ -330,7 +345,10 @@ public class SSQWorldOfSweets extends JPanel{
 			playerInfo.add(allLabels[i]);
 		}
 	}
-
+	
+	/**
+	 * 
+	 */
 	private static JLabel[] generatePlayers(int num)
 	{
 		JLabel[] playerLabels = new JLabel[num];
@@ -344,9 +362,12 @@ public class SSQWorldOfSweets extends JPanel{
 		}
 		return playerLabels;
 	}
-
+	
+	/**
+	 * 
+	 */
 	private static void nameEntry()
-  {							//Name Entry Work in PRogress
+	{	
 		String[] numOfPlayers = {"2", "3", "4"};
 		String[] symbolsOfPlayers = {"@", "#", "$", "%"};
 		ArrayList<String> al = new ArrayList<String>(Arrays.asList("@", "#", "$", "%"));
@@ -385,6 +406,10 @@ public class SSQWorldOfSweets extends JPanel{
 		}
 	}
 }
+
+/**
+ * 
+ */
 class MyFrame extends JFrame {
 	public MyFrame(String n){
 		setTitle(n);
@@ -400,6 +425,5 @@ class MyFrame extends JFrame {
 		Container contentPane = getContentPane();
 
 		contentPane.add(new SSQWorldOfSweets());
-
 	}
 }
