@@ -17,14 +17,14 @@ public class SSQWorldOfSweets extends JPanel{
 
 			javax.swing.SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
-					createAndShowGUI();
 					gameDeck = new Deck();
+					createAndShowGUI();
 				}
 			});
 	}
 	private static void createAndShowGUI(){
 		JFrame f = new MyFrame("World of Sweets!");
-		nameEntry();							//Commented Out of Testing
+		nameEntry();
 		addPanel(f.getContentPane());
 
 
@@ -118,10 +118,59 @@ public class SSQWorldOfSweets extends JPanel{
 		c.gridy = 1;
 		deckArea.add(blankLabel, c);
 
-		JButton drawDeck2 = new JButton("Card Goes Here");
+		JButton drawDeck2 = new JButton();
+		try {
+			if(lastCardDrawn == -1){
+				ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./NoCard.png"));
+				drawDeck2.setIcon(img);
+			}
+			else if(lastCardDrawn == 0){
+				ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./RedCard.png"));
+				drawDeck2.setIcon(img);
+			}
+			else if(lastCardDrawn == 1){
+				ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./YellowCard.png"));
+				drawDeck2.setIcon(img);
+			}
+			else if(lastCardDrawn == 2){
+				ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./BlueCard.png"));
+				drawDeck2.setIcon(img);
+			}
+			else if(lastCardDrawn == 3){
+				ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./GreenCard.png"));
+				drawDeck2.setIcon(img);
+			}
+			else if(lastCardDrawn == 4){
+				ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./OrangeCard.png"));
+				drawDeck2.setIcon(img);
+			}
+			else if(lastCardDrawn == 5){
+				ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./DoubleRedCard.png"));
+				drawDeck2.setIcon(img);
+			}
+			else if(lastCardDrawn == 6){
+				ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./DoubleYellowCard.png"));
+				drawDeck2.setIcon(img);
+			}
+			else if(lastCardDrawn == 7){
+				ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./DoubleBlueCard.png"));
+				drawDeck2.setIcon(img);
+			}
+			else if(lastCardDrawn == 8){
+				ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./DoubleGreenCard.png"));
+				drawDeck2.setIcon(img);
+			}
+			else if(lastCardDrawn == 9){
+				ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./DoubleOrangeCard.png"));
+				drawDeck2.setIcon(img);
+			}
+			
+		} catch (Exception e) {
+			System.out.println(e);
+		}
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.weightx = 0.75;
-		c.ipady = 100;
+		//c.ipady = 100;
 		c.gridwidth = 1;
 		c.gridx = 3;
 		c.gridy = 1;
@@ -169,10 +218,25 @@ public class SSQWorldOfSweets extends JPanel{
 		if(gameDeck.empty() == false){
 			lastCardDrawn = gameDeck.drawCard();
 			JOptionPane.showMessageDialog(null, "You drew a "+lastCardDrawn+" card!");
+			//We need to figure out how to refresh the panel here
+			//So that it will run through drawing the deck panel again
+			//so that it will redraw the last card dealt
+			//I tried doing a bunch of things like passing in the JPanel and 
+			//revalidating and repainting it, but it did not work
+			//
+			//lenny or brandon, if you can figure out how to refresh the page
+			//it should show the cards as they are drawn in the second box
+			//
+			//The only way that I got it to work was if i regenerated a whole
+			//new window of the game, but i KNOW there has to be a simpler way
+			//i am just not familiar with the flow of the program when you add
+			//event listeners
 		}
 		else{
+			lastCardDrawn = -1;
 			JOptionPane.showMessageDialog(null, "You ran out of cards in the deck! Click OK to shuffle!");
 			gameDeck.shuffle();
+			//Same thing about comments above
 		}
 
 	}
