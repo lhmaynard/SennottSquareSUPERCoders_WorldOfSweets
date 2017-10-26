@@ -94,6 +94,7 @@ public class SSQWorldOfSweets extends JPanel{
 		c.gridy = 1;
 		deckArea.add(blankLabel, c);
 
+
 		JButton drawDeck = new JButton();
 		try {
 			ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./CardBack.png"));
@@ -101,6 +102,7 @@ public class SSQWorldOfSweets extends JPanel{
 		} catch (Exception e) {
 			System.out.println(e);
 		}
+
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.weightx = 0.75;
 		//c.ipady = 50;
@@ -174,6 +176,7 @@ public class SSQWorldOfSweets extends JPanel{
 			JOptionPane.showMessageDialog(null, "You ran out of cards in the deck! Click OK to shuffle!");
 			gameDeck.shuffle();
 		}
+
 	}
 
 	//Add Play spaces to the game area

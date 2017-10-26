@@ -21,6 +21,7 @@ public class Deck {
 		shuffle();
 	}
 	
+	
 	/**
 	 * This method is used to "shuffle" the deck and create a new stack
 	 * with integers representing the corresponding "color" of the card.
