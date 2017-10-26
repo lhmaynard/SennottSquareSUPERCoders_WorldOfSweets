@@ -10,8 +10,6 @@ public class SSQWorldOfSweets extends JPanel{
 	//private static JLabel deckLabel = new JLabel("Deck Information");
 	static String names[];
 	static String symbols[];
-	//Tokens of Each of the Players
-	static JLabel Player1, Player2, Player3, Player4;
 	static int players;
 	static int lastCardDrawn = -1;
 	static Deck gameDeck;
@@ -19,14 +17,14 @@ public class SSQWorldOfSweets extends JPanel{
 
 			javax.swing.SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
-					createAndShowGUI();
 					gameDeck = new Deck();
+					createAndShowGUI();
 				}
 			});
 	}
 	private static void createAndShowGUI(){
 		JFrame f = new MyFrame("World of Sweets!");
-		nameEntry();							//Commented Out of Testing
+		nameEntry();
 		addPanel(f.getContentPane());
 
 
@@ -120,10 +118,59 @@ public class SSQWorldOfSweets extends JPanel{
 		c.gridy = 1;
 		deckArea.add(blankLabel, c);
 
-		JButton drawDeck2 = new JButton("Card Goes Here");
+		JButton drawDeck2 = new JButton();
+		try {
+			if(lastCardDrawn == -1){
+				ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./NoCard.png"));
+				drawDeck2.setIcon(img);
+			}
+			else if(lastCardDrawn == 0){
+				ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./RedCard.png"));
+				drawDeck2.setIcon(img);
+			}
+			else if(lastCardDrawn == 1){
+				ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./YellowCard.png"));
+				drawDeck2.setIcon(img);
+			}
+			else if(lastCardDrawn == 2){
+				ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./BlueCard.png"));
+				drawDeck2.setIcon(img);
+			}
+			else if(lastCardDrawn == 3){
+				ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./GreenCard.png"));
+				drawDeck2.setIcon(img);
+			}
+			else if(lastCardDrawn == 4){
+				ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./OrangeCard.png"));
+				drawDeck2.setIcon(img);
+			}
+			else if(lastCardDrawn == 5){
+				ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./DoubleRedCard.png"));
+				drawDeck2.setIcon(img);
+			}
+			else if(lastCardDrawn == 6){
+				ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./DoubleYellowCard.png"));
+				drawDeck2.setIcon(img);
+			}
+			else if(lastCardDrawn == 7){
+				ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./DoubleBlueCard.png"));
+				drawDeck2.setIcon(img);
+			}
+			else if(lastCardDrawn == 8){
+				ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./DoubleGreenCard.png"));
+				drawDeck2.setIcon(img);
+			}
+			else if(lastCardDrawn == 9){
+				ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./DoubleOrangeCard.png"));
+				drawDeck2.setIcon(img);
+			}
+			
+		} catch (Exception e) {
+			System.out.println(e);
+		}
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.weightx = 0.75;
-		c.ipady = 100;
+		//c.ipady = 100;
 		c.gridwidth = 1;
 		c.gridx = 3;
 		c.gridy = 1;
@@ -167,14 +214,29 @@ public class SSQWorldOfSweets extends JPanel{
 
 	//draw card and display
 	private static void draw(){
-		
+
 		if(gameDeck.empty() == false){
 			lastCardDrawn = gameDeck.drawCard();
 			JOptionPane.showMessageDialog(null, "You drew a "+lastCardDrawn+" card!");
+			//We need to figure out how to refresh the panel here
+			//So that it will run through drawing the deck panel again
+			//so that it will redraw the last card dealt
+			//I tried doing a bunch of things like passing in the JPanel and 
+			//revalidating and repainting it, but it did not work
+			//
+			//lenny or brandon, if you can figure out how to refresh the page
+			//it should show the cards as they are drawn in the second box
+			//
+			//The only way that I got it to work was if i regenerated a whole
+			//new window of the game, but i KNOW there has to be a simpler way
+			//i am just not familiar with the flow of the program when you add
+			//event listeners
 		}
 		else{
+			lastCardDrawn = -1;
 			JOptionPane.showMessageDialog(null, "You ran out of cards in the deck! Click OK to shuffle!");
 			gameDeck.shuffle();
+			//Same thing about comments above
 		}
 
 	}
@@ -202,7 +264,6 @@ public class SSQWorldOfSweets extends JPanel{
 				L2.setHorizontalAlignment(JLabel.CENTER);
 				beginZone.add(L1, BorderLayout.NORTH);
 				beginZone.add(L2, BorderLayout.SOUTH);
-
 		}
 		gameArea.add(beginZone);
 
@@ -235,44 +296,33 @@ public class SSQWorldOfSweets extends JPanel{
 		gameArea.add(endZone);
 
 	}
-	private static void editPlayerInfo(JPanel playerInfo){
-		playerInfo.setLayout(new GridLayout(8, 1));
-		if (players == 2){
-			Player2 = new JLabel("Player 2: " + names[1] + " " + symbols[1]);
-			Player1 = new JLabel("Player 1: " + names[0] + " " + symbols[0]);
-			Player1.setFont(new Font("Century", Font.BOLD, 15));
-			Player2.setFont(new Font("Century", Font.BOLD, 15));
-			playerInfo.add(Player1);
-			playerInfo.add(Player2);
-		}
-		else if(players == 3){
-			Player2 = new JLabel("Player 2: " + names[1] + " " + symbols[1]);
-			Player1 = new JLabel("Player 1: " + names[0] + " " + symbols[0]);
-			Player3 = new JLabel("Player 3: " + names[2] + " " + symbols[2]);
-			Player1.setFont(new Font("Century", Font.BOLD, 15));
-			Player2.setFont(new Font("Century", Font.BOLD, 15));
-			Player3.setFont(new Font("Century", Font.BOLD, 15));
-			playerInfo.add(Player1);
-			playerInfo.add(Player2);
-			playerInfo.add(Player3);
-		}
-		else{
-			Player2 = new JLabel("Player 2: " + names[1] + " " + symbols[1]);
-			Player1 = new JLabel("Player 1: " + names[0] + " " + symbols[0]);
-			Player3 = new JLabel("Player 3: " + names[2] + " " + symbols[2]);
-			Player4 = new JLabel("Player 4: " + names[3] + " " + symbols[3]);
-			Player1.setFont(new Font("Century", Font.BOLD, 15));
-			Player2.setFont(new Font("Century", Font.BOLD, 15));
-			Player3.setFont(new Font("Century", Font.BOLD, 15));
-			Player4.setFont(new Font("Century", Font.BOLD, 15));
-			playerInfo.add(Player1);
-			playerInfo.add(Player2);
-			playerInfo.add(Player3);
-			playerInfo.add(Player4);
-		}
 
+  private static void editPlayerInfo(JPanel playerInfo)
+  {
+		playerInfo.setLayout(new GridLayout(8, 1));
+		JLabel[] allLabels;
+		allLabels = generatePlayers(players);
+		for(int i= 0; i<players; i++) {
+			playerInfo.add(allLabels[i]);
+		}
 	}
-	private static void nameEntry(){							//Name Entry WOrk in PRogress
+
+	private static JLabel[] generatePlayers(int num)
+	{
+		JLabel[] playerLabels = new JLabel[num];
+		Random r = new Random();
+		r.setSeed(System.currentTimeMillis());
+		for(int i = 0; i<num; i++) {
+			playerLabels[i] = new JLabel("Player " + i + ": " + names[i] + ": " + symbols[i]);
+			playerLabels[i].setFont(new Font("Century", Font.BOLD, 15));
+      //set color of initial player labels randomly
+			playerLabels[i].setForeground(new Color(r.nextInt(256), r.nextInt(256), r.nextInt(256)));
+		}
+		return playerLabels;
+	}
+
+	private static void nameEntry()
+  {							//Name Entry Work in PRogress
 		String[] numOfPlayers = {"2", "3", "4"};
 		String[] symbolsOfPlayers = {"@", "#", "$", "%"};
 		ArrayList<String> al = new ArrayList<String>(Arrays.asList("@", "#", "$", "%"));
