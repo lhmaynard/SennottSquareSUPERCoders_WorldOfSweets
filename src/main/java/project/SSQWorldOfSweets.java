@@ -7,7 +7,7 @@ import java.util.*;
 
 public class SSQWorldOfSweets extends JPanel{
 
-	//private static JLabel deckLabel = new JLabel("Deck Information");
+
 	static String names[];
 	static String symbols[];
 	static int players;
@@ -44,7 +44,7 @@ public class SSQWorldOfSweets extends JPanel{
 
 		//Player Panel area
 		JLabel playerLabel = new JLabel("Player Information");
-		playerLabel.setFont(new Font("Century", Font.ITALIC, 25));
+		playerLabel.setFont(new Font("Century", Font.BOLD, 25));
 		playerInfo.setLayout(new BorderLayout());
 		playerInfo.add(playerLabel, BorderLayout.NORTH);
 
