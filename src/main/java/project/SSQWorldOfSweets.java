@@ -13,6 +13,7 @@ public class SSQWorldOfSweets extends JPanel{
 	static int players;
 	static int lastCardDrawn = -1;
 	static Deck gameDeck;
+	static int curPlayer=1;
 	public static void main(String args[]){
 
 			javax.swing.SwingUtilities.invokeLater(new Runnable() {
@@ -164,7 +165,7 @@ public class SSQWorldOfSweets extends JPanel{
 				ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./DoubleOrangeCard.png"));
 				drawDeck2.setIcon(img);
 			}
-			
+
 		} catch (Exception e) {
 			System.out.println(e);
 		}
@@ -199,6 +200,10 @@ public class SSQWorldOfSweets extends JPanel{
       public void actionPerformed(ActionEvent e)
       {
         draw();
+				//move()
+				curPlayer++;
+				if(curPlayer==players+1) curPlayer=1;
+				JOptionPane.showMessageDialog(null, "It is "+names[curPlayer-1]+"'s turn!");
       }
     });
 
@@ -218,10 +223,12 @@ public class SSQWorldOfSweets extends JPanel{
 		if(gameDeck.empty() == false){
 			lastCardDrawn = gameDeck.drawCard();
 			JOptionPane.showMessageDialog(null, "You drew a "+lastCardDrawn+" card!");
+
+
 			//We need to figure out how to refresh the panel here
 			//So that it will run through drawing the deck panel again
 			//so that it will redraw the last card dealt
-			//I tried doing a bunch of things like passing in the JPanel and 
+			//I tried doing a bunch of things like passing in the JPanel and
 			//revalidating and repainting it, but it did not work
 			//
 			//lenny or brandon, if you can figure out how to refresh the page
@@ -247,9 +254,14 @@ public class SSQWorldOfSweets extends JPanel{
 		JButton endZone = new JButton("Grandmother's House");
 		endZone.setBackground(Color.magenta);
 		endZone.setMinimumSize(new Dimension(100, 300));
+		endZone.setOpaque(true);
+		endZone.setBorderPainted(false);
+
 		JButton beginZone = new JButton("Start");
 		beginZone.setBackground(Color.white);
 		beginZone.setLayout(new BorderLayout());
+		beginZone.setOpaque(true);
+		beginZone.setBorderPainted(false);
 		switch (players){
 			case 4:
 				JLabel L4 = new JLabel(symbols[3]);
@@ -289,6 +301,9 @@ public class SSQWorldOfSweets extends JPanel{
 			if((i % 5) == 4){
 				buttons[i].setBackground(Color.orange);
 			}
+
+			buttons[i].setOpaque(true);
+			buttons[i].setBorderPainted(false);
 
 			gameArea.add(buttons[i]);
 		}
