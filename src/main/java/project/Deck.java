@@ -108,6 +108,8 @@ public class Deck {
 	 * @return	7	A double blue card
 	 * @return	8	A double green card
 	 * @return	9	A double orange card
+	 * @return	10	A skip turn card
+	 * @return	11	A go to middle card
 	 */
 	public int drawCard(){
 		int card = mydeck.pop();
