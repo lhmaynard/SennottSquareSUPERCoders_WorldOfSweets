@@ -337,6 +337,14 @@ public class SSQWorldOfSweets extends JPanel{
 					ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./DoubleOrangeCard.png"));
 					drawDeck2.setIcon(img);
 				}
+				else if(lastCardDrawn == 10){
+					ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./SkipATurn.png"));
+					drawDeck2.setIcon(img);
+				}
+				else if(lastCardDrawn == 11){
+					ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./MiddleCard.png"));
+					drawDeck2.setIcon(img);
+				}
 			
 			} catch (Exception e) {
 				System.out.println(e);
