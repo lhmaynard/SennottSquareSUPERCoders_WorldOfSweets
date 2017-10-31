@@ -19,12 +19,10 @@ import java.util.*;
 public class SSQWorldOfSweets extends JPanel{
 
 	//Global variables
-	static String names[];
-	static String symbols[];
 	static int players;
 	static int lastCardDrawn = -1;
 	static Deck gameDeck;
-	static int curPlayer=1;
+	static int curPlayer=0;
 	static JButton drawDeck2;
   static Player[] playerObjs;
 
@@ -51,7 +49,7 @@ public class SSQWorldOfSweets extends JPanel{
 
 		f.pack();
 		f.setVisible(true);
-		JOptionPane.showMessageDialog(null, "It is "+playerObjs[curPlayer-1].getPlayerName()+"'s turn!", "Whose turn is it?", JOptionPane.PLAIN_MESSAGE);
+		JOptionPane.showMessageDialog(null, "It is "+playerObjs[curPlayer].getPlayerName()+"'s turn!", "Whose turn is it?", JOptionPane.PLAIN_MESSAGE);
 	}
 
 	/**
@@ -290,7 +288,7 @@ public class SSQWorldOfSweets extends JPanel{
 
 		if(gameDeck.empty() == false){
 			lastCardDrawn = gameDeck.drawCard();
-      playerObjs[curPlayer-1].setLastCard(lastCardDrawn);
+      playerObjs[curPlayer].setLastCard(lastCardDrawn);
 			try {
 				if(lastCardDrawn == -1){
 					ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./NoCard.png"));
@@ -344,7 +342,7 @@ public class SSQWorldOfSweets extends JPanel{
 					ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./MiddleCard.png"));
 					drawDeck2.setIcon(img);
 				}
-			
+
 
 			} catch (Exception e) {
 				System.out.println(e);
@@ -362,6 +360,16 @@ public class SSQWorldOfSweets extends JPanel{
 			drawDeck2.repaint();
 		}
 	}
+
+  /**
+  *
+  */
+  private static void updateTurn()
+  {
+    curPlayer++;
+    if(curPlayer == playerObjs.length) curPlayer = 0;
+    JOptionPane.showMessageDialog(null, "It is "+playerObjs[curPlayer].getPlayerName()+"'s turn!", "Whose turn is it?", JOptionPane.PLAIN_MESSAGE);
+  }
 
 	/**
 	 *
@@ -396,13 +404,6 @@ public class SSQWorldOfSweets extends JPanel{
   		symbolsOfPlayers=al.toArray(new String[al.size()]);
       playerObjs[i] = new Player(i+1, tempName, str);
     }
-  }
-
-  private static void updateTurn()
-  {
-    curPlayer++;
-    if(curPlayer==playerObjs.length) curPlayer=1;
-    JOptionPane.showMessageDialog(null, "It is "+playerObjs[curPlayer-1].getPlayerName()+"'s turn!", "Whose turn is it?", JOptionPane.PLAIN_MESSAGE);
   }
 }
 
