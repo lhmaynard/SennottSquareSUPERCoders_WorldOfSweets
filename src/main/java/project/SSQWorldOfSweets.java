@@ -24,6 +24,7 @@ public class SSQWorldOfSweets extends JPanel{
 	static Deck gameDeck;
 	static int curPlayer=0;
 	static JButton drawDeck2;
+	static int curSpace = 0;
   static Player[] playerObjs;
 
 	/**
@@ -221,13 +222,13 @@ public class SSQWorldOfSweets extends JPanel{
 				beginZone.add(L1, BorderLayout.NORTH);
 				beginZone.add(L2, BorderLayout.SOUTH);
 		}
-		gameArea.add(beginZone);
+		
 
 		for(int i = 0; i < 50; i++){
 			//Array of JButtons that is the game board spaces
 			buttons[i] = new JButton();
 		}
-		gameArea.setLayout(new GridLayout(7, 7, 10, 10));
+		gameArea.setLayout(new GridLayout(13, 7, 10, 10));
 		for(int i = 0; i < 50; i++){
 			//Hard Coding colors of Spaces
 			if((i % 5) == 0 ){
@@ -249,11 +250,50 @@ public class SSQWorldOfSweets extends JPanel{
 			buttons[i].setOpaque(true);
 			buttons[i].setBorderPainted(false);
 
-			gameArea.add(buttons[i]);
+			
 		}
-
+		
+//Snakes the area of buttons accross the board, adding white space to counteract the grid layout dynamics
+		
+		gameArea.add(beginZone);					
+		for(int i = 0; i <= 2; i++){
+			if(i == 0){
+				for(int j = 0; j < 6; j++){
+					gameArea.add(buttons[curSpace++]);
+				}
+			}
+			else{
+				for(int j = 0; j < 7; j++){
+					gameArea.add(buttons[curSpace++]);
+				}
+			}
+			
+			for(int j = 0; j < 6; j++){						//FOR FIRST 2 ROWS
+				JButton white = new JButton();
+				white.setOpaque(true);
+				white.setBorderPainted(false);
+				white.setBackground(Color.WHITE);
+				gameArea.add(white);
+			}
+			gameArea.add(buttons[curSpace++]);
+			
+			for(int j = 7; j >= 0; j--){
+				gameArea.add(buttons[curSpace + j]);
+			}
+			curSpace = curSpace + 7;
+			gameArea.add(buttons[curSpace++]);
+			for(int j = 0; j < 6; j++){
+				JButton white = new JButton();
+				white.setOpaque(true);
+				white.setBorderPainted(false);
+				white.setBackground(Color.WHITE);
+				gameArea.add(white);
+			}	
+		}	
+		gameArea.add(buttons[curSpace++]);
+		gameArea.add(buttons[curSpace++]);
+		gameArea.add(buttons[curSpace++]);
 		gameArea.add(endZone);
-
 	}
 
 	/**
