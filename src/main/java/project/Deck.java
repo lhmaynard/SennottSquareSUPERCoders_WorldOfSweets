@@ -49,7 +49,7 @@ public class Deck {
 		
 		//Arraylist to hold all of the cards that still need to be added
 		ArrayList<Integer> toAdd = new ArrayList<Integer>();
-		for(int i = 0; i < 60; i++){
+		for(int i = 0; i < 68; i++){
 			if(i < 10){
 				toAdd.add(0);
 			}
@@ -80,6 +80,12 @@ public class Deck {
 			else if(i == 58 || i == 59){
 				toAdd.add(9);
 			}
+			else if(i > 59 && i < 65){
+				toAdd.add(10);
+			}
+			else if(i > 64 || i < 68){
+				toAdd.add(11);
+			}
 		}
 		
 		while(toAdd.isEmpty() == false){
@@ -108,6 +114,8 @@ public class Deck {
 	 * @return	7	A double blue card
 	 * @return	8	A double green card
 	 * @return	9	A double orange card
+	 * @return	10	A skip turn card
+	 * @return	11	A go to middle card
 	 */
 	public int drawCard(){
 		int card = mydeck.pop();
