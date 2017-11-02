@@ -6,12 +6,15 @@ public class Player {
   private int lastCard;
   private int currentSpace;
   private String playerToken;
+  private Boolean grandmaHouse;
 
   public Player(int num, String nam, String tok)
   {
     playerName = nam;
     playerNumber = num;
     playerToken = tok;
+    currentSpace = -1;
+    grandmaHouse = false;
   }
 
   //Getters
