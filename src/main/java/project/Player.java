@@ -69,7 +69,7 @@ public class Player {
   public String toString()
   {
     String str;
-    str = ("Player " + playerNumber + ": " + playerToken);
+    str = ("Player " + playerNumber + ": " + playerName + ": "+ playerToken);
     return str;
   }
 }
