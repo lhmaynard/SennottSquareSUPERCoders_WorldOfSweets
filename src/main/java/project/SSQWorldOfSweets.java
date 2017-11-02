@@ -222,7 +222,7 @@ public class SSQWorldOfSweets extends JPanel{
 				beginZone.add(L1, BorderLayout.NORTH);
 				beginZone.add(L2, BorderLayout.SOUTH);
 		}
-		
+
 
 		for(int i = 0; i < 50; i++){
 			//Array of JButtons that is the game board spaces
@@ -250,12 +250,12 @@ public class SSQWorldOfSweets extends JPanel{
 			buttons[i].setOpaque(true);
 			buttons[i].setBorderPainted(false);
 
-			
+
 		}
-		
+
 //Snakes the area of buttons accross the board, adding white space to counteract the grid layout dynamics
-		
-		gameArea.add(beginZone);					
+
+		gameArea.add(beginZone);
 		for(int i = 0; i <= 2; i++){
 			if(i == 0){
 				for(int j = 0; j < 6; j++){
@@ -267,7 +267,7 @@ public class SSQWorldOfSweets extends JPanel{
 					gameArea.add(buttons[curSpace++]);
 				}
 			}
-			
+
 			for(int j = 0; j < 6; j++){						//FOR FIRST 2 ROWS
 				JButton white = new JButton();
 				white.setOpaque(true);
@@ -276,7 +276,7 @@ public class SSQWorldOfSweets extends JPanel{
 				gameArea.add(white);
 			}
 			gameArea.add(buttons[curSpace++]);
-			
+
 			for(int j = 7; j >= 0; j--){
 				gameArea.add(buttons[curSpace + j]);
 			}
@@ -288,8 +288,8 @@ public class SSQWorldOfSweets extends JPanel{
 				white.setBorderPainted(false);
 				white.setBackground(Color.WHITE);
 				gameArea.add(white);
-			}	
-		}	
+			}
+		}
 		gameArea.add(buttons[curSpace++]);
 		gameArea.add(buttons[curSpace++]);
 		gameArea.add(buttons[curSpace++]);
