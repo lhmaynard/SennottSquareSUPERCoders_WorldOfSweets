@@ -330,61 +330,60 @@ public class SSQWorldOfSweets extends JPanel{
 			lastCardDrawn = gameDeck.drawCard();
       playerObjs[curPlayer].setLastCard(lastCardDrawn);
 			try {
-        switch(lastCardDrawn) {
-				      case -1:
-					      ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./NoCard.png"));
-					      drawDeck2.setIcon(img);
-                break;
-				      case 0:
-					      ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./RedCard.png"));
-					      drawDeck2.setIcon(img);
-                break;
-				      case 1:
-					      ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./YellowCard.png"));
-					      drawDeck2.setIcon(img);
-                break;
-				      case 2:
-					      ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./BlueCard.png"));
-					      drawDeck2.setIcon(img);
-                break;
-              case 3:
-					      ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./GreenCard.png"));
-					      drawDeck2.setIcon(img);
-                break;
-				      case 4:
-					        ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./OrangeCard.png"));
-					        drawDeck2.setIcon(img);
-                  break;
-				      case 5:
-					      ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./DoubleRedCard.png"));
-					      drawDeck2.setIcon(img);
-                break;
-				      case 6:
-					      ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./DoubleYellowCard.png"));
-					      drawDeck2.setIcon(img);
-                break;
-              case 7:
-					      ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./DoubleBlueCard.png"));
-					      drawDeck2.setIcon(img);
-                break;
-
-				      case 8:
-					      ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./DoubleGreenCard.png"));
-					      drawDeck2.setIcon(img);
-                break;
-				      case 9:
-					      ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./DoubleOrangeCard.png"));
-					      drawDeck2.setIcon(img);
-                break;
-				      case 10:
-					        ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./SkipATurn.png"));
-					        drawDeck2.setIcon(img);
-                  break;
-              case 11:
-                ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./MiddleCard.png"));
-					      drawDeck2.setIcon(img);
-                break;
-      }
+				switch(lastCardDrawn) {
+					case -1:
+						ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./NoCard.png"));
+						drawDeck2.setIcon(img);
+						break;
+					case 0:
+						ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./RedCard.png"));
+						drawDeck2.setIcon(img);
+						break;
+					case 1:
+						ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./YellowCard.png"));
+						drawDeck2.setIcon(img);
+						break;
+					case 2:
+						ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./BlueCard.png"));
+						drawDeck2.setIcon(img);
+						break;
+					case 3:
+						ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./GreenCard.png"));
+						drawDeck2.setIcon(img);
+						break;
+					case 4:
+						ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./OrangeCard.png"));
+						drawDeck2.setIcon(img);
+						break;
+					case 5:
+						ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./DoubleRedCard.png"));
+						drawDeck2.setIcon(img);
+						break;
+					case 6:
+						ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./DoubleYellowCard.png"));
+						drawDeck2.setIcon(img);
+						break;
+					case 7:
+						ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./DoubleBlueCard.png"));
+						drawDeck2.setIcon(img);
+						break;
+					case 8:
+						ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./DoubleGreenCard.png"));
+						drawDeck2.setIcon(img);
+						break;
+					case 9:
+						ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./DoubleOrangeCard.png"));
+						drawDeck2.setIcon(img);
+						break;
+					case 10:
+						ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./SkipATurn.png"));
+						drawDeck2.setIcon(img);
+						break;
+					case 11:
+						ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./MiddleCard.png"));
+						drawDeck2.setIcon(img);
+						break;
+				}
 		} catch (Exception e) {
 				System.out.println(e);
 			}
