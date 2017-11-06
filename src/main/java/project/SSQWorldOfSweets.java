@@ -24,7 +24,9 @@ public class SSQWorldOfSweets extends JPanel{
 	static Deck gameDeck;
 	static int curPlayer=0;
 	static JButton drawDeck2;
-	static int curSpace = 0;
+	static JPanel gameArea;
+	static JButton[] buttons;
+	static JLabel L1, L2, L3, L4;
   static Player[] playerObjs;
 
 	/**
@@ -60,7 +62,7 @@ public class SSQWorldOfSweets extends JPanel{
 		p.setLayout(new BorderLayout());
 		JPanel deckArea = new JPanel();
 		JPanel playerArea = new JPanel();
-		JPanel gameArea = new JPanel();
+		gameArea = new JPanel();
 
 		//Call to draw deckArea panel
 		drawDeckArea(deckArea);
@@ -195,7 +197,7 @@ public class SSQWorldOfSweets extends JPanel{
 		//Setting size of gameArea panel
 		gameArea.setPreferredSize(new Dimension(800,800));
 
-		JButton[] buttons = new JButton[50];
+		buttons = new JButton[50];
 		JButton endZone = new JButton("Grandmother's House");
 		endZone.setBackground(Color.magenta);
 		endZone.setMinimumSize(new Dimension(100, 300));
@@ -209,15 +211,15 @@ public class SSQWorldOfSweets extends JPanel{
 		beginZone.setBorderPainted(false);
 		switch (playerObjs.length){
 			case 4:
-				JLabel L4 = new JLabel(playerObjs[3].getToken());
+				L4 = new JLabel(playerObjs[3].getToken());
 				beginZone.add(L4, BorderLayout.WEST);
 			case 3:
-				JLabel L3 = new JLabel(playerObjs[2].getToken());
+				L3 = new JLabel(playerObjs[2].getToken());
 				beginZone.add(L3, BorderLayout.EAST);
 			case 2:
-				JLabel L1 = new JLabel(playerObjs[0].getToken());
+				L1 = new JLabel(playerObjs[0].getToken());
 				L1.setHorizontalAlignment(JLabel.CENTER);
-				JLabel L2 = new JLabel(playerObjs[1].getToken());
+				L2 = new JLabel(playerObjs[1].getToken());
 				L2.setHorizontalAlignment(JLabel.CENTER);
 				beginZone.add(L1, BorderLayout.NORTH);
 				beginZone.add(L2, BorderLayout.SOUTH);
@@ -227,6 +229,7 @@ public class SSQWorldOfSweets extends JPanel{
 		for(int i = 0; i < 50; i++){
 			//Array of JButtons that is the game board spaces
 			buttons[i] = new JButton();
+			buttons[i].setLayout(new BorderLayout());
 		}
 		gameArea.setLayout(new GridLayout(13, 7, 10, 10));
 		for(int i = 0; i < 50; i++){
@@ -246,12 +249,15 @@ public class SSQWorldOfSweets extends JPanel{
 			if((i % 5) == 4){
 				buttons[i].setBackground(new Color(255, 201, 14));
 			}
+
 			buttons[i].setOpaque(true);
 			buttons[i].setBorderPainted(false);
+
+
 		}
 
 //Snakes the area of buttons accross the board, adding white space to counteract the grid layout dynamics
-
+		int curSpace = 0;
 		gameArea.add(beginZone);
 		for(int i = 0; i <= 2; i++){
 			if(i == 0){
@@ -322,74 +328,74 @@ public class SSQWorldOfSweets extends JPanel{
 	 *
 	 */
 	private static void draw(){
-
+		ImageIcon img;
 		if(gameDeck.empty() == false){
 			lastCardDrawn = gameDeck.drawCard();
       playerObjs[curPlayer].setLastCard(lastCardDrawn);
-      ImageIcon img;
 			try {
-        switch(lastCardDrawn) {
-				      case -1:
-					      img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./NoCard.png"));
-					      drawDeck2.setIcon(img);
-                break;
-				      case 0:
-					      img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./RedCard.png"));
-					      drawDeck2.setIcon(img);
-                break;
-				      case 1:
-					      img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./YellowCard.png"));
-					      drawDeck2.setIcon(img);
-                break;
-				      case 2:
-					       img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./BlueCard.png"));
-					      drawDeck2.setIcon(img);
-                break;
-              case 3:
-					       img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./GreenCard.png"));
-					      drawDeck2.setIcon(img);
-                break;
-				      case 4:
-					      img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./OrangeCard.png"));
-					      drawDeck2.setIcon(img);
-                break;
-				      case 5:
-					      img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./DoubleRedCard.png"));
-					      drawDeck2.setIcon(img);
-                break;
-				      case 6:
-					      img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./DoubleYellowCard.png"));
-					      drawDeck2.setIcon(img);
-                break;
-              case 7:
-					      img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./DoubleBlueCard.png"));
-					      drawDeck2.setIcon(img);
-                break;
-				      case 8:
-					      img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./DoubleGreenCard.png"));
-					      drawDeck2.setIcon(img);
-                break;
-				      case 9:
-					      img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./DoubleOrangeCard.png"));
-					      drawDeck2.setIcon(img);
-                break;
-				      case 10:
-					      img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./SkipATurn.png"));
-					      drawDeck2.setIcon(img);
-                break;
-              case 11:
-                img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./MiddleCard.png"));
-					      drawDeck2.setIcon(img);
-                break;
-      }
+				switch(lastCardDrawn) {
+					case -1:
+						 img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./NoCard.png"));
+						drawDeck2.setIcon(img);
+						break;
+					case 0:
+						 img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./RedCard.png"));
+						drawDeck2.setIcon(img);
+						break;
+					case 1:
+						 img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./YellowCard.png"));
+						drawDeck2.setIcon(img);
+						break;
+					case 2:
+						 img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./BlueCard.png"));
+						drawDeck2.setIcon(img);
+						break;
+					case 3:
+						 img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./GreenCard.png"));
+						drawDeck2.setIcon(img);
+						break;
+					case 4:
+						 img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./OrangeCard.png"));
+						drawDeck2.setIcon(img);
+						break;
+					case 5:
+						 img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./DoubleRedCard.png"));
+						drawDeck2.setIcon(img);
+						break;
+					case 6:
+						 img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./DoubleYellowCard.png"));
+						drawDeck2.setIcon(img);
+						break;
+					case 7:
+						 img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./DoubleBlueCard.png"));
+						drawDeck2.setIcon(img);
+						break;
+					case 8:
+						 img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./DoubleGreenCard.png"));
+						drawDeck2.setIcon(img);
+						break;
+					case 9:
+						 img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./DoubleOrangeCard.png"));
+						drawDeck2.setIcon(img);
+						break;
+					case 10:
+						 img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./SkipATurn.png"));
+						drawDeck2.setIcon(img);
+						break;
+					case 11:
+						 img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./MiddleCard.png"));
+						drawDeck2.setIcon(img);
+						break;
+				}
 		} catch (Exception e) {
 				System.out.println(e);
 			}
 			drawDeck2.repaint();
+			
 		}
 		else{
 			lastCardDrawn = -1;
-			ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./NoCard.png"));
+			 img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./NoCard.png"));
 			drawDeck2.setIcon(img);
 
 			JOptionPane.showMessageDialog(null, "You ran out of cards in the deck! Click OK to shuffle!");
@@ -402,9 +408,11 @@ public class SSQWorldOfSweets extends JPanel{
   *
   */
   private static void updateTurn()
-  {
+  {	
+	movePlayer();
     curPlayer++;
     if(curPlayer == playerObjs.length) curPlayer = 0;
+
     JOptionPane.showMessageDialog(null, "It is "+playerObjs[curPlayer].getPlayerName()+"'s turn!", "Whose turn is it?", JOptionPane.PLAIN_MESSAGE);
   }
 
@@ -432,16 +440,238 @@ public class SSQWorldOfSweets extends JPanel{
 		ArrayList<String> al = new ArrayList<String>(Arrays.asList("@", "#", "$", "%"));
 		Object playersO = JOptionPane.showInputDialog(null, "How many players are here?", "Welcome to World Of Sweets!", JOptionPane.DEFAULT_OPTION, null, numOfPlayers, "2");
 		playerObjs = new Player[Integer.parseInt(playersO.toString())];
-    for(int i=0; i < playerObjs.length; i++)
-    {
-      String tempName = JOptionPane.showInputDialog(null, "What is your name?", "Player " + (i+1), JOptionPane.QUESTION_MESSAGE);
-  		playersO = JOptionPane.showInputDialog(null, "What Token would you like?", "Player " + (i+1), JOptionPane.DEFAULT_OPTION, null, symbolsOfPlayers, "@");
-  		String str = playersO.toString();
-  		al.remove(str);
-  		symbolsOfPlayers=al.toArray(new String[al.size()]);
-      playerObjs[i] = new Player(i+1, tempName, str);
-    }
-  }
+		for(int i=0; i < playerObjs.length; i++)
+		{
+		  String tempName = JOptionPane.showInputDialog(null, "What is your name?", "Player " + (i+1), JOptionPane.QUESTION_MESSAGE);
+			playersO = JOptionPane.showInputDialog(null, "What Token would you like?", "Player " + (i+1), JOptionPane.DEFAULT_OPTION, null, symbolsOfPlayers, "@");
+			String str = playersO.toString();
+			al.remove(str);
+			symbolsOfPlayers=al.toArray(new String[al.size()]);
+		  playerObjs[i] = new Player(i+1, tempName, str);
+		}
+	}
+  
+  
+	private static void movePlayer(){
+		int space = playerObjs[curPlayer].getCurrentSpace();
+		int card = playerObjs[curPlayer].getLastCard();
+		Color c = buttons[space].getBackground();
+		
+		if(space == -1){
+			if((card % 5) == 0){
+				if(card == 0)
+					playerObjs[curPlayer].setCurrentSpace(space + 1);
+				else
+					playerObjs[curPlayer].setCurrentSpace(space + 6);
+			}
+			else if((card % 5) == 1){
+				if(card == 1)
+					playerObjs[curPlayer].setCurrentSpace(space + 2);
+				else
+					playerObjs[curPlayer].setCurrentSpace(space + 7);
+			}
+			else if((card % 5) == 2){
+				if(card == 2)
+					playerObjs[curPlayer].setCurrentSpace(space + 3);
+				else
+					playerObjs[curPlayer].setCurrentSpace(space + 8);	
+			}
+			else if((card % 5) == 3){
+				if(card == 3)
+					playerObjs[curPlayer].setCurrentSpace(space + 4);
+				else
+					playerObjs[curPlayer].setCurrentSpace(space + 9);	
+			}
+			else if((card % 5) == 4){
+				if(card == 4)
+					playerObjs[curPlayer].setCurrentSpace(space + 5);
+				else
+					playerObjs[curPlayer].setCurrentSpace(space + 10);
+			}
+		}
+		else if(c.equals(Color.RED)){
+			if((card % 5) == 0){
+				if(card == 0)
+					playerObjs[curPlayer].setCurrentSpace(space + 5);
+				else
+					playerObjs[curPlayer].setCurrentSpace(space + 10);
+			}
+			else if((card % 5) == 1){
+				if(card == 1)
+					playerObjs[curPlayer].setCurrentSpace(space + 1);
+				else
+					playerObjs[curPlayer].setCurrentSpace(space + 6);
+			}
+			else if((card % 5) == 2){
+				if(card == 2)
+					playerObjs[curPlayer].setCurrentSpace(space + 2);
+				else
+					playerObjs[curPlayer].setCurrentSpace(space + 7);	
+			}
+			else if((card % 5) == 3){
+				if(card == 3)
+					playerObjs[curPlayer].setCurrentSpace(space + 3);
+				else
+					playerObjs[curPlayer].setCurrentSpace(space + 8);	
+			}
+			else if((card % 5) == 4){
+				if(card == 4)
+					playerObjs[curPlayer].setCurrentSpace(space + 4);
+				else
+					playerObjs[curPlayer].setCurrentSpace(space + 9);
+			}
+		}
+		else if(c.equals(Color.YELLOW)){
+			if((card % 5) == 0){
+				if(card == 0)
+					playerObjs[curPlayer].setCurrentSpace(space + 4);
+				else
+					playerObjs[curPlayer].setCurrentSpace(space + 9);
+			}
+			else if((card % 5) == 1){
+				if(card == 1)
+					playerObjs[curPlayer].setCurrentSpace(space + 5);
+				else
+					playerObjs[curPlayer].setCurrentSpace(space + 10);
+			}
+			else if((card % 5) == 2){
+				if(card == 2)
+					playerObjs[curPlayer].setCurrentSpace(space + 1);
+				else
+					playerObjs[curPlayer].setCurrentSpace(space + 6);	
+			}
+			else if((card % 5) == 3){
+				if(card == 3)
+					playerObjs[curPlayer].setCurrentSpace(space + 2);
+				else
+					playerObjs[curPlayer].setCurrentSpace(space + 7);	
+			}
+			else if((card % 5) == 4){
+				if(card == 4)
+					playerObjs[curPlayer].setCurrentSpace(space + 3);
+				else
+					playerObjs[curPlayer].setCurrentSpace(space + 8);
+			}
+		}
+		else if(c.equals(Color.BLUE)){
+			if((card % 5) == 0){
+				if(card == 0)
+					playerObjs[curPlayer].setCurrentSpace(space + 3);
+				else
+					playerObjs[curPlayer].setCurrentSpace(space + 8);
+			}
+			else if((card % 5) == 1){
+				if(card == 1)
+					playerObjs[curPlayer].setCurrentSpace(space + 4);
+				else
+					playerObjs[curPlayer].setCurrentSpace(space + 9);
+			}
+			else if((card % 5) == 2){
+				if(card == 2)
+					playerObjs[curPlayer].setCurrentSpace(space + 5);
+				else
+					playerObjs[curPlayer].setCurrentSpace(space + 10);	
+			}
+			else if((card % 5) == 3){
+				if(card == 3)
+					playerObjs[curPlayer].setCurrentSpace(space + 1);
+				else
+					playerObjs[curPlayer].setCurrentSpace(space + 6);	
+			}
+			else if((card % 5) == 4){
+				if(card == 4)
+					playerObjs[curPlayer].setCurrentSpace(space + 2);
+				else
+					playerObjs[curPlayer].setCurrentSpace(space + 7);
+			}
+		}
+		else if(c.equals(Color.GREEN)){
+			if((card % 5) == 0){
+				if(card == 0)
+					playerObjs[curPlayer].setCurrentSpace(space + 2);
+				else
+					playerObjs[curPlayer].setCurrentSpace(space + 7);
+			}
+			else if((card % 5) == 1){
+				if(card == 1)
+					playerObjs[curPlayer].setCurrentSpace(space + 3);
+				else
+					playerObjs[curPlayer].setCurrentSpace(space + 8);
+			}
+			else if((card % 5) == 2){
+				if(card == 2)
+					playerObjs[curPlayer].setCurrentSpace(space + 4);
+				else
+					playerObjs[curPlayer].setCurrentSpace(space + 9);	
+			}
+			else if((card % 5) == 3){
+				if(card == 3)
+					playerObjs[curPlayer].setCurrentSpace(space + 5);
+				else
+					playerObjs[curPlayer].setCurrentSpace(space + 10);	
+			}
+			else if((card % 5) == 4){
+				if(card == 4)
+					playerObjs[curPlayer].setCurrentSpace(space + 1);
+				else
+					playerObjs[curPlayer].setCurrentSpace(space + 6);
+			}
+		}
+		else{
+			if((card % 5) == 0){
+				if(card == 0)
+					playerObjs[curPlayer].setCurrentSpace(space + 1);
+				else
+					playerObjs[curPlayer].setCurrentSpace(space + 6);
+			}
+			else if((card % 5) == 1){
+				if(card == 1)
+					playerObjs[curPlayer].setCurrentSpace(space + 2);
+				else
+					playerObjs[curPlayer].setCurrentSpace(space + 7);
+			}
+			else if((card % 5) == 2){
+				if(card == 2)
+					playerObjs[curPlayer].setCurrentSpace(space + 3);
+				else
+					playerObjs[curPlayer].setCurrentSpace(space + 8);	
+			}
+			else if((card % 5) == 3){
+				if(card == 3)
+					playerObjs[curPlayer].setCurrentSpace(space + 4);
+				else
+					playerObjs[curPlayer].setCurrentSpace(space + 9);	
+			}
+			else if((card % 5) == 4){
+				if(card == 4)
+					playerObjs[curPlayer].setCurrentSpace(space + 5);
+				else
+					playerObjs[curPlayer].setCurrentSpace(space + 10);
+			}
+		}
+		
+		addLabels();
+	}
+	
+	private static void addLabels(){
+		if(curPlayer == 0){
+			buttons[playerObjs[0].getCurrentSpace()].add(L1, BorderLayout.NORTH);
+		}
+		else if(curPlayer == 1){
+			buttons[playerObjs[1].getCurrentSpace()].add(L2, BorderLayout.SOUTH);
+		}
+		else if(curPlayer == 2){
+			buttons[playerObjs[2].getCurrentSpace()].add(L3, BorderLayout.EAST);
+		}
+		else{
+			buttons[playerObjs[3].getCurrentSpace()].add(L2, BorderLayout.WEST);
+		}
+		
+		gameArea.repaint();
+	}
+	
+  
+ 
 }
 
 /**
@@ -450,8 +680,8 @@ public class SSQWorldOfSweets extends JPanel{
 class MyFrame extends JFrame {
 	public MyFrame(String n){
 		setTitle(n);
-		setSize(1100,1000);
-		setLocationRelativeTo(null);
+		setSize(900, 900);
+	
 
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
