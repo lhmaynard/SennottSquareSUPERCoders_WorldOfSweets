@@ -197,14 +197,8 @@ public class SSQWorldOfSweets extends JPanel{
 
 		//Setting size of gameArea panel
 		gameArea.setPreferredSize(new Dimension(800,800));
-
 		buttons = new JButton[51];
-		JButton endZone = new JButton("Grandmother's House");
-		endZone.setBackground(Color.magenta);
-		endZone.setMinimumSize(new Dimension(100, 300));
-		endZone.setOpaque(true);
-		endZone.setBorderPainted(false);
-
+		
 		JButton beginZone = new JButton("Start");
 		beginZone.setBackground(Color.white);
 		beginZone.setLayout(new BorderLayout());
@@ -227,16 +221,21 @@ public class SSQWorldOfSweets extends JPanel{
 		}
 
 
-		for(int i = 0; i < 50; i++){
+		for(int i = 0; i < 51; i++){
 			//Array of JButtons that is the game board spaces
 			buttons[i] = new JButton();
 			buttons[i].setLayout(new BorderLayout());
 		}
 		gameArea.setLayout(new GridLayout(13, 7, 10, 10));
-		for(int i = 0; i < 50; i++){
+		for(int i = 0; i < 51; i++){
 			//Hard Coding colors of Spaces
 			if((i % 5) == 0 ){
-				buttons[i].setBackground(Color.red);
+				if(i==50){
+					buttons[i].setBackground(Color.magenta);
+				}
+				else{
+					buttons[i].setBackground(Color.red);
+				}
 			}
 			if((i % 5) == 1){
 				buttons[i].setBackground(Color.yellow);
@@ -297,7 +296,7 @@ public class SSQWorldOfSweets extends JPanel{
 		gameArea.add(buttons[curSpace++]);
 		gameArea.add(buttons[curSpace++]);
 		gameArea.add(buttons[curSpace++]);
-		gameArea.add(endZone);
+		gameArea.add(buttons[curSpace++]);
 	}
 
 	/**
@@ -456,7 +455,11 @@ public class SSQWorldOfSweets extends JPanel{
 	private static void movePlayer(){
 		int space = playerObjs[curPlayer].getCurrentSpace();
 		int card = playerObjs[curPlayer].getLastCard();
-		Color c = buttons[space].getBackground();
+		Color c = new Color(255,255,255);
+		if(space > -1){
+			c = buttons[space].getBackground();
+		}
+		
 		
 		if(space == -1){
 			switch(card){
