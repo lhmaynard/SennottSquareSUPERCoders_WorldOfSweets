@@ -6,12 +6,14 @@ public class Player {
   private int lastCard;
   private int currentSpace;
   private String playerToken;
+  private Boolean grandmasHouse;
 
   public Player(int num, String nam, String tok)
   {
     playerName = nam;
     playerNumber = num;
     playerToken = tok;
+    grandmasHouse=false;
   }
 
   //Getters
@@ -40,6 +42,11 @@ public class Player {
     return playerToken;
   }
 
+  public Boolean getGrandmasHouse()
+  {
+    return grandmasHouse;
+  }
+
   //Setters
   public void setPlayerName(String nam)
   {
@@ -66,10 +73,15 @@ public class Player {
     playerToken = tok;
   }
 
+  public void setGrandmasHouse(Boolean g)
+  {
+    grandmasHouse = g;
+  }
+
   public String toString()
   {
     String str;
-    str = ("Player " + playerNumber + ": " + playerName + ": "+ playerToken);
+    str = ("Player " + playerNumber + ": " + playerName + " "+ playerToken);
     return str;
   }
 }
