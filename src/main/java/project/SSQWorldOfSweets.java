@@ -19,6 +19,7 @@ import java.util.*;
 public class SSQWorldOfSweets extends JPanel{
 
 	//Global variables
+	static final int MAX_SPACES = 50;
 	static int players;
 	static int lastCardDrawn = -1;
 	static Deck gameDeck;
@@ -27,7 +28,7 @@ public class SSQWorldOfSweets extends JPanel{
 	static JPanel gameArea;
 	static JButton[] buttons;
 	static JLabel L1, L2, L3, L4;
-  static Player[] playerObjs;
+	static Player[] playerObjs;
 
 	/**
 	 *
@@ -197,7 +198,7 @@ public class SSQWorldOfSweets extends JPanel{
 		//Setting size of gameArea panel
 		gameArea.setPreferredSize(new Dimension(800,800));
 
-		buttons = new JButton[50];
+		buttons = new JButton[51];
 		JButton endZone = new JButton("Grandmother's House");
 		endZone.setBackground(Color.magenta);
 		endZone.setMinimumSize(new Dimension(100, 300));
@@ -256,7 +257,7 @@ public class SSQWorldOfSweets extends JPanel{
 
 		}
 
-//Snakes the area of buttons accross the board, adding white space to counteract the grid layout dynamics
+		//Snakes the area of buttons accross the board, adding white space to counteract the grid layout dynamics
 		int curSpace = 0;
 		gameArea.add(beginZone);
 		for(int i = 0; i <= 2; i++){
@@ -331,7 +332,7 @@ public class SSQWorldOfSweets extends JPanel{
 		ImageIcon img;
 		if(gameDeck.empty() == false){
 			lastCardDrawn = gameDeck.drawCard();
-      playerObjs[curPlayer].setLastCard(lastCardDrawn);
+			playerObjs[curPlayer].setLastCard(lastCardDrawn);
 			try {
 				switch(lastCardDrawn) {
 					case -1:
@@ -458,195 +459,243 @@ public class SSQWorldOfSweets extends JPanel{
 		Color c = buttons[space].getBackground();
 		
 		if(space == -1){
-			if((card % 5) == 0){
-				if(card == 0)
+			switch(card){
+				case 0:
 					playerObjs[curPlayer].setCurrentSpace(space + 1);
-				else
-					playerObjs[curPlayer].setCurrentSpace(space + 6);
-			}
-			else if((card % 5) == 1){
-				if(card == 1)
+					break;
+				case 1:
 					playerObjs[curPlayer].setCurrentSpace(space + 2);
-				else
-					playerObjs[curPlayer].setCurrentSpace(space + 7);
-			}
-			else if((card % 5) == 2){
-				if(card == 2)
+					break;
+				case 2:
 					playerObjs[curPlayer].setCurrentSpace(space + 3);
-				else
-					playerObjs[curPlayer].setCurrentSpace(space + 8);	
-			}
-			else if((card % 5) == 3){
-				if(card == 3)
+					break;
+				case 3:
 					playerObjs[curPlayer].setCurrentSpace(space + 4);
-				else
-					playerObjs[curPlayer].setCurrentSpace(space + 9);	
-			}
-			else if((card % 5) == 4){
-				if(card == 4)
+					break;
+				case 4:
 					playerObjs[curPlayer].setCurrentSpace(space + 5);
-				else
+					break;
+				case 5:
+					playerObjs[curPlayer].setCurrentSpace(space + 6);
+					break;
+				case 6:
+					playerObjs[curPlayer].setCurrentSpace(space + 7);
+					break;
+				case 7:
+					playerObjs[curPlayer].setCurrentSpace(space + 8);
+					break;
+				case 8:
+					playerObjs[curPlayer].setCurrentSpace(space + 9);
+					break;
+				case 9:
 					playerObjs[curPlayer].setCurrentSpace(space + 10);
+					break;
+				case 10:
+					playerObjs[curPlayer].setCurrentSpace(space);
+					break;
+				case 11:
+					playerObjs[curPlayer].setCurrentSpace(25);
+					break;
 			}
 		}
 		else if(c.equals(Color.RED)){
-			if((card % 5) == 0){
-				if(card == 0)
+			switch(card){
+				case 0:
 					playerObjs[curPlayer].setCurrentSpace(space + 5);
-				else
-					playerObjs[curPlayer].setCurrentSpace(space + 10);
-			}
-			else if((card % 5) == 1){
-				if(card == 1)
+					break;
+				case 1:
 					playerObjs[curPlayer].setCurrentSpace(space + 1);
-				else
-					playerObjs[curPlayer].setCurrentSpace(space + 6);
-			}
-			else if((card % 5) == 2){
-				if(card == 2)
+					break;
+				case 2:
 					playerObjs[curPlayer].setCurrentSpace(space + 2);
-				else
-					playerObjs[curPlayer].setCurrentSpace(space + 7);	
-			}
-			else if((card % 5) == 3){
-				if(card == 3)
+					break;
+				case 3:
 					playerObjs[curPlayer].setCurrentSpace(space + 3);
-				else
-					playerObjs[curPlayer].setCurrentSpace(space + 8);	
-			}
-			else if((card % 5) == 4){
-				if(card == 4)
+					break;
+				case 4:
 					playerObjs[curPlayer].setCurrentSpace(space + 4);
-				else
+					break;
+				case 5:
+					playerObjs[curPlayer].setCurrentSpace(space + 10);
+					break;
+				case 6:
+					playerObjs[curPlayer].setCurrentSpace(space + 6);
+					break;
+				case 7:
+					playerObjs[curPlayer].setCurrentSpace(space + 7);
+					break;
+				case 8:
+					playerObjs[curPlayer].setCurrentSpace(space + 8);
+					break;
+				case 9:
 					playerObjs[curPlayer].setCurrentSpace(space + 9);
+					break;
+				case 10:
+					playerObjs[curPlayer].setCurrentSpace(space);
+					break;
+				case 11:
+					playerObjs[curPlayer].setCurrentSpace(25);
+					break;
 			}
 		}
 		else if(c.equals(Color.YELLOW)){
-			if((card % 5) == 0){
-				if(card == 0)
+			switch(card){
+				case 0:
 					playerObjs[curPlayer].setCurrentSpace(space + 4);
-				else
-					playerObjs[curPlayer].setCurrentSpace(space + 9);
-			}
-			else if((card % 5) == 1){
-				if(card == 1)
+					break;
+				case 1:
 					playerObjs[curPlayer].setCurrentSpace(space + 5);
-				else
-					playerObjs[curPlayer].setCurrentSpace(space + 10);
-			}
-			else if((card % 5) == 2){
-				if(card == 2)
+					break;
+				case 2:
 					playerObjs[curPlayer].setCurrentSpace(space + 1);
-				else
-					playerObjs[curPlayer].setCurrentSpace(space + 6);	
-			}
-			else if((card % 5) == 3){
-				if(card == 3)
+					break;
+				case 3:
 					playerObjs[curPlayer].setCurrentSpace(space + 2);
-				else
-					playerObjs[curPlayer].setCurrentSpace(space + 7);	
-			}
-			else if((card % 5) == 4){
-				if(card == 4)
+					break;
+				case 4:
 					playerObjs[curPlayer].setCurrentSpace(space + 3);
-				else
+					break;
+				case 5:
+					playerObjs[curPlayer].setCurrentSpace(space + 9);
+					break;
+				case 6:
+					playerObjs[curPlayer].setCurrentSpace(space + 10);
+					break;
+				case 7:
+					playerObjs[curPlayer].setCurrentSpace(space + 6);
+					break;
+				case 8:
+					playerObjs[curPlayer].setCurrentSpace(space + 7);
+					break;
+				case 9:
 					playerObjs[curPlayer].setCurrentSpace(space + 8);
+					break;
+				case 10:
+					playerObjs[curPlayer].setCurrentSpace(space);
+					break;
+				case 11:
+					playerObjs[curPlayer].setCurrentSpace(25);
+					break;
 			}
 		}
 		else if(c.equals(Color.BLUE)){
-			if((card % 5) == 0){
-				if(card == 0)
+			switch(card){
+				case 0:
 					playerObjs[curPlayer].setCurrentSpace(space + 3);
-				else
-					playerObjs[curPlayer].setCurrentSpace(space + 8);
-			}
-			else if((card % 5) == 1){
-				if(card == 1)
+					break;
+				case 1:
 					playerObjs[curPlayer].setCurrentSpace(space + 4);
-				else
-					playerObjs[curPlayer].setCurrentSpace(space + 9);
-			}
-			else if((card % 5) == 2){
-				if(card == 2)
+					break;
+				case 2:
 					playerObjs[curPlayer].setCurrentSpace(space + 5);
-				else
-					playerObjs[curPlayer].setCurrentSpace(space + 10);	
-			}
-			else if((card % 5) == 3){
-				if(card == 3)
+					break;
+				case 3:
 					playerObjs[curPlayer].setCurrentSpace(space + 1);
-				else
-					playerObjs[curPlayer].setCurrentSpace(space + 6);	
-			}
-			else if((card % 5) == 4){
-				if(card == 4)
+					break;
+				case 4:
 					playerObjs[curPlayer].setCurrentSpace(space + 2);
-				else
+					break;
+				case 5:
+					playerObjs[curPlayer].setCurrentSpace(space + 8);
+					break;
+				case 6:
+					playerObjs[curPlayer].setCurrentSpace(space + 9);
+					break;
+				case 7:
+					playerObjs[curPlayer].setCurrentSpace(space + 10);
+					break;
+				case 8:
+					playerObjs[curPlayer].setCurrentSpace(space + 6);
+					break;
+				case 9:
 					playerObjs[curPlayer].setCurrentSpace(space + 7);
+					break;
+				case 10:
+					playerObjs[curPlayer].setCurrentSpace(space);
+					break;
+				case 11:
+					playerObjs[curPlayer].setCurrentSpace(25);
+					break;
 			}
 		}
 		else if(c.equals(Color.GREEN)){
-			if((card % 5) == 0){
-				if(card == 0)
+			switch(card){
+				case 0:
 					playerObjs[curPlayer].setCurrentSpace(space + 2);
-				else
-					playerObjs[curPlayer].setCurrentSpace(space + 7);
-			}
-			else if((card % 5) == 1){
-				if(card == 1)
+					break;
+				case 1:
 					playerObjs[curPlayer].setCurrentSpace(space + 3);
-				else
-					playerObjs[curPlayer].setCurrentSpace(space + 8);
-			}
-			else if((card % 5) == 2){
-				if(card == 2)
+					break;
+				case 2:
 					playerObjs[curPlayer].setCurrentSpace(space + 4);
-				else
-					playerObjs[curPlayer].setCurrentSpace(space + 9);	
-			}
-			else if((card % 5) == 3){
-				if(card == 3)
+					break;
+				case 3:
 					playerObjs[curPlayer].setCurrentSpace(space + 5);
-				else
-					playerObjs[curPlayer].setCurrentSpace(space + 10);	
-			}
-			else if((card % 5) == 4){
-				if(card == 4)
+					break;
+				case 4:
 					playerObjs[curPlayer].setCurrentSpace(space + 1);
-				else
+					break;
+				case 5:
+					playerObjs[curPlayer].setCurrentSpace(space + 7);
+					break;
+				case 6:
+					playerObjs[curPlayer].setCurrentSpace(space + 8);
+					break;
+				case 7:
+					playerObjs[curPlayer].setCurrentSpace(space + 9);
+					break;
+				case 8:
+					playerObjs[curPlayer].setCurrentSpace(space + 10);
+					break;
+				case 9:
 					playerObjs[curPlayer].setCurrentSpace(space + 6);
+					break;
+				case 10:
+					playerObjs[curPlayer].setCurrentSpace(space);
+					break;
+				case 11:
+					playerObjs[curPlayer].setCurrentSpace(25);
+					break;
 			}
 		}
 		else{
-			if((card % 5) == 0){
-				if(card == 0)
+			switch(card){
+				case 0:
 					playerObjs[curPlayer].setCurrentSpace(space + 1);
-				else
-					playerObjs[curPlayer].setCurrentSpace(space + 6);
-			}
-			else if((card % 5) == 1){
-				if(card == 1)
+					break;
+				case 1:
 					playerObjs[curPlayer].setCurrentSpace(space + 2);
-				else
-					playerObjs[curPlayer].setCurrentSpace(space + 7);
-			}
-			else if((card % 5) == 2){
-				if(card == 2)
+					break;
+				case 2:
 					playerObjs[curPlayer].setCurrentSpace(space + 3);
-				else
-					playerObjs[curPlayer].setCurrentSpace(space + 8);	
-			}
-			else if((card % 5) == 3){
-				if(card == 3)
+					break;
+				case 3:
 					playerObjs[curPlayer].setCurrentSpace(space + 4);
-				else
-					playerObjs[curPlayer].setCurrentSpace(space + 9);	
-			}
-			else if((card % 5) == 4){
-				if(card == 4)
+					break;
+				case 4:
 					playerObjs[curPlayer].setCurrentSpace(space + 5);
-				else
+					break;
+				case 5:
+					playerObjs[curPlayer].setCurrentSpace(space + 6);
+					break;
+				case 6:
+					playerObjs[curPlayer].setCurrentSpace(space + 7);
+					break;
+				case 7:
+					playerObjs[curPlayer].setCurrentSpace(space + 8);
+					break;
+				case 8:
+					playerObjs[curPlayer].setCurrentSpace(space + 9);
+					break;
+				case 9:
 					playerObjs[curPlayer].setCurrentSpace(space + 10);
+					break;
+				case 10:
+					playerObjs[curPlayer].setCurrentSpace(space);
+					break;
+				case 11:
+					playerObjs[curPlayer].setCurrentSpace(25);
+					break;
 			}
 		}
 		
@@ -655,16 +704,40 @@ public class SSQWorldOfSweets extends JPanel{
 	
 	private static void addLabels(){
 		if(curPlayer == 0){
-			buttons[playerObjs[0].getCurrentSpace()].add(L1, BorderLayout.NORTH);
+			if(playerObjs[0].getCurrentSpace() >= MAX_SPACES){
+				playerObjs[0].setCurrentSpace(MAX_SPACES);
+				buttons[playerObjs[0].getCurrentSpace()].add(L1, BorderLayout.NORTH);
+			}
+			else{
+				buttons[playerObjs[0].getCurrentSpace()].add(L1, BorderLayout.NORTH);
+			}
 		}
 		else if(curPlayer == 1){
-			buttons[playerObjs[1].getCurrentSpace()].add(L2, BorderLayout.SOUTH);
+			if(playerObjs[1].getCurrentSpace() >= MAX_SPACES){
+				playerObjs[1].setCurrentSpace(MAX_SPACES);
+				buttons[playerObjs[1].getCurrentSpace()].add(L2, BorderLayout.SOUTH);
+			}
+			else{
+				buttons[playerObjs[1].getCurrentSpace()].add(L2, BorderLayout.SOUTH);
+			}
 		}
 		else if(curPlayer == 2){
-			buttons[playerObjs[2].getCurrentSpace()].add(L3, BorderLayout.EAST);
+			if(playerObjs[2].getCurrentSpace() >= MAX_SPACES){
+				
+				buttons[playerObjs[2].getCurrentSpace()].add(L3, BorderLayout.EAST);
+			}
+			else{
+				buttons[playerObjs[2].getCurrentSpace()].add(L3, BorderLayout.EAST);
+			}
 		}
 		else{
-			buttons[playerObjs[3].getCurrentSpace()].add(L2, BorderLayout.WEST);
+			if(playerObjs[3].getCurrentSpace() >= MAX_SPACES){
+				playerObjs[3].setCurrentSpace(MAX_SPACES);
+				buttons[playerObjs[3].getCurrentSpace()].add(L2, BorderLayout.WEST);
+			}
+			else{
+				buttons[playerObjs[3].getCurrentSpace()].add(L2, BorderLayout.WEST);
+			}
 		}
 		
 		gameArea.repaint();
