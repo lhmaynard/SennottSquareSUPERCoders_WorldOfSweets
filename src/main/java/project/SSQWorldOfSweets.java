@@ -209,30 +209,32 @@ public class SSQWorldOfSweets extends JPanel{
 
 		JButton beginZone = new JButton("Start");
 		beginZone.setBackground(Color.white);
-		beginZone.setLayout(new BorderLayout());
+		beginZone.setLayout(new GridLayout(2,2));
 		beginZone.setOpaque(true);
 		beginZone.setBorderPainted(false);
 		switch (playerObjs.length){
 			case 4:
 				L4 = new JLabel(playerObjs[3].getToken());
-				beginZone.add(L4, BorderLayout.WEST);
+				L4.setHorizontalAlignment(JLabel.CENTER);
+				beginZone.add(L4);
 			case 3:
 				L3 = new JLabel(playerObjs[2].getToken());
-				beginZone.add(L3, BorderLayout.EAST);
+				L3.setHorizontalAlignment(JLabel.CENTER);
+				beginZone.add(L3);
 			case 2:
 				L1 = new JLabel(playerObjs[0].getToken());
 				L1.setHorizontalAlignment(JLabel.CENTER);
 				L2 = new JLabel(playerObjs[1].getToken());
 				L2.setHorizontalAlignment(JLabel.CENTER);
-				beginZone.add(L1, BorderLayout.NORTH);
-				beginZone.add(L2, BorderLayout.SOUTH);
+				beginZone.add(L1);
+				beginZone.add(L2);
 		}
 
 
 		for(int i = 0; i < 51; i++){
 			//Array of JButtons that is the game board spaces
 			buttons[i] = new JButton();
-			buttons[i].setLayout(new BorderLayout());
+			buttons[i].setLayout(new GridLayout(2,2));
 		}
 		gameArea.setLayout(new GridLayout(13, 7, 0, 0));
 		for(int i = 0; i < 51; i++){
@@ -764,39 +766,37 @@ public class SSQWorldOfSweets extends JPanel{
 		if(curPlayer == 0){
 			if(playerObjs[0].getCurrentSpace() >= MAX_SPACES){
 				playerObjs[0].setCurrentSpace(MAX_SPACES);
-				L1.setFont(new Font("Century", Font.BOLD, 50));
 				buttons[playerObjs[0].getCurrentSpace()].add(L1);
 			}
 			else if(playerObjs[0].getCurrentSpace() != -1){
-				buttons[playerObjs[0].getCurrentSpace()].add(L1, BorderLayout.NORTH);
+				buttons[playerObjs[0].getCurrentSpace()].add(L1);
 			}
 		}
 		else if(curPlayer == 1){
 			if(playerObjs[1].getCurrentSpace() >= MAX_SPACES){
 				playerObjs[1].setCurrentSpace(MAX_SPACES);
-				L2.setFont(new Font("Century", Font.BOLD, 50));
 				buttons[playerObjs[1].getCurrentSpace()].add(L2);
 			}
 			else if(playerObjs[1].getCurrentSpace() != -1){
-				buttons[playerObjs[1].getCurrentSpace()].add(L2, BorderLayout.SOUTH);
+				buttons[playerObjs[1].getCurrentSpace()].add(L2);
 			}
 		}
 		else if(curPlayer == 2){
 			if(playerObjs[2].getCurrentSpace() >= MAX_SPACES){
 				playerObjs[2].setCurrentSpace(MAX_SPACES);
-				buttons[playerObjs[2].getCurrentSpace()].add(L3, BorderLayout.EAST);
+				buttons[playerObjs[2].getCurrentSpace()].add(L3);
 			}
 			else if(playerObjs[2].getCurrentSpace() != -1){
-				buttons[playerObjs[2].getCurrentSpace()].add(L3, BorderLayout.EAST);
+				buttons[playerObjs[2].getCurrentSpace()].add(L3);
 			}
 		}
 		else{
 			if(playerObjs[3].getCurrentSpace() >= MAX_SPACES){
 				playerObjs[3].setCurrentSpace(MAX_SPACES);
-				buttons[playerObjs[3].getCurrentSpace()].add(L4, BorderLayout.WEST);
+				buttons[playerObjs[3].getCurrentSpace()].add(L4);
 			}
 			else if(playerObjs[3].getCurrentSpace() != -1){
-				buttons[playerObjs[3].getCurrentSpace()].add(L4, BorderLayout.WEST);
+				buttons[playerObjs[3].getCurrentSpace()].add(L4);
 			}
 		}
 
