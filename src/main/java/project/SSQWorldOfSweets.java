@@ -54,14 +54,14 @@ public class SSQWorldOfSweets extends JPanel{
 
 		f.pack();
 		f.setVisible(true);
-		
-		f.setSize(1500,1500);
+
 		//Making frame full screen
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		int xSize = (int) tk.getScreenSize().getWidth();
 		int ySize = (int) tk.getScreenSize().getHeight();
-		f.setSize(xSize, ySize);
-
+		f.setSize(xSize - 100, ySize - 100);
+		f.setMinimumSize(new Dimension(xSize - 100, ySize - 100));
+		f.setLocationRelativeTo(null);
 		JOptionPane.showMessageDialog(null, "It is "+playerObjs[curPlayer].getPlayerName()+"'s turn!", "Whose turn is it?", JOptionPane.PLAIN_MESSAGE);
 	}
 
@@ -234,7 +234,7 @@ public class SSQWorldOfSweets extends JPanel{
 			buttons[i] = new JButton();
 			buttons[i].setLayout(new BorderLayout());
 		}
-		gameArea.setLayout(new GridLayout(13, 7, 10, 10));
+		gameArea.setLayout(new GridLayout(13, 7, 0, 0));
 		for(int i = 0; i < 51; i++){
 			//Hard Coding colors of Spaces
 			if((i % 5) == 0 ){
@@ -297,13 +297,31 @@ public class SSQWorldOfSweets extends JPanel{
 				JButton white = new JButton();
 				white.setOpaque(true);
 				white.setBorderPainted(false);
-				white.setBackground(Color.WHITE);
+				if(i == 2 && (j == 2 || j == 3 || j == 4)){
+					white.setBackground(Color.WHITE);
+				}
+				else{
+					white.setBackground(Color.WHITE);
+				}
 				gameArea.add(white);
 			}
 		}
 		gameArea.add(buttons[curSpace++]);
 		gameArea.add(buttons[curSpace++]);
 		gameArea.add(buttons[curSpace++]);
+		
+		JButton endzone1 = new JButton("Grandma's");
+		endzone1.setFont(new Font("Ariel", Font.BOLD, 30));
+		endzone1.setBackground(Color.magenta);
+		endzone1.setBorderPainted(false);
+		JButton endzone2 = new JButton("House!");
+		endzone2.setBackground(Color.magenta);
+		endzone2.setFont(new Font("Ariel", Font.BOLD, 30));
+		endzone2.setBorderPainted(false);
+		
+		gameArea.add(endzone1);
+		gameArea.add(endzone2);
+		
 		gameArea.add(buttons[curSpace++]);
 	}
 
@@ -746,7 +764,8 @@ public class SSQWorldOfSweets extends JPanel{
 		if(curPlayer == 0){
 			if(playerObjs[0].getCurrentSpace() >= MAX_SPACES){
 				playerObjs[0].setCurrentSpace(MAX_SPACES);
-				buttons[playerObjs[0].getCurrentSpace()].add(L1, BorderLayout.NORTH);
+				L1.setFont(new Font("Century", Font.BOLD, 50));
+				buttons[playerObjs[0].getCurrentSpace()].add(L1);
 			}
 			else if(playerObjs[0].getCurrentSpace() != -1){
 				buttons[playerObjs[0].getCurrentSpace()].add(L1, BorderLayout.NORTH);
@@ -755,7 +774,8 @@ public class SSQWorldOfSweets extends JPanel{
 		else if(curPlayer == 1){
 			if(playerObjs[1].getCurrentSpace() >= MAX_SPACES){
 				playerObjs[1].setCurrentSpace(MAX_SPACES);
-				buttons[playerObjs[1].getCurrentSpace()].add(L2, BorderLayout.SOUTH);
+				L2.setFont(new Font("Century", Font.BOLD, 50));
+				buttons[playerObjs[1].getCurrentSpace()].add(L2);
 			}
 			else if(playerObjs[1].getCurrentSpace() != -1){
 				buttons[playerObjs[1].getCurrentSpace()].add(L2, BorderLayout.SOUTH);
