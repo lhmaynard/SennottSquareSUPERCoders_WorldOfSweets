@@ -39,77 +39,6 @@ public class SSQWorldOfSweets extends JPanel{
 				public void run() {
 					gameDeck = new Deck();
 					
-					/**
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					gameDeck.drawCard();
-					*/
-					
-					
 					createAndShowGUI();
 				}
 			});
@@ -410,6 +339,7 @@ public class SSQWorldOfSweets extends JPanel{
 		if(gameDeck.empty() == false){
 			lastCardDrawn = gameDeck.drawCard();
 			playerObjs[curPlayer].setLastCard(lastCardDrawn);
+			
 			try {
 				switch(lastCardDrawn) {
 					case -1:
@@ -472,13 +402,15 @@ public class SSQWorldOfSweets extends JPanel{
 
 		}
 		else{
+			
 			lastCardDrawn = -1;
 			 img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./NoCard.png"));
 			drawDeck2.setIcon(img);
 
-			JOptionPane.showMessageDialog(null, "You ran out of cards in the deck! Click OK to shuffle!");
+			JOptionPane.showMessageDialog(null, "You ran out of cards in the deck! Click OK to shuffle and redraw!");
 			gameDeck.shuffle();
 			drawDeck2.repaint();
+			draw();
 		}
 	}
 
