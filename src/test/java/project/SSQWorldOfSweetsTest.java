@@ -71,5 +71,45 @@ public class SSQWorldOfSweetsTest {
 		assertTrue(singles>doubles);
 	}
 
+	@Test
+	public void testForSkipATurn() {
+		Deck d = new Deck();
+		int s = 0;
+		while(!d.empty()) {
+			int c=d.drawCard();
+			if(c == 10) {
+				s++;
+			}
+		}
+		assertTrue(s==5);
+	}
+
+	@Test
+	public void testDeckSizeWithNewCards() {
+		Deck d = new Deck();
+		int s = 0;
+		int size = d.getSize();
+		while(!d.empty()) {
+			int c = d.drawCard();
+			s++;
+		}
+		assertTrue(s == size);
+	}
+
+
+	@Test
+	public void testForGoToMiddle(){
+		Deck d = new Deck();
+		int m = 0;
+		while(!d.empty()) {
+			int c=d.drawCard();
+			if(c==11) {
+				m++;
+			}
+		}
+		assertTrue(m==3);
+	}
+
+
 
 }
