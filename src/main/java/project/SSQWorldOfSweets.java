@@ -29,7 +29,7 @@ public class SSQWorldOfSweets extends JPanel{
 	static JButton[] buttons;
 	static JLabel L1, L2, L3, L4;
 	static Player[] playerObjs;
-
+	static JFrame f;
 	/**
 	 *
 	 */
@@ -47,19 +47,19 @@ public class SSQWorldOfSweets extends JPanel{
 	 *
 	 */
 	private static void createAndShowGUI(){
-		JFrame f = new MyFrame("World of Sweets!");
+		f = new MyFrame("World of Sweets!");
 		nameEntry();
 		addPanel(f.getContentPane());
 
 		f.pack();
 		f.setVisible(true);
-		
+
 		//Making frame full screen
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		int xSize = (int) tk.getScreenSize().getWidth();
 		int ySize = (int) tk.getScreenSize().getHeight();
 		f.setSize(xSize, ySize);
-		
+
 		JOptionPane.showMessageDialog(null, "It is "+playerObjs[curPlayer].getPlayerName()+"'s turn!", "Whose turn is it?", JOptionPane.PLAIN_MESSAGE);
 	}
 
@@ -173,7 +173,7 @@ public class SSQWorldOfSweets extends JPanel{
 		c.gridx = 1;
 		c.gridy = 2;
 		deckArea.add(drawButton, c);
-		drawButton.addActionListener(new ActionListener()
+		ActionListener action = new ActionListener()
     {
       public void actionPerformed(ActionEvent e)
       {
@@ -181,7 +181,8 @@ public class SSQWorldOfSweets extends JPanel{
 				//move()
 				updateTurn();
       }
-    });
+    };
+		drawButton.addActionListener(action);
 
 		JLabel lastLabel = new JLabel("Last Card Drawn", SwingConstants.CENTER);
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -203,7 +204,7 @@ public class SSQWorldOfSweets extends JPanel{
 		//Setting size of gameArea panel
 		gameArea.setPreferredSize(new Dimension(750,750));
 		buttons = new JButton[51];
-		
+
 		JButton beginZone = new JButton("Start");
 		beginZone.setBackground(Color.white);
 		beginZone.setLayout(new BorderLayout());
@@ -396,7 +397,7 @@ public class SSQWorldOfSweets extends JPanel{
 				System.out.println(e);
 			}
 			drawDeck2.repaint();
-			
+
 		}
 		else{
 			lastCardDrawn = -1;
@@ -413,12 +414,29 @@ public class SSQWorldOfSweets extends JPanel{
   *
   */
   private static void updateTurn()
-  {	
-	movePlayer();
-    curPlayer++;
-    if(curPlayer == playerObjs.length) curPlayer = 0;
+  {
+		movePlayer();
+		if(playerObjs[curPlayer].getGrandmasHouse() || playerObjs[curPlayer].getCurrentSpace()==50){
+			if (JOptionPane.showConfirmDialog(null, playerObjs[curPlayer].getPlayerName()+" won the game! Have fun at Grandma's House!\nPlay again?", "WINNER WINNER WINNER",
+        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+    		// yes option
+				curPlayer=0;
+				f.dispose();
+				createAndShowGUI();
+			}
+			else {
+				// ActionListener listener = drawButton.
+				// drawButton.removeActionListener()
+			}
 
-    JOptionPane.showMessageDialog(null, "It is "+playerObjs[curPlayer].getPlayerName()+"'s turn!", "Whose turn is it?", JOptionPane.PLAIN_MESSAGE);
+
+		}
+		else{
+	    curPlayer++;
+	    if(curPlayer == playerObjs.length) curPlayer = 0;
+
+	    JOptionPane.showMessageDialog(null, "It is "+playerObjs[curPlayer].getPlayerName()+"'s turn!", "Whose turn is it?", JOptionPane.PLAIN_MESSAGE);
+		}
   }
 
 	/**
@@ -461,8 +479,8 @@ public class SSQWorldOfSweets extends JPanel{
 			System.exit(1);
 		}
 	}
-  
-  
+
+
 	private static void movePlayer(){
 		int space = playerObjs[curPlayer].getCurrentSpace();
 		int card = playerObjs[curPlayer].getLastCard();
@@ -470,8 +488,8 @@ public class SSQWorldOfSweets extends JPanel{
 		if(space > -1){
 			c = buttons[space].getBackground();
 		}
-		
-		
+
+
 		if(space == -1){
 			switch(card){
 				case 0:
@@ -712,10 +730,11 @@ public class SSQWorldOfSweets extends JPanel{
 					break;
 			}
 		}
-		
+		if(playerObjs[curPlayer].getCurrentSpace() == 50)
+			playerObjs[curPlayer].setGrandmasHouse(true);
 		addLabels();
 	}
-	
+
 	private static void addLabels(){
 		if(curPlayer == 0){
 			if(playerObjs[0].getCurrentSpace() >= MAX_SPACES){
@@ -737,7 +756,7 @@ public class SSQWorldOfSweets extends JPanel{
 		}
 		else if(curPlayer == 2){
 			if(playerObjs[2].getCurrentSpace() >= MAX_SPACES){
-				
+
 				buttons[playerObjs[2].getCurrentSpace()].add(L3, BorderLayout.EAST);
 			}
 			else{
@@ -753,12 +772,12 @@ public class SSQWorldOfSweets extends JPanel{
 				buttons[playerObjs[3].getCurrentSpace()].add(L2, BorderLayout.WEST);
 			}
 		}
-		
+
 		gameArea.repaint();
 	}
-	
-  
- 
+
+
+
 }
 
 /**
