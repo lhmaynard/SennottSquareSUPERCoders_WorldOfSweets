@@ -38,7 +38,7 @@ public class SSQWorldOfSweets extends JPanel{
 			javax.swing.SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
 					gameDeck = new Deck();
-					
+
 					createAndShowGUI();
 				}
 			});
@@ -339,7 +339,7 @@ public class SSQWorldOfSweets extends JPanel{
 		if(gameDeck.empty() == false){
 			lastCardDrawn = gameDeck.drawCard();
 			playerObjs[curPlayer].setLastCard(lastCardDrawn);
-			
+
 			try {
 				switch(lastCardDrawn) {
 					case -1:
@@ -402,7 +402,7 @@ public class SSQWorldOfSweets extends JPanel{
 
 		}
 		else{
-			
+
 			lastCardDrawn = -1;
 			 img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./NoCard.png"));
 			drawDeck2.setIcon(img);
@@ -430,6 +430,7 @@ public class SSQWorldOfSweets extends JPanel{
 				createAndShowGUI();
 			}
 			else {
+				f.dispose();
 				// ActionListener listener = drawButton.
 				// drawButton.removeActionListener()
 			}
@@ -439,7 +440,7 @@ public class SSQWorldOfSweets extends JPanel{
 		else{
 			curPlayer++;
 			if(curPlayer == playerObjs.length) curPlayer = 0;
-			
+
 			JOptionPane.showMessageDialog(null, "It is "+playerObjs[curPlayer].getPlayerName()+"'s turn!", "Whose turn is it?", JOptionPane.PLAIN_MESSAGE);
 		}
   }
