@@ -31,7 +31,8 @@ public class SSQWorldOfSweetsTest {
 		Deck d = new Deck();
 		int count =0;
 		while(!d.empty()){
-			if(d.drawCard()>4) count++;
+			int temp = d.drawCard();
+			if(temp>4 && temp<10) count++;
 		}
 
 		assertTrue(count==10);
@@ -47,8 +48,8 @@ public class SSQWorldOfSweetsTest {
 		int doubles=0;
 		while(!d.empty()){
 			int c=d.drawCard();
-			if(c>4) doubles++;
-			else singles++;
+			if(c>4 && c<10) doubles++;
+			else if(c<5) singles++;
 		}
 		int ratio = singles/doubles;
 		assertTrue(ratio==5);
