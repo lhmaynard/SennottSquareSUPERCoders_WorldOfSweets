@@ -54,7 +54,8 @@ public class SSQWorldOfSweets extends JPanel{
 
 		f.pack();
 		f.setVisible(true);
-
+		
+		f.setSize(1500,1500);
 		//Making frame full screen
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		int xSize = (int) tk.getScreenSize().getWidth();
@@ -248,7 +249,7 @@ public class SSQWorldOfSweets extends JPanel{
 				buttons[i].setBackground(Color.yellow);
 			}
 			if((i % 5) == 2){
-				buttons[i].setBackground(Color.blue);
+				buttons[i].setBackground(Color.cyan);
 			}
 			if((i % 5) == 3){
 				buttons[i].setBackground(Color.green);
@@ -536,7 +537,7 @@ public class SSQWorldOfSweets extends JPanel{
 					break;
 			}
 		}
-		else if(c.equals(Color.RED)){
+		else if(c.equals(Color.red)){
 			switch(card){
 				case 0:
 					playerObjs[curPlayer].setCurrentSpace(space + 5);
@@ -576,7 +577,7 @@ public class SSQWorldOfSweets extends JPanel{
 					break;
 			}
 		}
-		else if(c.equals(Color.YELLOW)){
+		else if(c.equals(Color.yellow)){
 			switch(card){
 				case 0:
 					playerObjs[curPlayer].setCurrentSpace(space + 4);
@@ -616,7 +617,7 @@ public class SSQWorldOfSweets extends JPanel{
 					break;
 			}
 		}
-		else if(c.equals(Color.BLUE)){
+		else if(c.equals(Color.cyan)){
 			switch(card){
 				case 0:
 					playerObjs[curPlayer].setCurrentSpace(space + 3);
@@ -656,7 +657,7 @@ public class SSQWorldOfSweets extends JPanel{
 					break;
 			}
 		}
-		else if(c.equals(Color.GREEN)){
+		else if(c.equals(Color.green)){
 			switch(card){
 				case 0:
 					playerObjs[curPlayer].setCurrentSpace(space + 2);
