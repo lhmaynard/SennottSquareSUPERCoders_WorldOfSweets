@@ -456,7 +456,7 @@ public class SSQWorldOfSweets extends JPanel{
 			  playerObjs[i] = new Player(i+1, tempName, str);
 			}
 		}
-		//This catches if the user closes or exits from a name or token prompt before the game starts
+		//This catches if the user closes or exits from a name or token prompt before the game loads
 		catch(java.lang.NullPointerException npe){
 			System.exit(1);
 		}
