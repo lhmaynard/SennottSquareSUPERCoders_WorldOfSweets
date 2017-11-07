@@ -313,13 +313,15 @@ public class SSQWorldOfSweets extends JPanel{
 		gameArea.add(buttons[curSpace++]);
 		
 		JButton endzone1 = new JButton("Grandma's");
-		endzone1.setFont(new Font("Ariel", Font.BOLD, 30));
+		endzone1.setFont(new Font("Ariel", Font.BOLD, 15));
 		endzone1.setBackground(Color.magenta);
 		endzone1.setBorderPainted(false);
+		endzone1.setOpaque(true);
 		JButton endzone2 = new JButton("House!");
 		endzone2.setBackground(Color.magenta);
-		endzone2.setFont(new Font("Ariel", Font.BOLD, 30));
+		endzone2.setFont(new Font("Ariel", Font.BOLD, 15));
 		endzone2.setBorderPainted(false);
+		endzone2.setOpaque(true);
 		
 		gameArea.add(endzone1);
 		gameArea.add(endzone2);
