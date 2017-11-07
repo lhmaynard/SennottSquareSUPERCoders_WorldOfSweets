@@ -53,6 +53,13 @@ public class SSQWorldOfSweets extends JPanel{
 
 		f.pack();
 		f.setVisible(true);
+		
+		//Making frame full screen
+		Toolkit tk = Toolkit.getDefaultToolkit();
+		int xSize = (int) tk.getScreenSize().getWidth();
+		int ySize = (int) tk.getScreenSize().getHeight();
+		f.setSize(xSize, ySize);
+		
 		JOptionPane.showMessageDialog(null, "It is "+playerObjs[curPlayer].getPlayerName()+"'s turn!", "Whose turn is it?", JOptionPane.PLAIN_MESSAGE);
 	}
 
@@ -92,7 +99,7 @@ public class SSQWorldOfSweets extends JPanel{
 		deckArea.setBackground(Color.pink);
 
 		//Settinf size of deckArea panel
-		deckArea.setPreferredSize(new Dimension(700, 200));
+		deckArea.setPreferredSize(new Dimension(1000, 200));
 
 		JLabel deckLabel = new JLabel("Deck Information", SwingConstants.CENTER);
 		deckLabel.setFont(new Font("Century", Font.BOLD, 30));
@@ -124,7 +131,6 @@ public class SSQWorldOfSweets extends JPanel{
 
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.weightx = 0.75;
-		//c.ipady = 50;
 		c.gridwidth = 1;
 		c.gridx = 1;
 		c.gridy = 1;
@@ -144,7 +150,6 @@ public class SSQWorldOfSweets extends JPanel{
 
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.weightx = 0.75;
-		//c.ipady = 100;
 		c.gridwidth = 1;
 		c.gridx = 3;
 		c.gridy = 1;
@@ -196,7 +201,7 @@ public class SSQWorldOfSweets extends JPanel{
 		gameArea.setBackground(Color.white);
 
 		//Setting size of gameArea panel
-		gameArea.setPreferredSize(new Dimension(800,800));
+		gameArea.setPreferredSize(new Dimension(750,750));
 		buttons = new JButton[51];
 		
 		JButton beginZone = new JButton("Start");
@@ -314,7 +319,7 @@ public class SSQWorldOfSweets extends JPanel{
 		playerArea.setBackground(Color.pink);
 
 		//Setting size of playerArea panel
-		playerArea.setPreferredSize(new Dimension(300, 800));
+		playerArea.setPreferredSize(new Dimension(250, 750));
 
 		playerArea.setLayout(new GridLayout(8, 1));
 		JLabel[] allLabels;
@@ -435,19 +440,25 @@ public class SSQWorldOfSweets extends JPanel{
 	 */
 	private static void nameEntry()
 	{
-		String[] numOfPlayers = {"2", "3", "4"};
-		String[] symbolsOfPlayers = {"@", "#", "$", "%"};
-		ArrayList<String> al = new ArrayList<String>(Arrays.asList("@", "#", "$", "%"));
-		Object playersO = JOptionPane.showInputDialog(null, "How many players are here?", "Welcome to World Of Sweets!", JOptionPane.DEFAULT_OPTION, null, numOfPlayers, "2");
-		playerObjs = new Player[Integer.parseInt(playersO.toString())];
-		for(int i=0; i < playerObjs.length; i++)
-		{
-		  String tempName = JOptionPane.showInputDialog(null, "What is your name?", "Player " + (i+1), JOptionPane.QUESTION_MESSAGE);
-			playersO = JOptionPane.showInputDialog(null, "What Token would you like?", "Player " + (i+1), JOptionPane.DEFAULT_OPTION, null, symbolsOfPlayers, "@");
-			String str = playersO.toString();
-			al.remove(str);
-			symbolsOfPlayers=al.toArray(new String[al.size()]);
-		  playerObjs[i] = new Player(i+1, tempName, str);
+		try{
+			String[] numOfPlayers = {"2", "3", "4"};
+			String[] symbolsOfPlayers = {"@", "#", "$", "%"};
+			ArrayList<String> al = new ArrayList<String>(Arrays.asList("@", "#", "$", "%"));
+			Object playersO = JOptionPane.showInputDialog(null, "How many players are here?", "Welcome to World Of Sweets!", JOptionPane.DEFAULT_OPTION, null, numOfPlayers, "2");
+			playerObjs = new Player[Integer.parseInt(playersO.toString())];
+			for(int i=0; i < playerObjs.length; i++)
+			{
+			  String tempName = JOptionPane.showInputDialog(null, "What is your name?", "Player " + (i+1), JOptionPane.QUESTION_MESSAGE);
+				playersO = JOptionPane.showInputDialog(null, "What Token would you like?", "Player " + (i+1), JOptionPane.DEFAULT_OPTION, null, symbolsOfPlayers, "@");
+				String str = playersO.toString();
+				al.remove(str);
+				symbolsOfPlayers=al.toArray(new String[al.size()]);
+			  playerObjs[i] = new Player(i+1, tempName, str);
+			}
+		}
+		//This catches if the user closes or exits from a name or token prompt before the game starts
+		catch(java.lang.NullPointerException npe){
+			System.exit(1);
 		}
 	}
   
@@ -756,8 +767,6 @@ public class SSQWorldOfSweets extends JPanel{
 class MyFrame extends JFrame {
 	public MyFrame(String n){
 		setTitle(n);
-		setSize(900, 900);
-	
 
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
