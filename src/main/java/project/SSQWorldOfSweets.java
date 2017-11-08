@@ -16,6 +16,9 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.util.*;
 
+/**
+ * 
+ */
 public class SSQWorldOfSweets extends JPanel{
 
 	//Global variables
@@ -30,8 +33,13 @@ public class SSQWorldOfSweets extends JPanel{
 	static JLabel L1, L2, L3, L4;
 	static Player[] playerObjs;
 	static JFrame f;
+	
 	/**
-	 *
+	 * This is the main method that runs and initializes the game window
+	 * and initializes the game deck.
+	 * 
+	 * @param the arguments passed in on the command line
+	 * @return none
 	 */
 	public static void main(String args[]){
 
@@ -45,7 +53,10 @@ public class SSQWorldOfSweets extends JPanel{
 	}
 
 	/**
-	 *
+	 * This method creates the game GUI window
+	 * 
+	 * @param none
+	 * @return none
 	 */
 	private static void createAndShowGUI(){
 		f = new MyFrame("World of Sweets!");
@@ -55,18 +66,20 @@ public class SSQWorldOfSweets extends JPanel{
 		f.pack();
 		f.setVisible(true);
 
-		//Making frame full screen
+		//Making frame just shy of full screen
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		int xSize = (int) tk.getScreenSize().getWidth();
 		int ySize = (int) tk.getScreenSize().getHeight();
 		f.setSize(xSize - 100, ySize - 100);
-		f.setMinimumSize(new Dimension(xSize - 100, ySize - 100));
 		f.setLocationRelativeTo(null);
 		JOptionPane.showMessageDialog(null, "It is "+playerObjs[curPlayer].getPlayerName()+"'s turn!", "Whose turn is it?", JOptionPane.PLAIN_MESSAGE);
 	}
 
 	/**
-	 *
+	 * This method is called to help draw panels inside the GUI window
+	 * 
+	 * @param	p	The contentpane in the myFrame
+	 * @return none
 	 */
 	private static void addPanel(Container p){
 		p.setLayout(new BorderLayout());
@@ -91,7 +104,10 @@ public class SSQWorldOfSweets extends JPanel{
 	}
 
 	/**
-	 *
+	 * This method draws the deck area panel
+	 * 
+	 * @param deckArea	The JPanel object representing the deck area
+	 * @return none
 	 */
 	private static void drawDeckArea(JPanel deckArea){
 		deckArea.setLayout(new GridBagLayout());
@@ -180,8 +196,7 @@ public class SSQWorldOfSweets extends JPanel{
       public void actionPerformed(ActionEvent e)
       {
         draw();
-				//move()
-				updateTurn();
+		updateTurn();
       }
     };
 		drawButton.addActionListener(action);
@@ -196,8 +211,11 @@ public class SSQWorldOfSweets extends JPanel{
 		deckArea.add(lastLabel, c);
 	}
 
-	/**Add Play spaces to the game area
-	 *
+	/**
+	 * This method draws the game area panel
+	 * 
+	 * @param deckArea	The JPanel object representing the game area
+	 * @return none
 	 */
 	private static void drawGameArea(JPanel gameArea){
 		//Setting background color of gameArea panel
@@ -229,8 +247,7 @@ public class SSQWorldOfSweets extends JPanel{
 				beginZone.add(L1);
 				beginZone.add(L2);
 		}
-
-
+		
 		for(int i = 0; i < 51; i++){
 			//Array of JButtons that is the game board spaces
 			buttons[i] = new JButton();
@@ -262,8 +279,6 @@ public class SSQWorldOfSweets extends JPanel{
 
 			buttons[i].setOpaque(true);
 			buttons[i].setBorderPainted(false);
-
-
 		}
 
 		//Snakes the area of buttons accross the board, adding white space to counteract the grid layout dynamics
@@ -281,7 +296,7 @@ public class SSQWorldOfSweets extends JPanel{
 				}
 			}
 
-			for(int j = 0; j < 6; j++){						//FOR FIRST 2 ROWS
+			for(int j = 0; j < 6; j++){
 				JButton white = new JButton();
 				white.setOpaque(true);
 				white.setBorderPainted(false);
@@ -327,10 +342,25 @@ public class SSQWorldOfSweets extends JPanel{
 		gameArea.add(endzone2);
 		
 		gameArea.add(buttons[curSpace++]);
+		
+		JButton house = new JButton();
+		house.setBackground(Color.white);
+		house.setBorderPainted(false);
+		house.setOpaque(true);
+		try {
+			ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./Grandma.png"));
+			house.setIcon(img);
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		gameArea.add(house);
 	}
 
 	/**
-	 *
+	 * This method draws the player area panel
+	 * 
+	 * @param deckArea	The JPanel object representing the player area
+	 * @return none
 	 */
 	private static void drawPlayerArea(JPanel playerArea)
 	{
@@ -354,8 +384,12 @@ public class SSQWorldOfSweets extends JPanel{
 		}
 	}
 
-	/**draw card and display
-	 *
+	/**
+	 * This method draws a card from the deck and displays the last card 
+	 * drawn, and if necessary, shuffles and redraws from the deck
+	 * 
+	 * @param none
+	 * @return none
 	 */
 	private static void draw(){
 		ImageIcon img;
@@ -438,15 +472,21 @@ public class SSQWorldOfSweets extends JPanel{
 	}
 
   /**
-  *
-  */
+   * This method moves the player and checks to see if they are at grandma's 
+   * house yet. If they are, the players are informed about who won and are 
+   * asked if they want to play again.  If so, the game is reloaded, and if 
+   * not, the game window is closed.
+   * 
+   * @param none
+   * @return none
+   */
   private static void updateTurn()
   {
 		movePlayer();
 		if(playerObjs[curPlayer].getGrandmasHouse() || playerObjs[curPlayer].getCurrentSpace()==50){
 			if (JOptionPane.showConfirmDialog(null, playerObjs[curPlayer].getPlayerName()+" won the game! Have fun at Grandma's House!\nPlay again?", "WINNER WINNER WINNER",
         JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-    		// yes option
+				//yes option
 				curPlayer=0;
 				gameDeck = new Deck();
 				f.dispose();
@@ -454,22 +494,20 @@ public class SSQWorldOfSweets extends JPanel{
 			}
 			else {
 				f.dispose();
-				// ActionListener listener = drawButton.
-				// drawButton.removeActionListener()
 			}
-
-
 		}
 		else{
 			curPlayer++;
 			if(curPlayer == playerObjs.length) curPlayer = 0;
-
 			JOptionPane.showMessageDialog(null, "It is "+playerObjs[curPlayer].getPlayerName()+"'s turn!", "Whose turn is it?", JOptionPane.PLAIN_MESSAGE);
 		}
   }
 
 	/**
-	 *
+	 * This method is a helper method that collects the player information, stores it in an array of JLabels and returns it to the caller
+	 * 
+	 * @param 	num				An integer representing the number of players in the game
+	 * @return	playerLabels	An array of JLabels that are strings of the players information to be displayed in the player info panel
 	 */
 	private static JLabel[] generatePlayers(int num)
 	{
@@ -483,7 +521,11 @@ public class SSQWorldOfSweets extends JPanel{
 	}
 
 	/**
-	 *
+	 * This method is a helper method that collects player information from 
+	 * the users such as number of players, player names, and player tokens
+	 * 
+	 * @param none
+	 * @return none
 	 */
 	private static void nameEntry()
 	{
@@ -509,7 +551,14 @@ public class SSQWorldOfSweets extends JPanel{
 		}
 	}
 
-
+	/**
+	 * This method determines which space the current player is on, 
+	 * determines which space the player will move to based on the card 
+	 * that they drew, and moves that player to the corresponding space
+	 * 
+	 * @param none
+	 * @return none
+	 */
 	private static void movePlayer(){
 		int space = playerObjs[curPlayer].getCurrentSpace();
 		int card = playerObjs[curPlayer].getLastCard();
@@ -517,8 +566,7 @@ public class SSQWorldOfSweets extends JPanel{
 		if(space > -1){
 			c = buttons[space].getBackground();
 		}
-
-
+		
 		if(space == -1){
 			switch(card){
 				case 0:
@@ -763,7 +811,14 @@ public class SSQWorldOfSweets extends JPanel{
 			playerObjs[curPlayer].setGrandmasHouse(true);
 		addLabels();
 	}
-
+	
+	/**
+	 * This method adds the player token label to the button that the 
+	 * player is supposed to move to
+	 * 
+	 * @param none
+	 * @return none
+	 */
 	private static void addLabels(){
 		if(curPlayer == 0){
 			if(playerObjs[0].getCurrentSpace() >= MAX_SPACES){
@@ -801,18 +856,21 @@ public class SSQWorldOfSweets extends JPanel{
 				buttons[playerObjs[3].getCurrentSpace()].add(L4);
 			}
 		}
-
 		gameArea.repaint();
 	}
-
-
-
 }
 
 /**
- *
+ * This is the MyFrame class
  */
 class MyFrame extends JFrame {
+	/**
+	 * This MyFrame initialization sets the title and handles the 
+	 * window being closed
+	 * 
+	 * @param n	The title to be set
+	 * @return none
+	 */
 	public MyFrame(String n){
 		setTitle(n);
 

@@ -16,7 +16,9 @@ import java.util.Random;
 import java.util.ArrayList;
 
 /**
- *
+ * This is the Deck class.  It allows for deck initialization,
+ * drawing cards using an ArrayList implementation, shuffling, 
+ * and other functions.
  */
 public class Deck {
 	//global variable
@@ -137,7 +139,8 @@ public class Deck {
 	}
 
 	/**
-	* This method returns the current size of the deck
+	* This getsize method returns the current size of the deck
+	* 
 	* @param none
 	* @return the current logical size of the deck
 	*/
@@ -148,6 +151,7 @@ public class Deck {
 	/**
 	 * This empty method is used to determine if the "deck" (stack) is empty and
 	 * needs to be reshuffled
+	 * 
 	 * @param none
 	 * @return	true	if there are no more "cards" in the deck
 	 * @return	false	if there are still "cards" in the deck
