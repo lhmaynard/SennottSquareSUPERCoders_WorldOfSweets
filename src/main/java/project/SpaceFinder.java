@@ -1,4 +1,17 @@
+/**
+ * SpaceFinder.java
+ * SennottSquareSUPERCoders
+ *
+ * Leonard Maynard	git- lhmaynard
+ * Zachary Mell		git- zacharymell
+ * Kevin Moore		git- KMoore21
+ * Brandon Palonis	git- brandonp728
+ *
+ * World of Sweets Project
+ */
+package project;
 import java.util.ArrayList;
+
 public class SpaceFinder{
   ArrayList<Integer> redSpaces;
   ArrayList<Integer> yellowSpaces;
