@@ -1,16 +1,30 @@
+/**
+ * SpaceFinder.java
+ * SennottSquareSUPERCoders
+ *
+ * Leonard Maynard	git- lhmaynard
+ * Zachary Mell		git- zacharymell
+ * Kevin Moore		git- KMoore21
+ * Brandon Palonis	git- brandonp728
+ *
+ * World of Sweets Project
+ */
+package project;
+import java.util.ArrayList;
+ 
 public class SpaceFinder{
-  ArrayList<int> redSpaces;
-  ArrayList<int> yellowSpaces;
-  ArrayList<int> blueSpaces;
-  ArrayList<int> greenSpaces;
-  ArrayList<int> orangeSpaces;
+  ArrayList<Integer> redSpaces;
+  ArrayList<Integer> yellowSpaces;
+  ArrayList<Integer> blueSpaces;
+  ArrayList<Integer> greenSpaces;
+  ArrayList<Integer> orangeSpaces;
 
   public SpaceFinder(){
-    redSpaces = new ArrayList<int>();
-    yellowSpaces = new ArrayList<int>();
-    blueSpaces = new ArrayList<int>();
-    greenSpaces = new ArrayList<int>();
-    orangeSpaces = new ArrayList<int>();
+    redSpaces = new ArrayList<Integer>();
+    yellowSpaces = new ArrayList<Integer>();
+    blueSpaces = new ArrayList<Integer>();
+    greenSpaces = new ArrayList<Integer>();
+    orangeSpaces = new ArrayList<Integer>();
   }
 
   public void addRed(int space){
