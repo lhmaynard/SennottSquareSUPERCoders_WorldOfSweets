@@ -31,6 +31,7 @@ public class SpaceFinder{
     blueSpaces = new ArrayList<Integer>();
     greenSpaces = new ArrayList<Integer>();
     orangeSpaces = new ArrayList<Integer>();
+
     cake=-1;
     candyCorn=-1;
     chocolate=-1;
@@ -98,6 +99,7 @@ public class SpaceFinder{
         break;
     }
     return ret;
+
   }
 
   public void addRed(int space){
