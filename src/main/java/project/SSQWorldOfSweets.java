@@ -22,7 +22,7 @@ import java.util.*;
 public class SSQWorldOfSweets extends JPanel{
 
 	//Global variables
-	static final int MAX_SPACES = 50;
+	static final int MAX_SPACES = 60;
 	static int players;
 	static int lastCardDrawn = -1;
 	static Deck gameDeck;
@@ -30,6 +30,7 @@ public class SSQWorldOfSweets extends JPanel{
 	static JButton drawDeck2;
 	static JPanel gameArea;
 	static JButton[] buttons;
+	static JButton[] candyCards;
 	static JLabel L1, L2, L3, L4;
 	static Player[] playerObjs;
 	static JFrame f;
@@ -223,13 +224,16 @@ public class SSQWorldOfSweets extends JPanel{
 
 		//Setting size of gameArea panel
 		gameArea.setPreferredSize(new Dimension(750,750));
-		buttons = new JButton[51];
-
+		buttons = new JButton[55];
+		candyCards = new JButton[5];
+		
 		JButton beginZone = new JButton("Start");
 		beginZone.setBackground(Color.white);
 		beginZone.setLayout(new GridLayout(2,2));
 		beginZone.setOpaque(true);
 		beginZone.setBorderPainted(false);
+		
+		
 		switch (playerObjs.length){
 			case 4:
 				L4 = new JLabel(playerObjs[3].getToken());
@@ -248,21 +252,20 @@ public class SSQWorldOfSweets extends JPanel{
 				beginZone.add(L2);
 		}
 		
-		for(int i = 0; i < 51; i++){
+		for(int i = 0; i < 54; i++){
 			//Array of JButtons that is the game board spaces
 			buttons[i] = new JButton();
 			buttons[i].setLayout(new GridLayout(2,2));
 		}
-		gameArea.setLayout(new GridLayout(13, 7, 0, 0));
-		for(int i = 0; i < 51; i++){
+		for(int i = 0; i < 5; i++){
+			candyCards[i] = new JButton();
+			candyCards[i].setBackground(Color.pink);
+		}
+		gameArea.setLayout(new GridLayout(13, 8, 0, 0));
+		for(int i = 0; i <= 53; i++){
 			//Hard Coding colors of Spaces
 			if((i % 5) == 0 ){
-				if(i==50){
-					buttons[i].setBackground(Color.magenta);
-				}
-				else{
-					buttons[i].setBackground(Color.red);
-				}
+				buttons[i].setBackground(Color.red);
 			}
 			if((i % 5) == 1){
 				buttons[i].setBackground(Color.yellow);
@@ -271,7 +274,10 @@ public class SSQWorldOfSweets extends JPanel{
 				buttons[i].setBackground(Color.cyan);
 			}
 			if((i % 5) == 3){
-				buttons[i].setBackground(Color.green);
+				if(i == 53)
+					buttons[i].setBackground(Color.magenta);
+				else
+					buttons[i].setBackground(Color.green);
 			}
 			if((i % 5) == 4){
 				buttons[i].setBackground(new Color(255, 201, 14));
@@ -286,63 +292,94 @@ public class SSQWorldOfSweets extends JPanel{
 		gameArea.add(beginZone);
 		for(int i = 0; i <= 2; i++){
 			if(i == 0){
-				for(int j = 0; j < 6; j++){
-					gameArea.add(buttons[curSpace++]);
+				
+				for(int j = 0; j < 7; j++){
+					if(j == 2){
+						gameArea.add(candyCards[0]);
+					}
+					else{
+						gameArea.add(buttons[curSpace++]);
+					}
 				}
 			}
 			else{
-				for(int j = 0; j < 7; j++){
-					gameArea.add(buttons[curSpace++]);
+				for(int j = 0; j < 8; j++){
+					if(i == 2 && j == 1){
+						gameArea.add(candyCards[3]);
+					}
+					else{
+						gameArea.add(buttons[curSpace++]);
+					}
 				}
 			}
 
-			for(int j = 0; j < 6; j++){
+			for(int j = 0; j < 7; j++){
 				JButton white = new JButton();
 				white.setOpaque(true);
 				white.setBorderPainted(false);
 				white.setBackground(Color.WHITE);
 				gameArea.add(white);
 			}
+			
+			if(i == 1){
+				gameArea.add(candyCards[2]);
+			}
+			else{
+				gameArea.add(buttons[curSpace++]);
+			}
+			
+			if(i == 1){
+				for(int j = 7; j >= 0; j--){
+					gameArea.add(buttons[curSpace + j]);
+				}
+				curSpace = curSpace + 8;
+			}
+			else{
+				for(int j = 6; j >= 0; j--){
+					if(i == 0 && j == 5){
+						gameArea.add(candyCards[1]);
+					}
+					else if(i == 2 && j == 2){
+						gameArea.add(candyCards[4]);
+					}
+					gameArea.add(buttons[curSpace + j]);
+				}
+				curSpace = curSpace + 7;
+			}
+			
 			gameArea.add(buttons[curSpace++]);
 
-			for(int j = 7; j >= 0; j--){
-				gameArea.add(buttons[curSpace + j]);
-			}
-			curSpace = curSpace + 7;
-			gameArea.add(buttons[curSpace++]);
-			for(int j = 0; j < 6; j++){
+			for(int j = 0; j < 7; j++){
 				JButton white = new JButton();
 				white.setOpaque(true);
 				white.setBorderPainted(false);
-				if(i == 2 && (j == 2 || j == 3 || j == 4)){
-					white.setBackground(Color.WHITE);
-				}
-				else{
-					white.setBackground(Color.WHITE);
-				}
+				white.setBackground(Color.WHITE);
 				gameArea.add(white);
 			}
 		}
 		gameArea.add(buttons[curSpace++]);
 		gameArea.add(buttons[curSpace++]);
 		gameArea.add(buttons[curSpace++]);
+		gameArea.add(buttons[curSpace++]);
+		gameArea.add(buttons[curSpace++]);
+
 		
-		JButton endzone1 = new JButton("Grandma's");
-		endzone1.setFont(new Font("Ariel", Font.BOLD, 15));
+		JButton endzone1 = new JButton();
+		endzone1.setLayout(new GridLayout(2, 1));
+		JLabel ezL1 = new JLabel("Grandma's");
+		JLabel ezL2 = new JLabel("House");
+		ezL1.setFont(new Font("Ariel", Font.BOLD, 15));
+		ezL2.setFont(new Font("Ariel", Font.BOLD, 15));
+		ezL1.setHorizontalAlignment(JLabel.CENTER);
+		ezL2.setHorizontalAlignment(JLabel.CENTER);
 		endzone1.setBackground(Color.magenta);
 		endzone1.setBorderPainted(false);
 		endzone1.setOpaque(true);
-		JButton endzone2 = new JButton("House!");
-		endzone2.setBackground(Color.magenta);
-		endzone2.setFont(new Font("Ariel", Font.BOLD, 15));
-		endzone2.setBorderPainted(false);
-		endzone2.setOpaque(true);
+		endzone1.add(ezL1);
+		endzone1.add(ezL2);
 		
 		gameArea.add(endzone1);
-		gameArea.add(endzone2);
-		
-		gameArea.add(buttons[curSpace++]);
-		
+
 		JButton house = new JButton();
 		house.setBackground(Color.white);
 		house.setBorderPainted(false);
@@ -353,7 +390,8 @@ public class SSQWorldOfSweets extends JPanel{
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-		gameArea.add(house);
+		gameArea.add(buttons[curSpace]);
+		gameArea.add(house);		
 	}
 
 	/**
@@ -451,6 +489,26 @@ public class SSQWorldOfSweets extends JPanel{
 						 img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./MiddleCard.png"));
 						drawDeck2.setIcon(img);
 						break;
+				/*	case 11:
+						 img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./CandyCorn.png"));
+						drawDeck2.setIcon(img);
+						break;
+					case 12:
+						 img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./Lollipop.png"));
+						drawDeck2.setIcon(img);
+						break;
+					case 13:
+						 img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./CandyWrapper.png"));
+						drawDeck2.setIcon(img);
+						break;
+					case 14:
+						 img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./CandyBar.png"));
+						drawDeck2.setIcon(img);
+						break;
+					case 15:
+						 img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./Cake.png"));
+						drawDeck2.setIcon(img);
+						break;  */
 				}
 		} catch (Exception e) {
 				System.out.println(e);
@@ -613,6 +671,7 @@ public class SSQWorldOfSweets extends JPanel{
 					playerObjs[curPlayer].setCurrentSpace(space + 5);
 					break;
 				case 1:
+				
 					playerObjs[curPlayer].setCurrentSpace(space + 1);
 					break;
 				case 2:
@@ -807,7 +866,7 @@ public class SSQWorldOfSweets extends JPanel{
 					break;
 			}
 		}
-		if(playerObjs[curPlayer].getCurrentSpace() == 50)
+		if(playerObjs[curPlayer].getCurrentSpace() == 53)
 			playerObjs[curPlayer].setGrandmasHouse(true);
 		addLabels();
 	}
