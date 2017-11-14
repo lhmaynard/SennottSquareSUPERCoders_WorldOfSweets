@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 /**
  * This is the Deck class.  It allows for deck initialization,
- * drawing cards using an ArrayList implementation, shuffling, 
+ * drawing cards using an ArrayList implementation, shuffling,
  * and other functions.
  */
 public class Deck {
@@ -55,69 +55,54 @@ public class Deck {
 		for(int i = 0; i < 70; i++){
 			if(i < 10){
 				toAdd.add(0);
-				size++;
 			}
 			else if(i > 9 && i < 20){
 				toAdd.add(1);
-				size++;
 			}
 			else if(i > 19 && i < 30){
 				toAdd.add(2);
-				size++;
 			}
 			else if(i > 29 && i < 40){
 				toAdd.add(3);
-				size++;
 			}
 			else if(i > 39 && i < 50){
 				toAdd.add(4);
-				size++;
 			}
 			else if(i == 50 || i == 51){
 				toAdd.add(5);
-				size++;
 			}
 			else if(i == 52 || i == 53){
 				toAdd.add(6);
-				size++;
 			}
 			else if(i == 54 || i == 55){
 				toAdd.add(7);
-				size++;
 			}
 			else if(i == 56 || i == 57){
 				toAdd.add(8);
-				size++;
 			}
 			else if(i == 58 || i == 59){
 				toAdd.add(9);
-				size++;
 			}
 			else if(i > 59 && i < 65){
 				toAdd.add(10);
-				size++;
 			}
 			else if(i == 65){
 				toAdd.add(11);
-				size++;
 			}
 			else if(i == 66){
 				toAdd.add(12);
-				size++;
 			}
 			else if(i == 67){
 				toAdd.add(13);
-				size++;
 			}
 			else if(i == 68){
 				toAdd.add(14);
-				size++;
 			}
 			else if(i == 69){
 				toAdd.add(15);
-				size++;
 			}
-			
+			size++;
+
 		}
 
 		while(toAdd.isEmpty() == false){
@@ -161,7 +146,7 @@ public class Deck {
 
 	/**
 	* This getsize method returns the current size of the deck
-	* 
+	*
 	* @param none
 	* @return the current logical size of the deck
 	*/
@@ -172,7 +157,7 @@ public class Deck {
 	/**
 	 * This empty method is used to determine if the "deck" (stack) is empty and
 	 * needs to be reshuffled
-	 * 
+	 *
 	 * @param none
 	 * @return	true	if there are no more "cards" in the deck
 	 * @return	false	if there are still "cards" in the deck

@@ -497,7 +497,7 @@ public class SSQWorldOfSweets extends JPanel{
 		endzone1.add(ezL1);
 		endzone1.add(ezL2);
 
-		
+
 
 		JButton house = new JButton();
 		house.setBackground(Color.white);
@@ -795,7 +795,7 @@ public class SSQWorldOfSweets extends JPanel{
 			}
 				
 		}
-    
+
 		if(playerObjs[curPlayer].getCurrentSpace() == 53)
 			playerObjs[curPlayer].setGrandmasHouse(true);
 		addLabels(candyCardCheck, candyCardNum);
