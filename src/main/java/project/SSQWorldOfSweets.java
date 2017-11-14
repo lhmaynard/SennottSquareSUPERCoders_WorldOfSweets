@@ -261,6 +261,9 @@ public class SSQWorldOfSweets extends JPanel{
 			candyCards[i] = new JButton();
 			candyCards[i].setBackground(Color.pink);
 		}
+		
+		paintCandyCards();
+		
 		gameArea.setLayout(new GridLayout(13, 8, 0, 0));
 		for(int i = 0; i <= 53; i++){
 			//Hard Coding colors of Spaces
@@ -339,7 +342,7 @@ public class SSQWorldOfSweets extends JPanel{
 					if(i == 0 && j == 5){
 						gameArea.add(candyCards[1]);
 					}
-					else if(i == 2 && j == 2){
+					else if(i == 2 && j == 1){
 						gameArea.add(candyCards[4]);
 					}
 					gameArea.add(buttons[curSpace + j]);
@@ -394,6 +397,25 @@ public class SSQWorldOfSweets extends JPanel{
 		gameArea.add(house);		
 	}
 
+	private static void paintCandyCards(){
+		try {
+			ImageIcon lollipop = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./LollipopCard.png"));
+			ImageIcon candy = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./WrappedCandy.png"));
+			ImageIcon chocolate = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./ChocolateCard.png"));
+			ImageIcon cake = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./CakeCard.png"));
+			ImageIcon corn = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./CandyCornCard.png"));
+			candyCards[0].setIcon(cake);
+			candyCards[1].setIcon(candy);
+			candyCards[2].setIcon(chocolate);
+			candyCards[3].setIcon(lollipop);
+			candyCards[4].setIcon(corn);
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		
+	}
+	
+	
 	/**
 	 * This method draws the player area panel
 	 * 
@@ -484,31 +506,26 @@ public class SSQWorldOfSweets extends JPanel{
 					case 10:
 						 img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./SkipATurn.png"));
 						drawDeck2.setIcon(img);
-						break;
 					case 11:
-						 img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./MiddleCard.png"));
-						drawDeck2.setIcon(img);
-						break;
-				/*	case 11:
-						 img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./CandyCorn.png"));
+						 img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./CandyCornCard.png"));
 						drawDeck2.setIcon(img);
 						break;
 					case 12:
-						 img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./Lollipop.png"));
+						 img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./LollipopCard.png"));
 						drawDeck2.setIcon(img);
 						break;
 					case 13:
-						 img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./CandyWrapper.png"));
+						 img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./WrappedCandy.png"));
 						drawDeck2.setIcon(img);
 						break;
 					case 14:
-						 img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./CandyBar.png"));
+						 img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./ChocolateCard.png"));
 						drawDeck2.setIcon(img);
 						break;
 					case 15:
-						 img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./Cake.png"));
+						 img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./CakeCard.png"));
 						drawDeck2.setIcon(img);
-						break;  */
+						break; 
 				}
 		} catch (Exception e) {
 				System.out.println(e);
@@ -660,9 +677,6 @@ public class SSQWorldOfSweets extends JPanel{
 				case 10:
 					playerObjs[curPlayer].setCurrentSpace(space);
 					break;
-				case 11:
-					playerObjs[curPlayer].setCurrentSpace(25);
-					break;
 			}
 		}
 		else if(c.equals(Color.red)){
@@ -701,9 +715,6 @@ public class SSQWorldOfSweets extends JPanel{
 				case 10:
 					playerObjs[curPlayer].setCurrentSpace(space);
 					break;
-				case 11:
-					playerObjs[curPlayer].setCurrentSpace(25);
-					break;
 			}
 		}
 		else if(c.equals(Color.yellow)){
@@ -740,9 +751,6 @@ public class SSQWorldOfSweets extends JPanel{
 					break;
 				case 10:
 					playerObjs[curPlayer].setCurrentSpace(space);
-					break;
-				case 11:
-					playerObjs[curPlayer].setCurrentSpace(25);
 					break;
 			}
 		}
@@ -781,9 +789,6 @@ public class SSQWorldOfSweets extends JPanel{
 				case 10:
 					playerObjs[curPlayer].setCurrentSpace(space);
 					break;
-				case 11:
-					playerObjs[curPlayer].setCurrentSpace(25);
-					break;
 			}
 		}
 		else if(c.equals(Color.green)){
@@ -821,9 +826,6 @@ public class SSQWorldOfSweets extends JPanel{
 				case 10:
 					playerObjs[curPlayer].setCurrentSpace(space);
 					break;
-				case 11:
-					playerObjs[curPlayer].setCurrentSpace(25);
-					break;
 			}
 		}
 		else{
@@ -860,9 +862,6 @@ public class SSQWorldOfSweets extends JPanel{
 					break;
 				case 10:
 					playerObjs[curPlayer].setCurrentSpace(space);
-					break;
-				case 11:
-					playerObjs[curPlayer].setCurrentSpace(25);
 					break;
 			}
 		}
