@@ -194,7 +194,7 @@ public class SSQWorldOfSweets extends JPanel{
 		//Click to Draw Card Button
 		JButton drawDeck = new JButton();
 		try {
-			ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./CardBack.png"));
+			ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/CardBack.png"));
 			drawDeck.setIcon(img);
 		} catch (Exception e) {
 			System.out.println(e);
@@ -230,7 +230,7 @@ public class SSQWorldOfSweets extends JPanel{
 		//Last Card Drawn Button
 		drawDeck2 = new JButton();
 		try{
-			ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./NoCard.png"));
+			ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/NoCard.png"));
 			drawDeck2.setIcon(img);
 		}catch (Exception e){
 			System.out.println(e);
@@ -503,7 +503,7 @@ public class SSQWorldOfSweets extends JPanel{
 		house.setBorderPainted(false);
 		house.setOpaque(true);
 		try {
-			ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./Grandma.png"));
+			ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./spaces/Grandma.png"));
 			house.setIcon(img);
 		} catch (Exception e) {
 			System.out.println(e);
@@ -515,11 +515,11 @@ public class SSQWorldOfSweets extends JPanel{
 
 	private static void paintCandyCards(){
 		try {
-			ImageIcon lollipop = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./LollipopSpace.png"));
-			ImageIcon candy = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./WrappedCandySpace.png"));
-			ImageIcon chocolate = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./ChocolateSpace.png"));
-			ImageIcon cake = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./CakeSpace.png"));
-			ImageIcon corn = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./CandyCornSpace.png"));
+			ImageIcon lollipop = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./spaces/LollipopSpace.png"));
+			ImageIcon candy = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./spaces/WrappedCandySpace.png"));
+			ImageIcon chocolate = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./spaces/ChocolateSpace.png"));
+			ImageIcon cake = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./spaces/CakeSpace.png"));
+			ImageIcon corn = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./spaces/CandyCornSpace.png"));
 			candyCards[0].setIcon(cake);
 			candyCards[1].setIcon(candy);
 			candyCards[2].setIcon(chocolate);
@@ -576,70 +576,71 @@ public class SSQWorldOfSweets extends JPanel{
 			try {
 				switch(lastCardDrawn) {
 					case -1:
-						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./NoCard.png"));
+						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/NoCard.png"));
 						drawDeck2.setIcon(img);
 						break;
 					case 0:
-						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./RedCard.png"));
+						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/RedCard.png"));
 						drawDeck2.setIcon(img);
 						break;
 					case 1:
-						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./YellowCard.png"));
+						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/YellowCard.png"));
 						drawDeck2.setIcon(img);
 						break;
 					case 2:
-						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./BlueCard.png"));
+						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/BlueCard.png"));
 						drawDeck2.setIcon(img);
 						break;
 					case 3:
-						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./GreenCard.png"));
+						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/GreenCard.png"));
 						drawDeck2.setIcon(img);
 						break;
 					case 4:
-						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./OrangeCard.png"));
+						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/OrangeCard.png"));
 						drawDeck2.setIcon(img);
 						break;
 					case 5:
-						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./DoubleRedCard.png"));
+						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/DoubleRedCard.png"));
 						drawDeck2.setIcon(img);
 						break;
 					case 6:
-						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./DoubleYellowCard.png"));
+						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/DoubleYellowCard.png"));
 						drawDeck2.setIcon(img);
 						break;
 					case 7:
-						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./DoubleBlueCard.png"));
+						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/DoubleBlueCard.png"));
 						drawDeck2.setIcon(img);
 						break;
 					case 8:
-						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./DoubleGreenCard.png"));
+						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/DoubleGreenCard.png"));
 						drawDeck2.setIcon(img);
 						break;
 					case 9:
-						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./DoubleOrangeCard.png"));
+						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/DoubleOrangeCard.png"));
 						drawDeck2.setIcon(img);
 						break;
 					case 10:
-						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./SkipATurn.png"));
+						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/SkipATurn.png"));
 						drawDeck2.setIcon(img);
+						break;
 					case 11:
-						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./CandyCornCard.png"));
+						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/CandyCornCard.png"));
 						drawDeck2.setIcon(img);
 						break;
 					case 12:
-						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./LollipopCard.png"));
+						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/LollipopCard.png"));
 						drawDeck2.setIcon(img);
 						break;
 					case 13:
-						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./WrappedCandy.png"));
+						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/WrappedCandy.png"));
 						drawDeck2.setIcon(img);
 						break;
 					case 14:
-						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./ChocolateCard.png"));
+						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/ChocolateCard.png"));
 						drawDeck2.setIcon(img);
 						break;
 					case 15:
-						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./CakeCard.png"));
+						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/CakeCard.png"));
 						drawDeck2.setIcon(img);
 						break;
 				}
@@ -652,7 +653,7 @@ public class SSQWorldOfSweets extends JPanel{
 		else{
 
 			lastCardDrawn = -1;
-			 img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./NoCard.png"));
+			 img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/NoCard.png"));
 			drawDeck2.setIcon(img);
 
 			JOptionPane.showMessageDialog(null, "You ran out of cards in the deck! Click OK to shuffle and redraw!");
