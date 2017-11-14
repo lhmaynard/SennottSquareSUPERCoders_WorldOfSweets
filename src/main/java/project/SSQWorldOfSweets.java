@@ -18,7 +18,7 @@ import java.util.*;
 import javax.swing.Timer;
 
 /**
- * 
+ *
  */
 public class SSQWorldOfSweets extends JPanel{
 
@@ -41,11 +41,12 @@ public class SSQWorldOfSweets extends JPanel{
 	static int hours = 0;
 	static int minutes = 0;
 	static int seconds = 0;
-	
+	static SpaceFinder sf;
+
 	/**
 	 * This is the main method that runs and initializes the game window
 	 * and initializes the game deck.
-	 * 
+	 *
 	 * @param the arguments passed in on the command line
 	 * @return none
 	 */
@@ -54,7 +55,7 @@ public class SSQWorldOfSweets extends JPanel{
 			javax.swing.SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
 					gameDeck = new Deck();
-
+					sf = new SpaceFinder();
 					createAndShowGUI();
 				}
 			});
@@ -62,7 +63,7 @@ public class SSQWorldOfSweets extends JPanel{
 
 	/**
 	 * This method creates the game GUI window
-	 * 
+	 *
 	 * @param none
 	 * @return none
 	 */
@@ -85,7 +86,7 @@ public class SSQWorldOfSweets extends JPanel{
 
 	/**
 	 * This method is called to help draw panels inside the GUI window
-	 * 
+	 *
 	 * @param	p	The contentpane in the myFrame
 	 * @return none
 	 */
@@ -113,7 +114,7 @@ public class SSQWorldOfSweets extends JPanel{
 
 	/**
 	 * This method draws the deck area panel
-	 * 
+	 *
 	 * @param deckArea	The JPanel object representing the deck area
 	 * @return none
 	 */
@@ -312,7 +313,7 @@ public class SSQWorldOfSweets extends JPanel{
 
 	/**
 	 * This method draws the game area panel
-	 * 
+	 *
 	 * @param deckArea	The JPanel object representing the game area
 	 * @return none
 	 */
@@ -324,14 +325,14 @@ public class SSQWorldOfSweets extends JPanel{
 		gameArea.setPreferredSize(new Dimension(750,750));
 		buttons = new JButton[55];
 		candyCards = new JButton[5];
-		
+
 		JButton beginZone = new JButton("Start");
 		beginZone.setBackground(Color.white);
 		beginZone.setLayout(new GridLayout(2,2));
 		beginZone.setOpaque(true);
 		beginZone.setBorderPainted(false);
-		
-		
+
+
 		switch (playerObjs.length){
 			case 4:
 				L4 = new JLabel(playerObjs[3].getToken());
@@ -349,7 +350,7 @@ public class SSQWorldOfSweets extends JPanel{
 				beginZone.add(L1);
 				beginZone.add(L2);
 		}
-		
+
 		for(int i = 0; i < 54; i++){
 			//Array of JButtons that is the game board spaces
 			buttons[i] = new JButton();
@@ -364,21 +365,29 @@ public class SSQWorldOfSweets extends JPanel{
 			//Hard Coding colors of Spaces
 			if((i % 5) == 0 ){
 				buttons[i].setBackground(Color.red);
+				sf.addRed(i);
 			}
 			if((i % 5) == 1){
 				buttons[i].setBackground(Color.yellow);
+				sf.addYellow(i);
 			}
 			if((i % 5) == 2){
 				buttons[i].setBackground(Color.cyan);
+				sf.addBlue(i);
 			}
 			if((i % 5) == 3){
-				if(i == 53)
+				if(i == 53){
 					buttons[i].setBackground(Color.magenta);
-				else
+					sf.setGrandma(i);
+				}
+				else{
 					buttons[i].setBackground(Color.green);
+					sf.addGreen(i);
+				}
 			}
 			if((i % 5) == 4){
 				buttons[i].setBackground(new Color(255, 201, 14));
+				sf.addOrange(i);
 			}
 
 			buttons[i].setOpaque(true);
@@ -390,7 +399,7 @@ public class SSQWorldOfSweets extends JPanel{
 		gameArea.add(beginZone);
 		for(int i = 0; i <= 2; i++){
 			if(i == 0){
-				
+
 				for(int j = 0; j < 7; j++){
 					if(j == 2){
 						gameArea.add(candyCards[0]);
@@ -418,14 +427,14 @@ public class SSQWorldOfSweets extends JPanel{
 				white.setBackground(Color.WHITE);
 				gameArea.add(white);
 			}
-			
+
 			if(i == 1){
 				gameArea.add(candyCards[2]);
 			}
 			else{
 				gameArea.add(buttons[curSpace++]);
 			}
-			
+
 			if(i == 1){
 				for(int j = 7; j >= 0; j--){
 					gameArea.add(buttons[curSpace + j]);
@@ -444,7 +453,7 @@ public class SSQWorldOfSweets extends JPanel{
 				}
 				curSpace = curSpace + 7;
 			}
-			
+
 			gameArea.add(buttons[curSpace++]);
 
 			for(int j = 0; j < 7; j++){
@@ -461,7 +470,7 @@ public class SSQWorldOfSweets extends JPanel{
 		gameArea.add(buttons[curSpace++]);
 		gameArea.add(buttons[curSpace++]);
 
-		
+
 		JButton endzone1 = new JButton();
 		endzone1.setLayout(new GridLayout(2, 1));
 		JLabel ezL1 = new JLabel("Grandma's");
@@ -475,7 +484,7 @@ public class SSQWorldOfSweets extends JPanel{
 		endzone1.setOpaque(true);
 		endzone1.add(ezL1);
 		endzone1.add(ezL2);
-		
+
 		gameArea.add(endzone1);
 
 		JButton house = new JButton();
@@ -489,12 +498,12 @@ public class SSQWorldOfSweets extends JPanel{
 			System.out.println(e);
 		}
 		gameArea.add(buttons[curSpace]);
-		gameArea.add(house);		
+		gameArea.add(house);
 	}
 
 	/**
 	 * This method draws the player area panel
-	 * 
+	 *
 	 * @param deckArea	The JPanel object representing the player area
 	 * @return none
 	 */
@@ -521,9 +530,9 @@ public class SSQWorldOfSweets extends JPanel{
 	}
 
 	/**
-	 * This method draws a card from the deck and displays the last card 
+	 * This method draws a card from the deck and displays the last card
 	 * drawn, and if necessary, shuffles and redraws from the deck
-	 * 
+	 *
 	 * @param none
 	 * @return none
 	 */
@@ -628,18 +637,18 @@ public class SSQWorldOfSweets extends JPanel{
 	}
 
   /**
-   * This method moves the player and checks to see if they are at grandma's 
-   * house yet. If they are, the players are informed about who won and are 
-   * asked if they want to play again.  If so, the game is reloaded, and if 
+   * This method moves the player and checks to see if they are at grandma's
+   * house yet. If they are, the players are informed about who won and are
+   * asked if they want to play again.  If so, the game is reloaded, and if
    * not, the game window is closed.
-   * 
+   *
    * @param none
    * @return none
    */
   private static void updateTurn()
   {
 		movePlayer();
-		if(playerObjs[curPlayer].getGrandmasHouse() || playerObjs[curPlayer].getCurrentSpace()==50){
+		if(playerObjs[curPlayer].getGrandmasHouse()){
 			if (JOptionPane.showConfirmDialog(null, playerObjs[curPlayer].getPlayerName()+" won the game! Have fun at Grandma's House!\nPlay again?", "WINNER WINNER WINNER",
         JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 				//yes option
@@ -661,7 +670,7 @@ public class SSQWorldOfSweets extends JPanel{
 
 	/**
 	 * This method is a helper method that collects the player information, stores it in an array of JLabels and returns it to the caller
-	 * 
+	 *
 	 * @param 	num				An integer representing the number of players in the game
 	 * @return	playerLabels	An array of JLabels that are strings of the players information to be displayed in the player info panel
 	 */
@@ -677,9 +686,9 @@ public class SSQWorldOfSweets extends JPanel{
 	}
 
 	/**
-	 * This method is a helper method that collects player information from 
+	 * This method is a helper method that collects player information from
 	 * the users such as number of players, player names, and player tokens
-	 * 
+	 *
 	 * @param none
 	 * @return none
 	 */
@@ -708,271 +717,27 @@ public class SSQWorldOfSweets extends JPanel{
 	}
 
 	/**
-	 * This method determines which space the current player is on, 
-	 * determines which space the player will move to based on the card 
+	 * This method determines which space the current player is on,
+	 * determines which space the player will move to based on the card
 	 * that they drew, and moves that player to the corresponding space
-	 * 
+	 *
 	 * @param none
 	 * @return none
 	 */
 	private static void movePlayer(){
 		int space = playerObjs[curPlayer].getCurrentSpace();
 		int card = playerObjs[curPlayer].getLastCard();
-		Color c = new Color(255,255,255);
-		if(space > -1){
-			c = buttons[space].getBackground();
-		}
-		
-		if(space == -1){
-			switch(card){
-				case 0:
-					playerObjs[curPlayer].setCurrentSpace(space + 1);
-					break;
-				case 1:
-					playerObjs[curPlayer].setCurrentSpace(space + 2);
-					break;
-				case 2:
-					playerObjs[curPlayer].setCurrentSpace(space + 3);
-					break;
-				case 3:
-					playerObjs[curPlayer].setCurrentSpace(space + 4);
-					break;
-				case 4:
-					playerObjs[curPlayer].setCurrentSpace(space + 5);
-					break;
-				case 5:
-					playerObjs[curPlayer].setCurrentSpace(space + 6);
-					break;
-				case 6:
-					playerObjs[curPlayer].setCurrentSpace(space + 7);
-					break;
-				case 7:
-					playerObjs[curPlayer].setCurrentSpace(space + 8);
-					break;
-				case 8:
-					playerObjs[curPlayer].setCurrentSpace(space + 9);
-					break;
-				case 9:
-					playerObjs[curPlayer].setCurrentSpace(space + 10);
-					break;
-				case 10:
-					playerObjs[curPlayer].setCurrentSpace(space);
-					break;
-				case 11:
-					playerObjs[curPlayer].setCurrentSpace(25);
-					break;
-			}
-		}
-		else if(c.equals(Color.red)){
-			switch(card){
-				case 0:
-					playerObjs[curPlayer].setCurrentSpace(space + 5);
-					break;
-				case 1:
-				
-					playerObjs[curPlayer].setCurrentSpace(space + 1);
-					break;
-				case 2:
-					playerObjs[curPlayer].setCurrentSpace(space + 2);
-					break;
-				case 3:
-					playerObjs[curPlayer].setCurrentSpace(space + 3);
-					break;
-				case 4:
-					playerObjs[curPlayer].setCurrentSpace(space + 4);
-					break;
-				case 5:
-					playerObjs[curPlayer].setCurrentSpace(space + 10);
-					break;
-				case 6:
-					playerObjs[curPlayer].setCurrentSpace(space + 6);
-					break;
-				case 7:
-					playerObjs[curPlayer].setCurrentSpace(space + 7);
-					break;
-				case 8:
-					playerObjs[curPlayer].setCurrentSpace(space + 8);
-					break;
-				case 9:
-					playerObjs[curPlayer].setCurrentSpace(space + 9);
-					break;
-				case 10:
-					playerObjs[curPlayer].setCurrentSpace(space);
-					break;
-				case 11:
-					playerObjs[curPlayer].setCurrentSpace(25);
-					break;
-			}
-		}
-		else if(c.equals(Color.yellow)){
-			switch(card){
-				case 0:
-					playerObjs[curPlayer].setCurrentSpace(space + 4);
-					break;
-				case 1:
-					playerObjs[curPlayer].setCurrentSpace(space + 5);
-					break;
-				case 2:
-					playerObjs[curPlayer].setCurrentSpace(space + 1);
-					break;
-				case 3:
-					playerObjs[curPlayer].setCurrentSpace(space + 2);
-					break;
-				case 4:
-					playerObjs[curPlayer].setCurrentSpace(space + 3);
-					break;
-				case 5:
-					playerObjs[curPlayer].setCurrentSpace(space + 9);
-					break;
-				case 6:
-					playerObjs[curPlayer].setCurrentSpace(space + 10);
-					break;
-				case 7:
-					playerObjs[curPlayer].setCurrentSpace(space + 6);
-					break;
-				case 8:
-					playerObjs[curPlayer].setCurrentSpace(space + 7);
-					break;
-				case 9:
-					playerObjs[curPlayer].setCurrentSpace(space + 8);
-					break;
-				case 10:
-					playerObjs[curPlayer].setCurrentSpace(space);
-					break;
-				case 11:
-					playerObjs[curPlayer].setCurrentSpace(25);
-					break;
-			}
-		}
-		else if(c.equals(Color.cyan)){
-			switch(card){
-				case 0:
-					playerObjs[curPlayer].setCurrentSpace(space + 3);
-					break;
-				case 1:
-					playerObjs[curPlayer].setCurrentSpace(space + 4);
-					break;
-				case 2:
-					playerObjs[curPlayer].setCurrentSpace(space + 5);
-					break;
-				case 3:
-					playerObjs[curPlayer].setCurrentSpace(space + 1);
-					break;
-				case 4:
-					playerObjs[curPlayer].setCurrentSpace(space + 2);
-					break;
-				case 5:
-					playerObjs[curPlayer].setCurrentSpace(space + 8);
-					break;
-				case 6:
-					playerObjs[curPlayer].setCurrentSpace(space + 9);
-					break;
-				case 7:
-					playerObjs[curPlayer].setCurrentSpace(space + 10);
-					break;
-				case 8:
-					playerObjs[curPlayer].setCurrentSpace(space + 6);
-					break;
-				case 9:
-					playerObjs[curPlayer].setCurrentSpace(space + 7);
-					break;
-				case 10:
-					playerObjs[curPlayer].setCurrentSpace(space);
-					break;
-				case 11:
-					playerObjs[curPlayer].setCurrentSpace(25);
-					break;
-			}
-		}
-		else if(c.equals(Color.green)){
-			switch(card){
-				case 0:
-					playerObjs[curPlayer].setCurrentSpace(space + 2);
-					break;
-				case 1:
-					playerObjs[curPlayer].setCurrentSpace(space + 3);
-					break;
-				case 2:
-					playerObjs[curPlayer].setCurrentSpace(space + 4);
-					break;
-				case 3:
-					playerObjs[curPlayer].setCurrentSpace(space + 5);
-					break;
-				case 4:
-					playerObjs[curPlayer].setCurrentSpace(space + 1);
-					break;
-				case 5:
-					playerObjs[curPlayer].setCurrentSpace(space + 7);
-					break;
-				case 6:
-					playerObjs[curPlayer].setCurrentSpace(space + 8);
-					break;
-				case 7:
-					playerObjs[curPlayer].setCurrentSpace(space + 9);
-					break;
-				case 8:
-					playerObjs[curPlayer].setCurrentSpace(space + 10);
-					break;
-				case 9:
-					playerObjs[curPlayer].setCurrentSpace(space + 6);
-					break;
-				case 10:
-					playerObjs[curPlayer].setCurrentSpace(space);
-					break;
-				case 11:
-					playerObjs[curPlayer].setCurrentSpace(25);
-					break;
-			}
-		}
-		else{
-			switch(card){
-				case 0:
-					playerObjs[curPlayer].setCurrentSpace(space + 1);
-					break;
-				case 1:
-					playerObjs[curPlayer].setCurrentSpace(space + 2);
-					break;
-				case 2:
-					playerObjs[curPlayer].setCurrentSpace(space + 3);
-					break;
-				case 3:
-					playerObjs[curPlayer].setCurrentSpace(space + 4);
-					break;
-				case 4:
-					playerObjs[curPlayer].setCurrentSpace(space + 5);
-					break;
-				case 5:
-					playerObjs[curPlayer].setCurrentSpace(space + 6);
-					break;
-				case 6:
-					playerObjs[curPlayer].setCurrentSpace(space + 7);
-					break;
-				case 7:
-					playerObjs[curPlayer].setCurrentSpace(space + 8);
-					break;
-				case 8:
-					playerObjs[curPlayer].setCurrentSpace(space + 9);
-					break;
-				case 9:
-					playerObjs[curPlayer].setCurrentSpace(space + 10);
-					break;
-				case 10:
-					playerObjs[curPlayer].setCurrentSpace(space);
-					break;
-				case 11:
-					playerObjs[curPlayer].setCurrentSpace(25);
-					break;
-			}
-		}
+		int newSpace = sf.findSpace(space, card);
+		playerObjs[curPlayer].setCurrentSpace(newSpace);
 		if(playerObjs[curPlayer].getCurrentSpace() == 53)
 			playerObjs[curPlayer].setGrandmasHouse(true);
 		addLabels();
 	}
-	
+
 	/**
-	 * This method adds the player token label to the button that the 
+	 * This method adds the player token label to the button that the
 	 * player is supposed to move to
-	 * 
+	 *
 	 * @param none
 	 * @return none
 	 */
@@ -1103,9 +868,9 @@ public class SSQWorldOfSweets extends JPanel{
  */
 class MyFrame extends JFrame {
 	/**
-	 * This MyFrame initialization sets the title and handles the 
+	 * This MyFrame initialization sets the title and handles the
 	 * window being closed
-	 * 
+	 *
 	 * @param n	The title to be set
 	 * @return none
 	 */
