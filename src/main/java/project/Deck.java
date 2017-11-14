@@ -52,7 +52,7 @@ public class Deck {
 		size = 0;
 		//Arraylist to hold all of the cards that still need to be added
 		ArrayList<Integer> toAdd = new ArrayList<Integer>();
-		for(int i = 0; i < 68; i++){
+		for(int i = 0; i < 70; i++){
 			if(i < 10){
 				toAdd.add(0);
 				size++;
@@ -97,10 +97,27 @@ public class Deck {
 				toAdd.add(10);
 				size++;
 			}
-			else if(i > 64 || i < 68){
+			else if(i == 65){
 				toAdd.add(11);
 				size++;
 			}
+			else if(i == 66){
+				toAdd.add(12);
+				size++;
+			}
+			else if(i == 67){
+				toAdd.add(13);
+				size++;
+			}
+			else if(i == 68){
+				toAdd.add(14);
+				size++;
+			}
+			else if(i == 69){
+				toAdd.add(15);
+				size++;
+			}
+			
 		}
 
 		while(toAdd.isEmpty() == false){
@@ -130,7 +147,11 @@ public class Deck {
 	 * @return	8	A double green card
 	 * @return	9	A double orange card
 	 * @return	10	A skip turn card
-	 * @return	11	A go to middle card
+	 * @return	11	A go to candy corn card
+	 * @return  12  A go to lollipop card
+	 * @return	13	A go to wrapped candy card
+	 * @return  14  A go to chocolate bar card
+	 * @return  15  A go to cake card
 	 */
 	public int drawCard(){
 		int card = mydeck.pop();
