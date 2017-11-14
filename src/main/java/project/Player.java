@@ -171,7 +171,7 @@ public class Player {
 	 */
 	public String toString(){
 		String str;
-		str = ("Player " + playerNumber + ": " + playerName + " "+ playerToken);
+		str = ("Player " + playerNumber + ": " + playerToken + " " + playerName);
 		return str;
 	}
 }

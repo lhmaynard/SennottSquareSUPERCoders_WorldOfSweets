@@ -330,7 +330,7 @@ public class SSQWorldOfSweets extends JPanel{
 		gameArea.setBackground(Color.white);
 
 		//Setting size of gameArea panel
-		gameArea.setPreferredSize(new Dimension(750,750));
+		gameArea.setPreferredSize(new Dimension(650,750));
 		buttons = new JButton[55];
 		candyCards = new JButton[5];
 
@@ -550,7 +550,7 @@ public class SSQWorldOfSweets extends JPanel{
 		playerArea.setBackground(Color.pink);
 
 		//Setting size of playerArea panel
-		playerArea.setPreferredSize(new Dimension(250, 750));
+		playerArea.setPreferredSize(new Dimension(350, 750));
 
 		playerArea.setLayout(new GridLayout(8, 1));
 		JLabel[] allLabels;
