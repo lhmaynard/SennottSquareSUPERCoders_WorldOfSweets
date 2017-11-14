@@ -496,7 +496,7 @@ public class SSQWorldOfSweets extends JPanel{
 		endzone1.add(ezL1);
 		endzone1.add(ezL2);
 
-		gameArea.add(endzone1);
+		
 
 		JButton house = new JButton();
 		house.setBackground(Color.white);
@@ -509,6 +509,7 @@ public class SSQWorldOfSweets extends JPanel{
 			System.out.println(e);
 		}
 		gameArea.add(buttons[curSpace]);
+		gameArea.add(endzone1);
 		gameArea.add(house);
 	}
 
@@ -717,7 +718,7 @@ public class SSQWorldOfSweets extends JPanel{
 		JLabel[] playerLabels = new JLabel[num];
 		for(int i = 0; i<num; i++) {
 			playerLabels[i] = new JLabel(playerObjs[i].toString());
-			playerLabels[i].setFont(new Font("Century", Font.BOLD, 15));
+			playerLabels[i].setFont(new Font("Century", Font.BOLD, 25));
 			playerLabels[i].setForeground(new Color(0,0,0));
 		}
 		return playerLabels;
@@ -763,11 +764,16 @@ public class SSQWorldOfSweets extends JPanel{
 	 * @return none
 	 */
 	private static void movePlayer(){
+		boolean candyCardCheck = false;
 		int space = playerObjs[curPlayer].getCurrentSpace();
 		int card = playerObjs[curPlayer].getLastCard();
 		int newSpace = sf.findSpace(space, card);
 		playerObjs[curPlayer].setCurrentSpace(newSpace);
 
+		if (card > 10 && card < 16){
+			candyCardCheck = true;
+		}
+    
 		if(playerObjs[curPlayer].getCurrentSpace() == 53)
 			playerObjs[curPlayer].setGrandmasHouse(true);
 		addLabels();
