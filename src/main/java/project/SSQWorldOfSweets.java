@@ -15,6 +15,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.*;
+import javax.swing.Timer;
 
 /**
  * 
@@ -28,12 +29,18 @@ public class SSQWorldOfSweets extends JPanel{
 	static Deck gameDeck;
 	static int curPlayer=0;
 	static JButton drawDeck2;
+	static JButton panelTimer;
+	static JButton t0, t1, t2, t3;
 	static JPanel gameArea;
 	static JButton[] buttons;
 	static JButton[] candyCards;
 	static JLabel L1, L2, L3, L4;
 	static Player[] playerObjs;
 	static JFrame f;
+	static int days = 0;
+	static int hours = 0;
+	static int minutes = 0;
+	static int seconds = 0;
 	
 	/**
 	 * This is the main method that runs and initializes the game window
@@ -129,8 +136,50 @@ public class SSQWorldOfSweets extends JPanel{
 		c.gridx = 1;
 		c.gridy = 0;
 		deckArea.add(deckLabel, c);
-
+		
+		//Padding
 		JLabel blankLabel = new JLabel("");
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 1.0;
+		c.ipady = 0;
+		c.gridwidth = 1;
+		c.gridx =2;
+		c.gridy = 0;
+		deckArea.add(blankLabel, c);
+		
+		//Padding
+		blankLabel = new JLabel("");
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 1.0;
+		c.ipady = 0;
+		c.gridwidth = 1;
+		c.gridx =3;
+		c.gridy = 0;
+		deckArea.add(blankLabel, c);
+		
+		//Padding
+		blankLabel = new JLabel("");
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 1.0;
+		c.ipady = 0;
+		c.gridwidth = 1;
+		c.gridx =4;
+		c.gridy = 0;
+		deckArea.add(blankLabel, c);
+		
+		//Timer Label
+		JLabel timeLabel = new JLabel("Timer", SwingConstants.CENTER);
+		timeLabel.setFont(new Font("Century", Font.BOLD, 30));
+
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 0.0;
+		c.gridwidth = 3;
+		c.gridx = 5;
+		c.gridy = 0;
+		deckArea.add(timeLabel, c);
+		
+		//Padding
+		blankLabel = new JLabel("");
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.weightx = 1.0;
 		c.ipady = 0;
@@ -138,8 +187,8 @@ public class SSQWorldOfSweets extends JPanel{
 		c.gridx =0;
 		c.gridy = 1;
 		deckArea.add(blankLabel, c);
-
-
+		
+		//Click to Draw Card Button
 		JButton drawDeck = new JButton();
 		try {
 			ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./CardBack.png"));
@@ -154,7 +203,15 @@ public class SSQWorldOfSweets extends JPanel{
 		c.gridx = 1;
 		c.gridy = 1;
 		deckArea.add(drawDeck, c);
-
+		ActionListener actionDraw = new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				draw();
+				updateTurn();
+			}
+		};
+		drawDeck.addActionListener(actionDraw);	
+		
+		//Padding
 		blankLabel = new JLabel("");
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.weightx = 0.25;
@@ -163,17 +220,25 @@ public class SSQWorldOfSweets extends JPanel{
 		c.gridx =2;
 		c.gridy = 1;
 		deckArea.add(blankLabel, c);
+		
+		//Last Card Drawn Button
 		drawDeck2 = new JButton();
-		ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./NoCard.png"));
-		drawDeck2.setIcon(img);
+		try{
+			ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./NoCard.png"));
+			drawDeck2.setIcon(img);
+		}catch (Exception e){
+			System.out.println(e);
+		}
 
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.weightx = 0.75;
+		c.ipady = 0;
 		c.gridwidth = 1;
 		c.gridx = 3;
 		c.gridy = 1;
 		deckArea.add(drawDeck2, c);
-
+		
+		//Padding
 		blankLabel = new JLabel("");
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.weightx = 1.0;
@@ -182,26 +247,59 @@ public class SSQWorldOfSweets extends JPanel{
 		c.gridx =4;
 		c.gridy = 1;
 		deckArea.add(blankLabel, c);
-
-
-		JButton drawButton = new JButton("Click to draw card");
+		
+		//Timer Panel
+		panelTimer = new JButton();
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.weightx = 0.0;
 		c.ipady = 0;
+		c.weightx = 0;
 		c.gridwidth = 1;
-		c.gridx = 1;
-		c.gridy = 2;
-		deckArea.add(drawButton, c);
-		ActionListener action = new ActionListener()
-    {
-      public void actionPerformed(ActionEvent e)
-      {
-        draw();
-		updateTurn();
-      }
-    };
-		drawButton.addActionListener(action);
-
+		c.gridx = 5;
+		c.gridy = 1;
+		panelTimer.setBackground(Color.pink);
+		panelTimer.setOpaque(true);
+		panelTimer.setBorderPainted(false);
+		panelTimer.setLayout(new GridLayout(1,4));
+		deckArea.add(panelTimer, c);
+		
+		t0 = new JButton();
+		t0.setBackground(Color.white);
+		t0.setOpaque(true);
+		t0.setBorderPainted(false);
+		panelTimer.add(t0);
+		
+		t1 = new JButton();
+		t1.setBackground(Color.white);
+		t1.setOpaque(true);
+		t1.setBorderPainted(false);
+		panelTimer.add(t1);
+		
+		t2 = new JButton();
+		t2.setBackground(Color.white);
+		t2.setOpaque(true);
+		t2.setBorderPainted(false);
+		panelTimer.add(t2);
+		
+		t3 = new JButton();
+		t3.setBackground(Color.white);
+		t3.setOpaque(true);
+		t3.setBorderPainted(false);
+		panelTimer.add(t3);
+		
+		
+		Thread t = new Thread(() ->{
+			int millsDelay = 1000;
+			ActionListener actionClock = new ActionListener(){
+				public void actionPerformed(ActionEvent e){
+					updateClock();
+				}
+			};
+			new Timer(millsDelay, actionClock).start();
+		});
+		
+		t.start();
+		
+		//Last Card Drawn Label below the button
 		JLabel lastLabel = new JLabel("Last Card Drawn", SwingConstants.CENTER);
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.weightx = 0.75;
@@ -438,55 +536,55 @@ public class SSQWorldOfSweets extends JPanel{
 			try {
 				switch(lastCardDrawn) {
 					case -1:
-						 img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./NoCard.png"));
+						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./NoCard.png"));
 						drawDeck2.setIcon(img);
 						break;
 					case 0:
-						 img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./RedCard.png"));
+						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./RedCard.png"));
 						drawDeck2.setIcon(img);
 						break;
 					case 1:
-						 img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./YellowCard.png"));
+						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./YellowCard.png"));
 						drawDeck2.setIcon(img);
 						break;
 					case 2:
-						 img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./BlueCard.png"));
+						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./BlueCard.png"));
 						drawDeck2.setIcon(img);
 						break;
 					case 3:
-						 img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./GreenCard.png"));
+						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./GreenCard.png"));
 						drawDeck2.setIcon(img);
 						break;
 					case 4:
-						 img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./OrangeCard.png"));
+						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./OrangeCard.png"));
 						drawDeck2.setIcon(img);
 						break;
 					case 5:
-						 img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./DoubleRedCard.png"));
+						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./DoubleRedCard.png"));
 						drawDeck2.setIcon(img);
 						break;
 					case 6:
-						 img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./DoubleYellowCard.png"));
+						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./DoubleYellowCard.png"));
 						drawDeck2.setIcon(img);
 						break;
 					case 7:
-						 img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./DoubleBlueCard.png"));
+						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./DoubleBlueCard.png"));
 						drawDeck2.setIcon(img);
 						break;
 					case 8:
-						 img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./DoubleGreenCard.png"));
+						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./DoubleGreenCard.png"));
 						drawDeck2.setIcon(img);
 						break;
 					case 9:
-						 img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./DoubleOrangeCard.png"));
+						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./DoubleOrangeCard.png"));
 						drawDeck2.setIcon(img);
 						break;
 					case 10:
-						 img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./SkipATurn.png"));
+						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./SkipATurn.png"));
 						drawDeck2.setIcon(img);
 						break;
 					case 11:
-						 img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./MiddleCard.png"));
+						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./MiddleCard.png"));
 						drawDeck2.setIcon(img);
 						break;
 				/*	case 11:
@@ -916,6 +1014,87 @@ public class SSQWorldOfSweets extends JPanel{
 			}
 		}
 		gameArea.repaint();
+	}
+	
+	private static void updateClock(){
+		seconds++;
+		if(seconds == 60){
+			minutes++;
+			seconds = 0;
+		}
+		if(minutes == 60){
+			hours++;
+			minutes = 0;
+		}
+		if(hours == 24){
+			days++;
+			hours = 0;
+		}
+		
+		try{
+			if(days < 10){
+				String secString = "./seconds/s";
+				if(seconds < 10){
+					secString = secString.concat("0"+seconds+".png");
+				}
+				else{
+					secString = secString.concat(seconds+".png");
+				}
+				
+				ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource(secString));
+				t3.setIcon(img);
+				
+				String minString = "./minutes/m";
+				if(minutes < 10){
+					minString = minString.concat("0"+minutes+".png");
+				}
+				else{
+					minString = minString.concat(minutes+".png");
+				}
+				
+				img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource(minString));
+				t2.setIcon(img);
+				
+				String hourString = "./hours/h";
+				if(hours < 10){
+					hourString = hourString.concat("0"+hours+".png");
+				}
+				else{
+					hourString = hourString.concat(hours+".png");
+				}
+				img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource(hourString));
+				t1.setIcon(img);
+				
+				String dayString = "./days/d";
+				dayString = dayString.concat("0"+days+".png");
+				img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource(dayString));
+				t0.setIcon(img);
+				
+				t0.repaint();
+				t1.repaint();
+				t2.repaint();
+				t3.repaint();
+			}
+			else{
+				ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./seconds/s00.png"));
+				t3.setIcon(img);
+				img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./minutes/m00.png"));
+				t2.setIcon(img);
+				img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./hours/h00.png"));
+				t1.setIcon(img);
+				img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./days/d10.png"));
+				t0.setIcon(img);
+				
+				t0.repaint();
+				t1.repaint();
+				t2.repaint();
+				t3.repaint();
+			}
+		}catch(Exception e) {
+				System.out.println(e);
+		}
+		
+		
 	}
 }
 
