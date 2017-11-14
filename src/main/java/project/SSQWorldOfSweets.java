@@ -42,6 +42,8 @@ public class SSQWorldOfSweets extends JPanel{
 	static int minutes = 0;
 	static int seconds = 0;
 	static SpaceFinder sf;
+	static Thread t;
+	static Timer currTimer;
 
 	/**
 	 * This is the main method that runs and initializes the game window
@@ -203,6 +205,9 @@ public class SSQWorldOfSweets extends JPanel{
 		c.gridwidth = 1;
 		c.gridx = 1;
 		c.gridy = 1;
+		drawDeck.setBackground(Color.pink);
+		drawDeck.setOpaque(true);
+		drawDeck.setBorderPainted(false);
 		deckArea.add(drawDeck, c);
 		ActionListener actionDraw = new ActionListener(){
 			public void actionPerformed(ActionEvent e){
@@ -237,6 +242,9 @@ public class SSQWorldOfSweets extends JPanel{
 		c.gridwidth = 1;
 		c.gridx = 3;
 		c.gridy = 1;
+		drawDeck2.setBackground(Color.pink);
+		drawDeck2.setOpaque(true);
+		drawDeck2.setBorderPainted(false);
 		deckArea.add(drawDeck2, c);
 		
 		//Padding
@@ -288,14 +296,14 @@ public class SSQWorldOfSweets extends JPanel{
 		panelTimer.add(t3);
 		
 		
-		Thread t = new Thread(() ->{
+		t = new Thread(() ->{
 			int millsDelay = 1000;
-			ActionListener actionClock = new ActionListener(){
+			currTimer = new Timer(millsDelay, new ActionListener(){
 				public void actionPerformed(ActionEvent e){
 					updateClock();
 				}
-			};
-			new Timer(millsDelay, actionClock).start();
+			});
+			currTimer.start();
 		});
 		
 		t.start();
@@ -671,6 +679,19 @@ public class SSQWorldOfSweets extends JPanel{
 				//yes option
 				curPlayer=0;
 				gameDeck = new Deck();
+				lastCardDrawn = -1;
+				curPlayer=0;
+				days = 0;
+				hours = 0;
+				minutes = 0;
+				seconds = 0;
+				currTimer.stop();
+				
+				try{
+					t.join();
+				}catch(InterruptedException iex){
+					
+				}
 				f.dispose();
 				createAndShowGUI();
 			}
@@ -853,10 +874,10 @@ public class SSQWorldOfSweets extends JPanel{
 				img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource(dayString));
 				t0.setIcon(img);
 				
-				t0.repaint();
-				t1.repaint();
-				t2.repaint();
 				t3.repaint();
+				t2.repaint();
+				t1.repaint();
+				t0.repaint();
 			}
 			else{
 				ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./seconds/s00.png"));
