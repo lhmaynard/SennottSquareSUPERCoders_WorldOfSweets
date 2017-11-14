@@ -496,7 +496,7 @@ public class SSQWorldOfSweets extends JPanel{
 		endzone1.add(ezL1);
 		endzone1.add(ezL2);
 
-		
+
 
 		JButton house = new JButton();
 		house.setBackground(Color.white);
@@ -622,6 +622,7 @@ public class SSQWorldOfSweets extends JPanel{
 					case 10:
 						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./SkipATurn.png"));
 						drawDeck2.setIcon(img);
+						break;
 					case 11:
 						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./CandyCornCard.png"));
 						drawDeck2.setIcon(img);
@@ -773,7 +774,7 @@ public class SSQWorldOfSweets extends JPanel{
 		if (card > 10 && card < 16){
 			candyCardCheck = true;
 		}
-    
+
 		if(playerObjs[curPlayer].getCurrentSpace() == 53)
 			playerObjs[curPlayer].setGrandmasHouse(true);
 		addLabels();
