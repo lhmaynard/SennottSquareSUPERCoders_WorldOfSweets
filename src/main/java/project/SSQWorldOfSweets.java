@@ -139,7 +139,7 @@ public class SSQWorldOfSweets extends JPanel{
 		c.gridx = 1;
 		c.gridy = 0;
 		deckArea.add(deckLabel, c);
-		
+
 		//Padding
 		JLabel blankLabel = new JLabel("");
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -149,7 +149,7 @@ public class SSQWorldOfSweets extends JPanel{
 		c.gridx =2;
 		c.gridy = 0;
 		deckArea.add(blankLabel, c);
-		
+
 		//Padding
 		blankLabel = new JLabel("");
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -159,7 +159,7 @@ public class SSQWorldOfSweets extends JPanel{
 		c.gridx =3;
 		c.gridy = 0;
 		deckArea.add(blankLabel, c);
-		
+
 		//Padding
 		blankLabel = new JLabel("");
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -169,7 +169,7 @@ public class SSQWorldOfSweets extends JPanel{
 		c.gridx =4;
 		c.gridy = 0;
 		deckArea.add(blankLabel, c);
-		
+
 		//Timer Label
 		JLabel timeLabel = new JLabel("Timer", SwingConstants.CENTER);
 		timeLabel.setFont(new Font("Century", Font.BOLD, 30));
@@ -180,7 +180,7 @@ public class SSQWorldOfSweets extends JPanel{
 		c.gridx = 5;
 		c.gridy = 0;
 		deckArea.add(timeLabel, c);
-		
+
 		//Padding
 		blankLabel = new JLabel("");
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -190,7 +190,7 @@ public class SSQWorldOfSweets extends JPanel{
 		c.gridx =0;
 		c.gridy = 1;
 		deckArea.add(blankLabel, c);
-		
+
 		//Click to Draw Card Button
 		JButton drawDeck = new JButton();
 		try {
@@ -215,8 +215,8 @@ public class SSQWorldOfSweets extends JPanel{
 				updateTurn();
 			}
 		};
-		drawDeck.addActionListener(actionDraw);	
-		
+		drawDeck.addActionListener(actionDraw);
+
 		//Padding
 		blankLabel = new JLabel("");
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -226,7 +226,7 @@ public class SSQWorldOfSweets extends JPanel{
 		c.gridx =2;
 		c.gridy = 1;
 		deckArea.add(blankLabel, c);
-		
+
 		//Last Card Drawn Button
 		drawDeck2 = new JButton();
 		try{
@@ -246,7 +246,7 @@ public class SSQWorldOfSweets extends JPanel{
 		drawDeck2.setOpaque(true);
 		drawDeck2.setBorderPainted(false);
 		deckArea.add(drawDeck2, c);
-		
+
 		//Padding
 		blankLabel = new JLabel("");
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -256,7 +256,7 @@ public class SSQWorldOfSweets extends JPanel{
 		c.gridx =4;
 		c.gridy = 1;
 		deckArea.add(blankLabel, c);
-		
+
 		//Timer Panel
 		panelTimer = new JButton();
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -270,32 +270,32 @@ public class SSQWorldOfSweets extends JPanel{
 		panelTimer.setBorderPainted(false);
 		panelTimer.setLayout(new GridLayout(1,4));
 		deckArea.add(panelTimer, c);
-		
+
 		t0 = new JButton();
 		t0.setBackground(Color.white);
 		t0.setOpaque(true);
 		t0.setBorderPainted(false);
 		panelTimer.add(t0);
-		
+
 		t1 = new JButton();
 		t1.setBackground(Color.white);
 		t1.setOpaque(true);
 		t1.setBorderPainted(false);
 		panelTimer.add(t1);
-		
+
 		t2 = new JButton();
 		t2.setBackground(Color.white);
 		t2.setOpaque(true);
 		t2.setBorderPainted(false);
 		panelTimer.add(t2);
-		
+
 		t3 = new JButton();
 		t3.setBackground(Color.white);
 		t3.setOpaque(true);
 		t3.setBorderPainted(false);
 		panelTimer.add(t3);
-		
-		
+
+
 		t = new Thread(() ->{
 			int millsDelay = 1000;
 			currTimer = new Timer(millsDelay, new ActionListener(){
@@ -305,9 +305,9 @@ public class SSQWorldOfSweets extends JPanel{
 			});
 			currTimer.start();
 		});
-		
+
 		t.start();
-		
+
 		//Last Card Drawn Label below the button
 		JLabel lastLabel = new JLabel("Last Card Drawn", SwingConstants.CENTER);
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -368,9 +368,9 @@ public class SSQWorldOfSweets extends JPanel{
 			candyCards[i] = new JButton();
 			candyCards[i].setBackground(Color.pink);
 		}
-		
+
 		paintCandyCards();
-		
+
 		gameArea.setLayout(new GridLayout(13, 8, 0, 0));
 		for(int i = 0; i <= 53; i++){
 			//Hard Coding colors of Spaces
@@ -515,11 +515,11 @@ public class SSQWorldOfSweets extends JPanel{
 
 	private static void paintCandyCards(){
 		try {
-			ImageIcon lollipop = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./LollipopCard.png"));
-			ImageIcon candy = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./WrappedCandy.png"));
-			ImageIcon chocolate = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./ChocolateCard.png"));
-			ImageIcon cake = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./CakeCard.png"));
-			ImageIcon corn = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./CandyCornCard.png"));
+			ImageIcon lollipop = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./LollipopSpace.png"));
+			ImageIcon candy = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./WrappedCandySpace.png"));
+			ImageIcon chocolate = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./ChocolateSpace.png"));
+			ImageIcon cake = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./CakeSpace.png"));
+			ImageIcon corn = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./CandyCornSpace.png"));
 			candyCards[0].setIcon(cake);
 			candyCards[1].setIcon(candy);
 			candyCards[2].setIcon(chocolate);
@@ -528,10 +528,10 @@ public class SSQWorldOfSweets extends JPanel{
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-		
+
 	}
-	
-	
+
+
 	/**
 	 * This method draws the player area panel
 	 *
@@ -641,7 +641,7 @@ public class SSQWorldOfSweets extends JPanel{
 					case 15:
 						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./CakeCard.png"));
 						drawDeck2.setIcon(img);
-						break; 
+						break;
 				}
 		} catch (Exception e) {
 				System.out.println(e);
@@ -687,11 +687,11 @@ public class SSQWorldOfSweets extends JPanel{
 				minutes = 0;
 				seconds = 0;
 				currTimer.stop();
-				
+
 				try{
 					t.join();
 				}catch(InterruptedException iex){
-					
+
 				}
 				f.dispose();
 				createAndShowGUI();
@@ -769,6 +769,7 @@ public class SSQWorldOfSweets extends JPanel{
 		int card = playerObjs[curPlayer].getLastCard();
 		int newSpace = sf.findSpace(space, card);
 		playerObjs[curPlayer].setCurrentSpace(newSpace);
+
 		if (card > 10 && card < 16){
 			candyCardCheck = true;
 		}
@@ -824,7 +825,7 @@ public class SSQWorldOfSweets extends JPanel{
 		}
 		gameArea.repaint();
 	}
-	
+
 	private static void updateClock(){
 		seconds++;
 		if(seconds == 60){
@@ -839,7 +840,7 @@ public class SSQWorldOfSweets extends JPanel{
 			days++;
 			hours = 0;
 		}
-		
+
 		try{
 			if(days < 10){
 				String secString = "./seconds/s";
@@ -849,10 +850,10 @@ public class SSQWorldOfSweets extends JPanel{
 				else{
 					secString = secString.concat(seconds+".png");
 				}
-				
+
 				ImageIcon img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource(secString));
 				t3.setIcon(img);
-				
+
 				String minString = "./minutes/m";
 				if(minutes < 10){
 					minString = minString.concat("0"+minutes+".png");
@@ -860,10 +861,10 @@ public class SSQWorldOfSweets extends JPanel{
 				else{
 					minString = minString.concat(minutes+".png");
 				}
-				
+
 				img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource(minString));
 				t2.setIcon(img);
-				
+
 				String hourString = "./hours/h";
 				if(hours < 10){
 					hourString = hourString.concat("0"+hours+".png");
@@ -873,12 +874,12 @@ public class SSQWorldOfSweets extends JPanel{
 				}
 				img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource(hourString));
 				t1.setIcon(img);
-				
+
 				String dayString = "./days/d";
 				dayString = dayString.concat("0"+days+".png");
 				img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource(dayString));
 				t0.setIcon(img);
-				
+
 				t3.repaint();
 				t2.repaint();
 				t1.repaint();
@@ -893,7 +894,7 @@ public class SSQWorldOfSweets extends JPanel{
 				t1.setIcon(img);
 				img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./days/d10.png"));
 				t0.setIcon(img);
-				
+
 				t0.repaint();
 				t1.repaint();
 				t2.repaint();
@@ -902,8 +903,8 @@ public class SSQWorldOfSweets extends JPanel{
 		}catch(Exception e) {
 				System.out.println(e);
 		}
-		
-		
+
+
 	}
 }
 
