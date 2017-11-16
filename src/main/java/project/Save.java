@@ -17,11 +17,20 @@ public class Save {
 
 	private void concatData() {
 		checkForFileFolder();
-		PrintWriter pw = new PrintWriter();
-
+		String fName;
+		for(Player p; players)
+		{
+			fName+=p.getName();
+		}
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+		LocalDate localDate = LocalDate.now();
+		fName+= dtf.format(localDate) + ".wos";
+		File f = new File(fName);
+		PrintWriter pw = new PrintWriter(f);
+		pw.println(players.length);
 		for(int i = 0; i<players.length; i++)
 		{
-
+			pw.println(players[i]);
 		}
 	}
 
