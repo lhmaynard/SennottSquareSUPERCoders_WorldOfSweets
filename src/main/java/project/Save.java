@@ -23,7 +23,6 @@ public class Save {
 	}
 
 	private void concatData() throws IOException {
-		System.out.println("In concat data");
 		String fName = new String();
 		for(Player p: players)
 		{
