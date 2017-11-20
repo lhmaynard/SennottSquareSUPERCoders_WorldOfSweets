@@ -1060,6 +1060,7 @@ public class SSQWorldOfSweets extends JPanel{
 				JOptionPane.showMessageDialog(null, "No save files found, starting new game!", "File not found", JOptionPane.PLAIN_MESSAGE);
 				loaded = false;
 				gameDeck = new Deck();
+				return;
 			}
 
 			String[] filenames = new String[files.length];
