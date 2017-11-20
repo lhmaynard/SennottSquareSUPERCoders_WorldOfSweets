@@ -1154,7 +1154,7 @@ public class SSQWorldOfSweets extends JPanel{
 	 private static void moveSwappedPlayer(int cur){
  		boolean candyCardCheck = false;
  		int candyCardNum = 0;
- 		int card = playerObjs[curPlayer].getLastCard();
+ 		int card = playerObjs[cur].getLastCard();
  		if (card > 10 && card < 16){
  			candyCardCheck = true;
  			switch (card){
