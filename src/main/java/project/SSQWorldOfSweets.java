@@ -758,7 +758,6 @@ public class SSQWorldOfSweets extends JPanel{
 				case 16:
 					img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/SwapCard.png"));
 					drawDeck2.setIcon(img);
-					swapPlayers();
 					break;
 			}
 	} catch (Exception e) {
@@ -779,7 +778,8 @@ public class SSQWorldOfSweets extends JPanel{
 	 * @return none
 	 */
 	private static void updateTurn(){
-		movePlayer();
+		if(lastCardDrawn != 16)movePlayer();
+		else swapPlayers();
 		if(playerObjs[curPlayer].getGrandmasHouse()){
 			if (JOptionPane.showConfirmDialog(null, playerObjs[curPlayer].getPlayerName()+" won the game! Have fun at Grandma's House!\nPlay again?", "WINNER WINNER WINNER",
         JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
