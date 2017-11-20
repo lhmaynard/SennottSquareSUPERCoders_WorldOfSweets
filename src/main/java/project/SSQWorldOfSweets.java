@@ -61,6 +61,7 @@ public class SSQWorldOfSweets extends JPanel{
 
 			javax.swing.SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
+
 					try{
 						if (JOptionPane.showConfirmDialog(null, "Do you want to load a previous game?", "Welcome to World of Sweets!",
 					JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
@@ -78,6 +79,7 @@ public class SSQWorldOfSweets extends JPanel{
 					catch(java.lang.NullPointerException npe){
 						System.exit(1);
 					}
+
 				}
 			});
 	}
@@ -1120,7 +1122,6 @@ public class SSQWorldOfSweets extends JPanel{
 			catch(java.lang.NullPointerException npe){
 				System.exit(1);
 			}
-
 		}
 		catch(Exception e){
 			System.out.println(e);
