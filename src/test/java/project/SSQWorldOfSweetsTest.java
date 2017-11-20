@@ -5,8 +5,11 @@ package project;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
-
 import project.SSQWorldOfSweets;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.io.File;
+import java.io.IOException;
 
 public class SSQWorldOfSweetsTest {
 
@@ -108,6 +111,22 @@ public class SSQWorldOfSweetsTest {
 			}
 		}
 		assertTrue(m==3);
+	}
+
+	@Test
+	public void testFileCreation() throws IOException {
+		Player[] p = new Player[4];
+		for(int i = 0; i<4; i++)
+		{
+			p[i] = new Player(i+1, "Player", "_");
+		}
+		Deck d = new Deck();
+		Save sav = new Save(p, d, 0, 0, 0, 0, 0, 0);
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+		LocalDate localDate = LocalDate.now();
+		File f = new File("PlayerPlayerPlayerPlayer" + dtf.format(localDate).replace('/', ';') + ".wos");
+		f.deleteOnExit();
+		assertTrue(f.exists());
 	}
 
 
