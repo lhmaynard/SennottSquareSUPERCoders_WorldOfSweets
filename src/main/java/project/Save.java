@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 public class Save {
+	/**
 	private Player[] players;
 	private Deck deckToBeSaved;
 	private int seconds, minutes, hours, days, currPlayer, lastCard;
@@ -21,6 +22,7 @@ public class Save {
 		lastCard = l;
 		concatData();
 	}
+
 
 	private void concatData() throws IOException {
 		String fName = new String();
@@ -53,4 +55,5 @@ public class Save {
 		pw.println("LastCard::" + lastCard);
 		pw.close();
 	}
+	*/
 }
