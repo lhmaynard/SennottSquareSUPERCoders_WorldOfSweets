@@ -61,18 +61,25 @@ public class SSQWorldOfSweets extends JPanel{
 
 			javax.swing.SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
-					if (JOptionPane.showConfirmDialog(null, "Do you want to load a previous game?", "Welcome to World of Sweets!",
-		        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-							loaded = true;
-							load();
+
+					try{
+						if (JOptionPane.showConfirmDialog(null, "Do you want to load a previous game?", "Welcome to World of Sweets!",
+					JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+								loaded = true;
+								load();
+						}
+						else{
+							gameDeck = new Deck();
+							loaded = false;
+						}
+						sf = new SpaceFinder();
+						playSound();
+						createAndShowGUI();
 					}
-					else{
-						gameDeck = new Deck();
-						loaded = false;
+					catch(java.lang.NullPointerException npe){
+						System.exit(1);
 					}
-					sf = new SpaceFinder();
-					playSound();
-					createAndShowGUI();
+
 				}
 			});
 	}
@@ -1082,36 +1089,39 @@ public class SSQWorldOfSweets extends JPanel{
 				filenames[i] = files[i].getName();
 			}
 
-
-			Object f = JOptionPane.showInputDialog(null, "Which file do you want to load?", "Welcome to World Of Sweets!", JOptionPane.DEFAULT_OPTION, null, filenames, filenames[0]);
-			String selectedFName = f.toString();
-			File selectedFile = new File(selectedFName);
-			Scanner scan = new Scanner(selectedFile);
-			int numPlayers = scan.nextInt();
-			playerObjs = new Player[numPlayers];
-			for(int i = 0; i < numPlayers; i++){
-				String n = scan.next();
-				String t = scan.next();
-				int s = scan.nextInt();
-				int c = scan.nextInt();
-				playerObjs[i] = new Player(i, n, t, s, c);
+			try{
+				Object f = JOptionPane.showInputDialog(null, "Which file do you want to load?", "Welcome to World Of Sweets!", JOptionPane.DEFAULT_OPTION, null, filenames, filenames[0]);
+				String selectedFName = f.toString();
+				File selectedFile = new File(selectedFName);
+				Scanner scan = new Scanner(selectedFile);
+				int numPlayers = scan.nextInt();
+				playerObjs = new Player[numPlayers];
+				for(int i = 0; i < numPlayers; i++){
+					String n = scan.next();
+					String t = scan.next();
+					int s = scan.nextInt();
+					int c = scan.nextInt();
+					playerObjs[i] = new Player(i, n, t, s, c);
+				}
+				int dSize = scan.nextInt();
+				Stack<Integer> tempStack = new Stack<Integer>();
+				for(int i = 0; i < dSize; i++){
+					tempStack.push(scan.nextInt());
+				}
+				gameDeck = new Deck(1);
+				for(int i = 0; i < dSize; i++){
+					gameDeck.push(tempStack.pop());
+				}
+				seconds = scan.nextInt();
+				minutes = scan.nextInt();
+				hours = scan.nextInt();
+				days = scan.nextInt();
+				curPlayer = scan.nextInt();
+				lastCardDrawn = scan.nextInt();
 			}
-			int dSize = scan.nextInt();
-			Stack<Integer> tempStack = new Stack<Integer>();
-			for(int i = 0; i < dSize; i++){
-				tempStack.push(scan.nextInt());
+			catch(java.lang.NullPointerException npe){
+				System.exit(1);
 			}
-			gameDeck = new Deck(1);
-			for(int i = 0; i < dSize; i++){
-				gameDeck.push(tempStack.pop());
-			}
-			seconds = scan.nextInt();
-			minutes = scan.nextInt();
-			hours = scan.nextInt();
-			days = scan.nextInt();
-			curPlayer = scan.nextInt();
-			lastCardDrawn = scan.nextInt();
-
 		}
 		catch(Exception e){
 			System.out.println(e);
