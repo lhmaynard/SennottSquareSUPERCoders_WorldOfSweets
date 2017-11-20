@@ -800,6 +800,7 @@ public class SSQWorldOfSweets extends JPanel{
 
 				}
 				f.dispose();
+				loaded = false;
 				createAndShowGUI();
 			}
 			else {
