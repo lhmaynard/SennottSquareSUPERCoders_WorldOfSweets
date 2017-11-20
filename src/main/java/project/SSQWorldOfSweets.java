@@ -169,9 +169,28 @@ public class SSQWorldOfSweets extends JPanel{
 		//Setting background color of deckArea panel
 		deckArea.setBackground(Color.pink);
 
-		//Settinf size of deckArea panel
+		//Setting size of deckArea panel
 		deckArea.setPreferredSize(new Dimension(1000, 200));
+		
+		//Save Button
+		JButton saveButton = new JButton("Save and Exit");
 
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 0.50;
+		c.gridwidth = 1;
+		c.gridx = 0;
+		c.gridy = 0;
+		saveButton.setOpaque(true);
+		saveButton.setBorderPainted(false);
+		ActionListener saveAction = new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				saveGame();
+			}
+		};
+		saveButton.addActionListener(saveAction);
+		deckArea.add(saveButton, c);
+		
+		
 		JLabel deckLabel = new JLabel("Deck Information", SwingConstants.CENTER);
 		deckLabel.setFont(new Font("Century", Font.BOLD, 30));
 
@@ -555,7 +574,11 @@ public class SSQWorldOfSweets extends JPanel{
 		gameArea.add(endzone1);
 		gameArea.add(house);
 	}
-
+	
+	/**
+	 * 
+	 * 
+	 */
 	private static void paintCandyCards(){
 		try {
 			ImageIcon lollipop = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./spaces/LollipopSpace.png"));
@@ -582,8 +605,7 @@ public class SSQWorldOfSweets extends JPanel{
 	 * @param deckArea	The JPanel object representing the player area
 	 * @return none
 	 */
-	private static void drawPlayerArea(JPanel playerArea)
-	{
+	private static void drawPlayerArea(JPanel playerArea){
 		//Setting main label in playerArea panel
 		JLabel playerLabel = new JLabel("Player Information");
 		playerLabel.setFont(new Font("Century", Font.BOLD, 25));
@@ -707,17 +729,16 @@ public class SSQWorldOfSweets extends JPanel{
 		}
 	}
 
-  /**
-   * This method moves the player and checks to see if they are at grandma's
-   * house yet. If they are, the players are informed about who won and are
-   * asked if they want to play again.  If so, the game is reloaded, and if
-   * not, the game window is closed.
-   *
-   * @param none
-   * @return none
-   */
-  private static void updateTurn()
-  {
+	/**
+	 * This method moves the player and checks to see if they are at grandma's
+	 * house yet. If they are, the players are informed about who won and are
+	 * asked if they want to play again.  If so, the game is reloaded, and if
+	 * not, the game window is closed.
+	 *
+	 * @param none
+	 * @return none
+	 */
+	private static void updateTurn(){
 		movePlayer();
 		if(playerObjs[curPlayer].getGrandmasHouse()){
 			if (JOptionPane.showConfirmDialog(null, playerObjs[curPlayer].getPlayerName()+" won the game! Have fun at Grandma's House!\nPlay again?", "WINNER WINNER WINNER",
@@ -758,8 +779,7 @@ public class SSQWorldOfSweets extends JPanel{
 	 * @param 	num				An integer representing the number of players in the game
 	 * @return	playerLabels	An array of JLabels that are strings of the players information to be displayed in the player info panel
 	 */
-	private static JLabel[] generatePlayers(int num)
-	{
+	private static JLabel[] generatePlayers(int num){
 		JLabel[] playerLabels = new JLabel[num];
 		for(int i = 0; i<num; i++) {
 			playerLabels[i] = new JLabel(playerObjs[i].toString());
@@ -776,8 +796,7 @@ public class SSQWorldOfSweets extends JPanel{
 	 * @param none
 	 * @return none
 	 */
-	private static void nameEntry()
-	{
+	private static void nameEntry(){
 		try{
 			String[] numOfPlayers = {"2", "3", "4"};
 			String[] symbolsOfPlayers = {"@", "#", "$", "%"};
@@ -909,7 +928,11 @@ public class SSQWorldOfSweets extends JPanel{
 		}
 		gameArea.repaint();
 	}
-
+	
+	/**
+	 * 
+	 * 
+	 */
 	private static void updateClock(){
 		seconds++;
 		if(seconds == 60){
@@ -990,6 +1013,7 @@ public class SSQWorldOfSweets extends JPanel{
 
 
 	}
+
 	public static File[] finder(){
         File dir = new File(System.getProperty("user.dir"));
 
@@ -1046,6 +1070,18 @@ public class SSQWorldOfSweets extends JPanel{
 			System.out.println("oops");
 		}
 	}
+
+	
+	/**
+	 * 
+	 * 
+	 */
+	 private static void saveGame(){
+		 
+		 
+		 JOptionPane.showMessageDialog(null, "Now saving game!", "Save Game", JOptionPane.PLAIN_MESSAGE);
+	 }
+
 }
 
 /**
