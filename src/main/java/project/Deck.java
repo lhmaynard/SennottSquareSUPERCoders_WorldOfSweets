@@ -1,4 +1,3 @@
-package project;
 /**
  * Deck.java
  * SennottSquareSUPERCoders
@@ -10,6 +9,8 @@ package project;
  *
  * World of Sweets Project
  */
+
+package project;
 import java.util.Stack;
 import java.util.Random;
 import java.util.ArrayList;
@@ -51,55 +52,57 @@ public class Deck {
 		size = 0;
 		//Arraylist to hold all of the cards that still need to be added
 		ArrayList<Integer> toAdd = new ArrayList<Integer>();
-		for(int i = 0; i < 68; i++){
+		for(int i = 0; i < 70; i++){
 			if(i < 10){
 				toAdd.add(0);
-				size++;
 			}
 			else if(i > 9 && i < 20){
 				toAdd.add(1);
-				size++;
 			}
 			else if(i > 19 && i < 30){
 				toAdd.add(2);
-				size++;
 			}
 			else if(i > 29 && i < 40){
 				toAdd.add(3);
-				size++;
 			}
 			else if(i > 39 && i < 50){
 				toAdd.add(4);
-				size++;
 			}
 			else if(i == 50 || i == 51){
 				toAdd.add(5);
-				size++;
 			}
 			else if(i == 52 || i == 53){
 				toAdd.add(6);
-				size++;
 			}
 			else if(i == 54 || i == 55){
 				toAdd.add(7);
-				size++;
 			}
 			else if(i == 56 || i == 57){
 				toAdd.add(8);
-				size++;
 			}
 			else if(i == 58 || i == 59){
 				toAdd.add(9);
-				size++;
 			}
 			else if(i > 59 && i < 65){
 				toAdd.add(10);
-				size++;
 			}
-			else if(i > 64 || i < 68){
+			else if(i == 65){
 				toAdd.add(11);
-				size++;
 			}
+			else if(i == 66){
+				toAdd.add(12);
+			}
+			else if(i == 67){
+				toAdd.add(13);
+			}
+			else if(i == 68){
+				toAdd.add(14);
+			}
+			else if(i == 69){
+				toAdd.add(15);
+			}
+			size++;
+
 		}
 
 		while(toAdd.isEmpty() == false){
@@ -129,7 +132,11 @@ public class Deck {
 	 * @return	8	A double green card
 	 * @return	9	A double orange card
 	 * @return	10	A skip turn card
-	 * @return	11	A go to middle card
+	 * @return	11	A go to candy corn card
+	 * @return  12  A go to lollipop card
+	 * @return	13	A go to wrapped candy card
+	 * @return  14  A go to chocolate bar card
+	 * @return  15  A go to cake card
 	 */
 	public int drawCard(){
 		int card = mydeck.pop();
@@ -156,6 +163,11 @@ public class Deck {
 	 * @return	false	if there are still "cards" in the deck
 	 */
 	public boolean empty(){
-		return mydeck.empty();
+		if(mydeck.empty() == true){
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
 }
