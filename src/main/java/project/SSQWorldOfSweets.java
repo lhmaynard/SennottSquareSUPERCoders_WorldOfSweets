@@ -84,7 +84,7 @@ public class SSQWorldOfSweets extends JPanel{
 			});
 	}
 
-	
+
 	private static void playSound(){
 		try{
 			InputStream stream = (ClassLoader.getSystemClassLoader().getResourceAsStream("./music/Sample.wav"));
@@ -93,7 +93,7 @@ public class SSQWorldOfSweets extends JPanel{
 		}catch (Exception e){
 			System.out.println(e);
 		}
-		
+
 	}
 	/**
 	 * This method creates the game GUI window
@@ -767,6 +767,11 @@ public class SSQWorldOfSweets extends JPanel{
 					img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/CakeCard.png"));
 					drawDeck2.setIcon(img);
 					break;
+				case 16:
+					img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/SwapCard.png"));
+					drawDeck2.setIcon(img);
+					swapPlayers();
+					break;
 			}
 	} catch (Exception e) {
 			System.out.println(e);
@@ -1139,6 +1144,89 @@ public class SSQWorldOfSweets extends JPanel{
 		 JOptionPane.showMessageDialog(null, "Done, goodbye!", " ", JOptionPane.PLAIN_MESSAGE);
 		 System.exit(0);
 	 }
+
+	 private static void swapPlayers() {
+		 Random rand = new Random();
+		 rand.setSeed(System.currentTimeMillis());
+		 ArrayList<Integer> usedNums = new ArrayList<Integer>(playerObjs.length);
+		 int i = 0;
+		 for(Player p: playerObjs)
+		 {
+			int playerToChangeWith = rand.nextInt(playerObjs.length);
+			while(usedNums.contains(playerToChangeWith) || playerToChangeWith == i)
+			{
+				playerToChangeWith = rand.nextInt(playerObjs.length);
+			}
+			usedNums.add(playerToChangeWith);
+			JOptionPane.showMessageDialog(null, "Swapping " + p.getPlayerName() + " with " + playerObjs[playerToChangeWith].getPlayerName(), " ", JOptionPane.PLAIN_MESSAGE);
+			p.setCurrentSpace(playerObjs[playerToChangeWith].getCurrentSpace());
+			moveSwappedPlayer(i);
+			i++;
+		 }
+	 }
+
+	 private static void moveSwappedPlayer(int cur){
+ 		boolean candyCardCheck = false;
+ 		int candyCardNum = 0;
+ 		int card = playerObjs[curPlayer].getLastCard();
+ 		if (card > 10 && card < 16){
+ 			candyCardCheck = true;
+ 			switch (card){
+ 				case 11:
+ 					candyCardNum = 0;
+ 					break;
+ 				case 12:
+ 					candyCardNum = 1;
+ 					break;
+ 				case 13:
+ 					candyCardNum = 2;
+ 					break;
+ 				case 14:
+ 					candyCardNum = 3;
+ 					break;
+ 				case 15:
+ 					candyCardNum = 4;
+ 					break;
+ 			}
+ 		}
+ 		swapLabels(candyCardCheck, candyCardNum, cur);
+ 	}
+
+	private static void swapLabels(boolean cardCheck, int cardNum, int cur){
+		if(cur == 0) {
+				if(cardCheck == true){
+					candyCards[cardNum].add(L1, BorderLayout.SOUTH);
+				}
+				else{
+					buttons[playerObjs[0].getCurrentSpace()].add(L1);
+				}
+		}
+		else if(cur == 1){
+				if(cardCheck == true){
+					candyCards[cardNum].add(L2, BorderLayout.SOUTH);
+				}
+				else{
+					buttons[playerObjs[1].getCurrentSpace()].add(L2);
+				}
+		}
+		else if(cur == 2){
+				if(cardCheck == true){
+					candyCards[cardNum].add(L3, BorderLayout.SOUTH);
+				}
+				else{
+					buttons[playerObjs[2].getCurrentSpace()].add(L3);
+				}
+		}
+		else{
+				if(cardCheck == true){
+					candyCards[cardNum].add(L4, BorderLayout.SOUTH);
+				}
+				else{
+					buttons[playerObjs[3].getCurrentSpace()].add(L4);
+				}
+		}
+		gameArea.repaint();
+	}
 
 }
 
