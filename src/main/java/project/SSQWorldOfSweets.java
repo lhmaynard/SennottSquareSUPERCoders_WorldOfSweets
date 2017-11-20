@@ -669,7 +669,7 @@ public class SSQWorldOfSweets extends JPanel{
 	private static void draw(){
 		if(gameDeck.empty() == false){
 			lastCardDrawn = gameDeck.drawCard();
-			playerObjs[curPlayer].setLastCard(lastCardDrawn);
+			if(lastCardDrawn != 16) playerObjs[curPlayer].setLastCard(lastCardDrawn);
 			displayDrawnCard(lastCardDrawn);
 		}
 		else{
@@ -1147,72 +1147,129 @@ public class SSQWorldOfSweets extends JPanel{
 		JOptionPane.showMessageDialog(null, "Swapping " + playerObjs[curPlayer].getPlayerName() + " with " + playerObjs[playerToChangeWith].getPlayerName(), " ", JOptionPane.PLAIN_MESSAGE);
 		playerObjs[curPlayer].setCurrentSpace(playerObjs[playerToChangeWith].getCurrentSpace());
 		playerObjs[playerToChangeWith].setCurrentSpace(oldSpace);
-		moveSwappedPlayer(curPlayer);
-		moveSwappedPlayer(playerToChangeWith);
+		// moveSwappedPlayer(curPlayer);
+		// moveSwappedPlayer(playerToChangeWith);
+		int saveCurPlayer = curPlayer;
+		for(int i = 0; i < 2; i++){
+			boolean candyCardCheck=false;
+			int candyCardNum=0;
+			int card;
+			if(i == 1){
+				card = playerObjs[curPlayer].getLastCard();
+				curPlayer = playerToChangeWith;
+			}
+			else{
+				card = playerObjs[playerToChangeWith].getLastCard();
+			}
+
+			if(card != -1){
+				if (card > 10 && card < 16){
+					candyCardCheck = true;
+					switch (card){
+						case 11:
+							candyCardNum = 0;
+							break;
+						case 12:
+							candyCardNum = 1;
+							break;
+						case 13:
+							candyCardNum = 2;
+							break;
+						case 14:
+							candyCardNum = 3;
+							break;
+						case 15:
+							candyCardNum = 4;
+							break;
+					}
+				}
+
+				addLabels(candyCardCheck, candyCardNum);
+			}
+			else{
+				switch(curPlayer){
+					case 0:
+						beginZone.add(L1);
+						break;
+					case 1:
+						beginZone.add(L2);
+						break;
+					case 2:
+						beginZone.add(L3);
+						break;
+					case 3:
+						beginZone.add(L4);
+						break;
+				}
+
+			}
+		}
+		curPlayer = saveCurPlayer;
+		playerObjs[curPlayer].setLastCard(16);
 	}
 
-	 private static void moveSwappedPlayer(int cur){
- 		boolean candyCardCheck = false;
- 		int candyCardNum = 0;
- 		int card = playerObjs[cur].getLastCard();
- 		if (card > 10 && card < 16){
- 			candyCardCheck = true;
- 			switch (card){
- 				case 11:
- 					candyCardNum = 0;
- 					break;
- 				case 12:
- 					candyCardNum = 1;
- 					break;
- 				case 13:
- 					candyCardNum = 2;
- 					break;
- 				case 14:
- 					candyCardNum = 3;
- 					break;
- 				case 15:
- 					candyCardNum = 4;
- 					break;
- 			}
- 		}
- 		swapLabels(candyCardCheck, candyCardNum, cur);
- 	}
-
-	private static void swapLabels(boolean cardCheck, int cardNum, int cur){
-		if(cur == 0) {
-				if(cardCheck == true){
-					candyCards[cardNum].add(L1, BorderLayout.SOUTH);
-				}
-				else{
-					buttons[playerObjs[0].getCurrentSpace()].add(L1);
-				}
-		}
-		else if(cur == 1){
-				if(cardCheck == true){
-					candyCards[cardNum].add(L2, BorderLayout.SOUTH);
-				}
-				else{
-					buttons[playerObjs[1].getCurrentSpace()].add(L2);
-				}
-		}
-		else if(cur == 2){
-				if(cardCheck == true){
-					candyCards[cardNum].add(L3, BorderLayout.SOUTH);
-				}
-				else{
-					buttons[playerObjs[2].getCurrentSpace()].add(L3);
-				}
-		}
-		else{
-				if(cardCheck == true){
-					candyCards[cardNum].add(L4, BorderLayout.SOUTH);
-				}
-				else{
-					buttons[playerObjs[3].getCurrentSpace()].add(L4);
-				}
-		}
-		gameArea.repaint();
-	}
+	//  private static void moveSwappedPlayer(int cur){
+ 	// 	boolean candyCardCheck = false;
+ 	// 	int candyCardNum = 0;
+ 	// 	int card = playerObjs[cur].getLastCard();
+ 	// 	if (card > 10 && card < 16){
+ 	// 		candyCardCheck = true;
+ 	// 		switch (card){
+ 	// 			case 11:
+ 	// 				candyCardNum = 0;
+ 	// 				break;
+ 	// 			case 12:
+ 	// 				candyCardNum = 1;
+ 	// 				break;
+ 	// 			case 13:
+ 	// 				candyCardNum = 2;
+ 	// 				break;
+ 	// 			case 14:
+ 	// 				candyCardNum = 3;
+ 	// 				break;
+ 	// 			case 15:
+ 	// 				candyCardNum = 4;
+ 	// 				break;
+ 	// 		}
+ 	// 	}
+ 	// 	swapLabels(candyCardCheck, candyCardNum, cur);
+ 	// }
+  //
+	// private static void swapLabels(boolean cardCheck, int cardNum, int cur){
+	// 	if(cur == 0) {
+	// 			if(cardCheck == true){
+	// 				candyCards[cardNum].add(L1, BorderLayout.SOUTH);
+	// 			}
+	// 			else{
+	// 				buttons[playerObjs[0].getCurrentSpace()].add(L1);
+	// 			}
+	// 	}
+	// 	else if(cur == 1){
+	// 			if(cardCheck == true){
+	// 				candyCards[cardNum].add(L2, BorderLayout.SOUTH);
+	// 			}
+	// 			else{
+	// 				buttons[playerObjs[1].getCurrentSpace()].add(L2);
+	// 			}
+	// 	}
+	// 	else if(cur == 2){
+	// 			if(cardCheck == true){
+	// 				candyCards[cardNum].add(L3, BorderLayout.SOUTH);
+	// 			}
+	// 			else{
+	// 				buttons[playerObjs[2].getCurrentSpace()].add(L3);
+	// 			}
+	// 	}
+	// 	else{
+	// 			if(cardCheck == true){
+	// 				candyCards[cardNum].add(L4, BorderLayout.SOUTH);
+	// 			}
+	// 			else{
+	// 				buttons[playerObjs[3].getCurrentSpace()].add(L4);
+	// 			}
+	// 	}
+	// 	gameArea.repaint();
+	// }
 
 }
 

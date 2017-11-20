@@ -105,7 +105,7 @@ public class Deck {
 			else if(i == 69){
 				toAdd.add(15);
 			}
-			else if(i >69 || i <75)
+			else if(i >69 && i <75)
 			{
 				toAdd.add(16);
 			}
