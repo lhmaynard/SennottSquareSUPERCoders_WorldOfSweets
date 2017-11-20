@@ -101,16 +101,16 @@ public class SSQWorldOfSweetsTest {
 
 
 	@Test
-	public void testForGoToMiddle(){
+	public void testForCandyCards(){
 		Deck d = new Deck();
 		int m = 0;
 		while(!d.empty()) {
 			int c=d.drawCard();
-			if(c==11) {
+			if(c==11 || c==12 || c==13 || c==14 || c==15) {
 				m++;
 			}
 		}
-		assertTrue(m==3);
+		assertTrue(m==5);
 	}
 
 	@Test

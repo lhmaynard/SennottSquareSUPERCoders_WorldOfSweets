@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 public class Save {
-	/**
 	private Player[] players;
 	private Deck deckToBeSaved;
 	private int seconds, minutes, hours, days, currPlayer, lastCard;
@@ -38,22 +37,23 @@ public class Save {
 		pw.println(players.length);
 		for(int i = 0; i<players.length; i++)
 		{
-			pw.println("Name::" + players[i].getPlayerName());
-			pw.println("Token::" + players[i].getToken());
-			pw.println("GrandasHouse::" + players[i].getGrandmasHouse());
-			pw.println("CurrentSpace::" + players[i].getCurrentSpace());
+			pw.println(players[i].getPlayerName());
+			pw.println(players[i].getToken());
+			pw.println(players[i].getCurrentSpace());
+			pw.println(players[i].getLastCard());
+
 		}
+		pw.println(deckToBeSaved.getSize());
 		while(!deckToBeSaved.empty())
 		{
 			pw.println(deckToBeSaved.drawCard());
 		}
-		pw.println("Seconds::" + seconds);
-		pw.println("Minutes::" + minutes);
-		pw.println("Hours::" + hours);
-		pw.println("Days::" + days);
-		pw.println("CurrentPlayer::" + currPlayer);
-		pw.println("LastCard::" + lastCard);
+		pw.println(seconds);
+		pw.println(minutes);
+		pw.println(hours);
+		pw.println(days);
+		pw.println(currPlayer);
+		pw.println(lastCard);
 		pw.close();
 	}
-	*/
 }
