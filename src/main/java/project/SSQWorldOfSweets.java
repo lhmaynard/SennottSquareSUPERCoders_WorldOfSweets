@@ -171,7 +171,7 @@ public class SSQWorldOfSweets extends JPanel{
 
 		//Setting size of deckArea panel
 		deckArea.setPreferredSize(new Dimension(1000, 200));
-		
+
 		//Save Button
 		JButton saveButton = new JButton("Save and Exit");
 
@@ -184,13 +184,15 @@ public class SSQWorldOfSweets extends JPanel{
 		saveButton.setBorderPainted(false);
 		ActionListener saveAction = new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				saveGame();
+				try {
+					saveGame();
+				} catch(IOException io) { }
 			}
 		};
 		saveButton.addActionListener(saveAction);
 		deckArea.add(saveButton, c);
-		
-		
+
+
 		JLabel deckLabel = new JLabel("Deck Information", SwingConstants.CENTER);
 		deckLabel.setFont(new Font("Century", Font.BOLD, 30));
 
@@ -574,10 +576,10 @@ public class SSQWorldOfSweets extends JPanel{
 		gameArea.add(endzone1);
 		gameArea.add(house);
 	}
-	
+
 	/**
-	 * 
-	 * 
+	 *
+	 *
 	 */
 	private static void paintCandyCards(){
 		try {
@@ -928,10 +930,10 @@ public class SSQWorldOfSweets extends JPanel{
 		}
 		gameArea.repaint();
 	}
-	
+
 	/**
-	 * 
-	 * 
+	 *
+	 *
 	 */
 	private static void updateClock(){
 		seconds++;
@@ -1071,15 +1073,16 @@ public class SSQWorldOfSweets extends JPanel{
 		}
 	}
 
-	
+
 	/**
-	 * 
-	 * 
+	 *
+	 *
 	 */
-	 private static void saveGame(){
-		 
-		 
+	 private static void saveGame() throws IOException {
 		 JOptionPane.showMessageDialog(null, "Now saving game!", "Save Game", JOptionPane.PLAIN_MESSAGE);
+		 Save s = new Save(playerObjs, gameDeck, seconds, minutes, hours, days, curPlayer, lastCardDrawn);
+		 JOptionPane.showMessageDialog(null, "Done, goodbye!", " ", JOptionPane.PLAIN_MESSAGE);
+		 System.exit(0);
 	 }
 
 }
