@@ -16,7 +16,9 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.util.*;
 import javax.swing.Timer;
-
+import javax.sound.sampled.*;
+import sun.audio.*;
+import java.io.*;
 /**
  *
  */
@@ -58,11 +60,23 @@ public class SSQWorldOfSweets extends JPanel{
 				public void run() {
 					gameDeck = new Deck();
 					sf = new SpaceFinder();
+					playSound();
 					createAndShowGUI();
 				}
 			});
 	}
 
+	
+	private static void playSound(){
+		try{
+			InputStream stream = (ClassLoader.getSystemClassLoader().getResourceAsStream("./music/Sample.wav"));
+			AudioStream audioStream = new AudioStream(stream);
+			AudioPlayer.player.start(audioStream);
+		}catch (Exception e){
+			System.out.println(e);
+		}
+		
+	}
 	/**
 	 * This method creates the game GUI window
 	 *
