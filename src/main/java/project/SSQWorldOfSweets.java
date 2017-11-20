@@ -16,8 +16,6 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.util.*;
 import javax.swing.Timer;
-import javax.sound.sampled.*;
-import sun.audio.*;
 import java.io.*;
 
 /**
@@ -73,7 +71,6 @@ public class SSQWorldOfSweets extends JPanel{
 							loaded = false;
 						}
 						sf = new SpaceFinder();
-						playSound();
 						createAndShowGUI();
 					}
 					catch(java.lang.NullPointerException npe){
@@ -85,16 +82,7 @@ public class SSQWorldOfSweets extends JPanel{
 	}
 
 
-	private static void playSound(){
-		try{
-			InputStream stream = (ClassLoader.getSystemClassLoader().getResourceAsStream("./music/Sample.wav"));
-			AudioStream audioStream = new AudioStream(stream);
-			AudioPlayer.player.start(audioStream);
-		}catch (Exception e){
-			System.out.println(e);
-		}
 
-	}
 	/**
 	 * This method creates the game GUI window
 	 *
@@ -1146,24 +1134,22 @@ public class SSQWorldOfSweets extends JPanel{
 	 }
 
 	 private static void swapPlayers() {
-		 Random rand = new Random();
-		 rand.setSeed(System.currentTimeMillis());
-		 ArrayList<Integer> usedNums = new ArrayList<Integer>(playerObjs.length);
-		 int i = 0;
-		 for(Player p: playerObjs)
-		 {
-			int playerToChangeWith = rand.nextInt(playerObjs.length);
-			while(usedNums.contains(playerToChangeWith) || playerToChangeWith == i)
-			{
-				playerToChangeWith = rand.nextInt(playerObjs.length);
-			}
-			usedNums.add(playerToChangeWith);
-			JOptionPane.showMessageDialog(null, "Swapping " + p.getPlayerName() + " with " + playerObjs[playerToChangeWith].getPlayerName(), " ", JOptionPane.PLAIN_MESSAGE);
-			p.setCurrentSpace(playerObjs[playerToChangeWith].getCurrentSpace());
-			moveSwappedPlayer(i);
-			i++;
-		 }
-	 }
+		Random rand = new Random();
+		rand.setSeed(System.currentTimeMillis());
+		ArrayList<Integer> usedNums = new ArrayList<Integer>(playerObjs.length);
+		int playerToChangeWith = rand.nextInt(playerObjs.length);
+		int oldSpace = playerObjs[curPlayer].getCurrentSpace();
+		while(usedNums.contains(playerToChangeWith) || playerToChangeWith == curPlayer)
+		{
+			playerToChangeWith = rand.nextInt(playerObjs.length);
+		}
+		usedNums.add(playerToChangeWith);
+		JOptionPane.showMessageDialog(null, "Swapping " + playerObjs[curPlayer].getPlayerName() + " with " + playerObjs[playerToChangeWith].getPlayerName(), " ", JOptionPane.PLAIN_MESSAGE);
+		playerObjs[curPlayer].setCurrentSpace(playerObjs[playerToChangeWith].getCurrentSpace());
+		playerObjs[playerToChangeWith].setCurrentSpace(oldSpace);
+		moveSwappedPlayer(curPlayer);
+		moveSwappedPlayer(playerToChangeWith);
+	}
 
 	 private static void moveSwappedPlayer(int cur){
  		boolean candyCardCheck = false;
