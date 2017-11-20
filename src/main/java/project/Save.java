@@ -1,4 +1,5 @@
 public class Save {
+	/**
 	private Player[] players;
 	private Deck deckToBeSaved;
 	private int seconds, minutes, hours, days, currPlayer, lastCard;
@@ -18,7 +19,7 @@ public class Save {
 	private void concatData() {
 		checkForFileFolder();
 		String fName;
-		for(Player p; players)
+		for(Player p: players)
 		{
 			fName+=p.getName();
 		}
@@ -42,4 +43,5 @@ public class Save {
 		}
 
 	}
+	*/
 }
