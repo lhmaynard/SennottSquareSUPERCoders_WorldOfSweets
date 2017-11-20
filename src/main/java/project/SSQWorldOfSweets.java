@@ -16,6 +16,9 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.util.*;
 import javax.swing.Timer;
+import javax.sound.sampled.*;
+import sun.audio.*;
+import java.io.*;
 
 /**
  *
@@ -44,6 +47,8 @@ public class SSQWorldOfSweets extends JPanel{
 	static SpaceFinder sf;
 	static Thread t;
 	static Timer currTimer;
+	static boolean loaded;
+	static JButton beginZone;
 
 	/**
 	 * This is the main method that runs and initializes the game window
@@ -56,13 +61,38 @@ public class SSQWorldOfSweets extends JPanel{
 
 			javax.swing.SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
-					gameDeck = new Deck();
-					sf = new SpaceFinder();
-					createAndShowGUI();
+					try{
+						if (JOptionPane.showConfirmDialog(null, "Do you want to load a previous game?", "Welcome to World of Sweets!",
+					JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+								loaded = true;
+								load();
+						}
+						else{
+							gameDeck = new Deck();
+							loaded = false;
+						}
+						sf = new SpaceFinder();
+						playSound();
+						createAndShowGUI();
+					}
+					catch(java.lang.NullPointerException npe){
+						System.exit(1);
+					}
 				}
 			});
 	}
 
+	
+	private static void playSound(){
+		try{
+			InputStream stream = (ClassLoader.getSystemClassLoader().getResourceAsStream("./music/Sample.wav"));
+			AudioStream audioStream = new AudioStream(stream);
+			AudioPlayer.player.start(audioStream);
+		}catch (Exception e){
+			System.out.println(e);
+		}
+		
+	}
 	/**
 	 * This method creates the game GUI window
 	 *
@@ -71,7 +101,7 @@ public class SSQWorldOfSweets extends JPanel{
 	 */
 	private static void createAndShowGUI(){
 		f = new MyFrame("World of Sweets!");
-		nameEntry();
+		if(!loaded) nameEntry();
 		addPanel(f.getContentPane());
 
 		f.pack();
@@ -83,6 +113,59 @@ public class SSQWorldOfSweets extends JPanel{
 		int ySize = (int) tk.getScreenSize().getHeight();
 		f.setSize(xSize - 100, ySize - 100);
 		f.setLocationRelativeTo(null);
+		if(loaded){
+
+			int saveCurPlayer = curPlayer;
+			for(int i = 0; i < playerObjs.length; i++){
+				boolean candyCardCheck=false;
+				int candyCardNum=0;
+				curPlayer = i;
+				int card = playerObjs[curPlayer].getLastCard();
+				if(card != -1){
+					if (card > 10 && card < 16){
+						candyCardCheck = true;
+						switch (card){
+							case 11:
+								candyCardNum = 0;
+								break;
+							case 12:
+								candyCardNum = 1;
+								break;
+							case 13:
+								candyCardNum = 2;
+								break;
+							case 14:
+								candyCardNum = 3;
+								break;
+							case 15:
+								candyCardNum = 4;
+								break;
+						}
+					}
+
+					addLabels(candyCardCheck, candyCardNum);
+				}
+				else{
+					switch(i){
+						case 0:
+							beginZone.add(L1);
+							break;
+						case 1:
+							beginZone.add(L2);
+							break;
+						case 2:
+							beginZone.add(L3);
+							break;
+						case 3:
+							beginZone.add(L4);
+							break;
+					}
+
+				}
+			}
+			curPlayer = saveCurPlayer;
+			displayDrawnCard(lastCardDrawn);
+		}
 		JOptionPane.showMessageDialog(null, "It is "+playerObjs[curPlayer].getPlayerName()+"'s turn!", "Whose turn is it?", JOptionPane.PLAIN_MESSAGE);
 	}
 
@@ -129,7 +212,7 @@ public class SSQWorldOfSweets extends JPanel{
 
 		//Setting size of deckArea panel
 		deckArea.setPreferredSize(new Dimension(1000, 200));
-		
+
 		//Save Button
 		JButton saveButton = new JButton("Save and Exit");
 
@@ -142,13 +225,15 @@ public class SSQWorldOfSweets extends JPanel{
 		saveButton.setBorderPainted(false);
 		ActionListener saveAction = new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				saveGame();
+				try {
+					saveGame();
+				} catch(IOException io) { }
 			}
 		};
 		saveButton.addActionListener(saveAction);
 		deckArea.add(saveButton, c);
-		
-		
+
+
 		JLabel deckLabel = new JLabel("Deck Information", SwingConstants.CENTER);
 		deckLabel.setFont(new Font("Century", Font.BOLD, 30));
 
@@ -353,30 +438,30 @@ public class SSQWorldOfSweets extends JPanel{
 		buttons = new JButton[55];
 		candyCards = new JButton[5];
 
-		JButton beginZone = new JButton("Start");
+		beginZone = new JButton("Start");
 		beginZone.setBackground(Color.white);
 		beginZone.setLayout(new GridLayout(2,2));
 		beginZone.setOpaque(true);
 		beginZone.setBorderPainted(false);
 
-
 		switch (playerObjs.length){
 			case 4:
 				L4 = new JLabel(playerObjs[3].getToken());
 				L4.setHorizontalAlignment(JLabel.CENTER);
-				beginZone.add(L4);
+				if(!loaded)beginZone.add(L4);
 			case 3:
 				L3 = new JLabel(playerObjs[2].getToken());
 				L3.setHorizontalAlignment(JLabel.CENTER);
-				beginZone.add(L3);
+				if(!loaded)beginZone.add(L3);
 			case 2:
 				L1 = new JLabel(playerObjs[0].getToken());
 				L1.setHorizontalAlignment(JLabel.CENTER);
 				L2 = new JLabel(playerObjs[1].getToken());
 				L2.setHorizontalAlignment(JLabel.CENTER);
-				beginZone.add(L1);
-				beginZone.add(L2);
+				if(!loaded)beginZone.add(L1);
+				if(!loaded)beginZone.add(L2);
 		}
+
 
 		for(int i = 0; i < 54; i++){
 			//Array of JButtons that is the game board spaces
@@ -532,10 +617,10 @@ public class SSQWorldOfSweets extends JPanel{
 		gameArea.add(endzone1);
 		gameArea.add(house);
 	}
-	
+
 	/**
-	 * 
-	 * 
+	 *
+	 *
 	 */
 	private static void paintCandyCards(){
 		try {
@@ -549,7 +634,7 @@ public class SSQWorldOfSweets extends JPanel{
 			candyCards[2].setIcon(candy);
 			candyCards[1].setIcon(lollipop);
 			candyCards[0].setIcon(corn);
-      
+
 		} catch (Exception e) {
 			System.out.println(e);
 		}
@@ -592,99 +677,101 @@ public class SSQWorldOfSweets extends JPanel{
 	 * @return none
 	 */
 	private static void draw(){
-		ImageIcon img;
 		if(gameDeck.empty() == false){
 			lastCardDrawn = gameDeck.drawCard();
 			playerObjs[curPlayer].setLastCard(lastCardDrawn);
-
-			try {
-				switch(lastCardDrawn) {
-					case -1:
-						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/NoCard.png"));
-						drawDeck2.setIcon(img);
-						break;
-					case 0:
-						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/RedCard.png"));
-						drawDeck2.setIcon(img);
-						break;
-					case 1:
-						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/YellowCard.png"));
-						drawDeck2.setIcon(img);
-						break;
-					case 2:
-						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/BlueCard.png"));
-						drawDeck2.setIcon(img);
-						break;
-					case 3:
-						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/GreenCard.png"));
-						drawDeck2.setIcon(img);
-						break;
-					case 4:
-						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/OrangeCard.png"));
-						drawDeck2.setIcon(img);
-						break;
-					case 5:
-						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/DoubleRedCard.png"));
-						drawDeck2.setIcon(img);
-						break;
-					case 6:
-						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/DoubleYellowCard.png"));
-						drawDeck2.setIcon(img);
-						break;
-					case 7:
-						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/DoubleBlueCard.png"));
-						drawDeck2.setIcon(img);
-						break;
-					case 8:
-						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/DoubleGreenCard.png"));
-						drawDeck2.setIcon(img);
-						break;
-					case 9:
-						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/DoubleOrangeCard.png"));
-						drawDeck2.setIcon(img);
-						break;
-					case 10:
-						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/SkipATurn.png"));
-						drawDeck2.setIcon(img);
-						break;
-					case 11:
-						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/CandyCornCard.png"));
-						drawDeck2.setIcon(img);
-						break;
-					case 12:
-						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/LollipopCard.png"));
-						drawDeck2.setIcon(img);
-						break;
-					case 13:
-						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/WrappedCandy.png"));
-						drawDeck2.setIcon(img);
-						break;
-					case 14:
-						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/ChocolateCard.png"));
-						drawDeck2.setIcon(img);
-						break;
-					case 15:
-						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/CakeCard.png"));
-						drawDeck2.setIcon(img);
-						break;
-				}
-		} catch (Exception e) {
-				System.out.println(e);
-		}
-			drawDeck2.repaint();
-
+			displayDrawnCard(lastCardDrawn);
 		}
 		else{
 
 			lastCardDrawn = -1;
-			 img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/NoCard.png"));
-			drawDeck2.setIcon(img);
+			displayDrawnCard(lastCardDrawn);
 
 			JOptionPane.showMessageDialog(null, "You ran out of cards in the deck! Click OK to shuffle and redraw!");
 			gameDeck.shuffle();
-			drawDeck2.repaint();
 			draw();
 		}
+	}
+
+	public static void displayDrawnCard(int card){
+		ImageIcon img;
+		try {
+			switch(card) {
+				case -1:
+					img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/NoCard.png"));
+					drawDeck2.setIcon(img);
+					break;
+				case 0:
+					img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/RedCard.png"));
+					drawDeck2.setIcon(img);
+					break;
+				case 1:
+					img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/YellowCard.png"));
+					drawDeck2.setIcon(img);
+					break;
+				case 2:
+					img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/BlueCard.png"));
+					drawDeck2.setIcon(img);
+					break;
+				case 3:
+					img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/GreenCard.png"));
+					drawDeck2.setIcon(img);
+					break;
+				case 4:
+					img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/OrangeCard.png"));
+					drawDeck2.setIcon(img);
+					break;
+				case 5:
+					img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/DoubleRedCard.png"));
+					drawDeck2.setIcon(img);
+					break;
+				case 6:
+					img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/DoubleYellowCard.png"));
+					drawDeck2.setIcon(img);
+					break;
+				case 7:
+					img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/DoubleBlueCard.png"));
+					drawDeck2.setIcon(img);
+					break;
+				case 8:
+					img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/DoubleGreenCard.png"));
+					drawDeck2.setIcon(img);
+					break;
+				case 9:
+					img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/DoubleOrangeCard.png"));
+					drawDeck2.setIcon(img);
+					break;
+				case 10:
+					img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/SkipATurn.png"));
+					drawDeck2.setIcon(img);
+					break;
+				case 11:
+					img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/CandyCornCard.png"));
+					drawDeck2.setIcon(img);
+					break;
+				case 12:
+					img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/LollipopCard.png"));
+					drawDeck2.setIcon(img);
+					break;
+				case 13:
+					img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/WrappedCandy.png"));
+					drawDeck2.setIcon(img);
+					break;
+				case 14:
+					img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/ChocolateCard.png"));
+					drawDeck2.setIcon(img);
+					break;
+				case 15:
+					img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/CakeCard.png"));
+					drawDeck2.setIcon(img);
+					break;
+			}
+	} catch (Exception e) {
+			System.out.println(e);
+	}
+		drawDeck2.repaint();
+
+
 	}
 
 	/**
@@ -718,6 +805,7 @@ public class SSQWorldOfSweets extends JPanel{
 
 				}
 				f.dispose();
+				loaded = false;
 				createAndShowGUI();
 			}
 			else {
@@ -812,7 +900,7 @@ public class SSQWorldOfSweets extends JPanel{
 					candyCardNum = 4;
 					break;
 			}
-				
+
 		}
 
 		if(playerObjs[curPlayer].getCurrentSpace() == 53)
@@ -886,10 +974,10 @@ public class SSQWorldOfSweets extends JPanel{
 		}
 		gameArea.repaint();
 	}
-	
+
 	/**
-	 * 
-	 * 
+	 *
+	 *
 	 */
 	private static void updateClock(){
 		seconds++;
@@ -971,16 +1059,86 @@ public class SSQWorldOfSweets extends JPanel{
 
 
 	}
-	
+
+	public static File[] finder(){
+        File dir = new File(System.getProperty("user.dir"));
+
+        return dir.listFiles(new FilenameFilter() {
+                 public boolean accept(File dir, String filename)
+                      { return filename.endsWith(".wos"); }
+        } );
+
+    }
+
+	public static void load(){
+		try{
+			File dir = new File(System.getProperty("user.dir"));
+			File[] files = finder();
+
+			if(files.length == 0){
+				JOptionPane.showMessageDialog(null, "No save files found, starting new game!", "File not found", JOptionPane.PLAIN_MESSAGE);
+				loaded = false;
+				gameDeck = new Deck();
+				return;
+			}
+
+			String[] filenames = new String[files.length];
+			for(int i = 0; i < files.length; i++){
+				filenames[i] = files[i].getName();
+			}
+
+			try{
+				Object f = JOptionPane.showInputDialog(null, "Which file do you want to load?", "Welcome to World Of Sweets!", JOptionPane.DEFAULT_OPTION, null, filenames, filenames[0]);
+				String selectedFName = f.toString();
+				File selectedFile = new File(selectedFName);
+				Scanner scan = new Scanner(selectedFile);
+				int numPlayers = scan.nextInt();
+				playerObjs = new Player[numPlayers];
+				for(int i = 0; i < numPlayers; i++){
+					String n = scan.next();
+					String t = scan.next();
+					int s = scan.nextInt();
+					int c = scan.nextInt();
+					playerObjs[i] = new Player(i, n, t, s, c);
+				}
+				int dSize = scan.nextInt();
+				Stack<Integer> tempStack = new Stack<Integer>();
+				for(int i = 0; i < dSize; i++){
+					tempStack.push(scan.nextInt());
+				}
+				gameDeck = new Deck(1);
+				for(int i = 0; i < dSize; i++){
+					gameDeck.push(tempStack.pop());
+				}
+				seconds = scan.nextInt();
+				minutes = scan.nextInt();
+				hours = scan.nextInt();
+				days = scan.nextInt();
+				curPlayer = scan.nextInt();
+				lastCardDrawn = scan.nextInt();
+			}
+			catch(java.lang.NullPointerException npe){
+				System.exit(1);
+			}
+
+		}
+		catch(Exception e){
+			System.out.println(e);
+		}
+	}
+
+
 	/**
-	 * 
-	 * 
+	 *
+	 *
 	 */
-	 private static void saveGame(){
-		 
-		 
+	 private static void saveGame() throws IOException {
 		 JOptionPane.showMessageDialog(null, "Now saving game!", "Save Game", JOptionPane.PLAIN_MESSAGE);
+		 Save s = new Save(playerObjs, gameDeck, seconds, minutes, hours, days, curPlayer, lastCardDrawn);
+		 JOptionPane.showMessageDialog(null, "Done, goodbye!", " ", JOptionPane.PLAIN_MESSAGE);
+		 System.exit(0);
 	 }
+
 }
 
 /**
