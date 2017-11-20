@@ -35,6 +35,7 @@ public class Player {
 	 */
 	public Player(int num, String nam, String tok){
 		currentSpace = -1;
+		lastCard = -1;
 		playerName = nam;
 		playerNumber = num;
 		playerToken = tok;

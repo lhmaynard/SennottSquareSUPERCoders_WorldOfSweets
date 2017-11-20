@@ -46,6 +46,7 @@ public class SSQWorldOfSweets extends JPanel{
 	static Thread t;
 	static Timer currTimer;
 	static boolean loaded;
+	static JButton beginZone;
 
 	/**
 	 * This is the main method that runs and initializes the game window
@@ -58,10 +59,10 @@ public class SSQWorldOfSweets extends JPanel{
 
 			javax.swing.SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
-					if (JOptionPane.showConfirmDialog(null, "Do you want to load a previous game?", "WINNER WINNER WINNER",
+					if (JOptionPane.showConfirmDialog(null, "Do you want to load a previous game?", "Welcome to World of Sweets!",
 		        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-							load();
 							loaded = true;
+							load();
 					}
 					else{
 						gameDeck = new Deck();
@@ -101,29 +102,50 @@ public class SSQWorldOfSweets extends JPanel{
 				int candyCardNum=0;
 				curPlayer = i;
 				int card = playerObjs[curPlayer].getLastCard();
-				if (card > 10 && card < 16){
-					candyCardCheck = true;
-					switch (card){
-						case 11:
-							candyCardNum = 0;
+				if(card != -1){
+					if (card > 10 && card < 16){
+						candyCardCheck = true;
+						switch (card){
+							case 11:
+								candyCardNum = 0;
+								break;
+							case 12:
+								candyCardNum = 1;
+								break;
+							case 13:
+								candyCardNum = 2;
+								break;
+							case 14:
+								candyCardNum = 3;
+								break;
+							case 15:
+								candyCardNum = 4;
+								break;
+						}
+					}
+
+					addLabels(candyCardCheck, candyCardNum);
+				}
+				else{
+					switch(i){
+						case 0:
+							beginZone.add(L1);
 							break;
-						case 12:
-							candyCardNum = 1;
+						case 1:
+							beginZone.add(L2);
 							break;
-						case 13:
-							candyCardNum = 2;
+						case 2:
+							beginZone.add(L3);
 							break;
-						case 14:
-							candyCardNum = 3;
-							break;
-						case 15:
-							candyCardNum = 4;
+						case 3:
+							beginZone.add(L4);
 							break;
 					}
-				}
 
-				addLabels(candyCardCheck, candyCardNum);
+				}
 			}
+			curPlayer = saveCurPlayer;
+			displayDrawnCard(lastCardDrawn);
 		}
 		JOptionPane.showMessageDialog(null, "It is "+playerObjs[curPlayer].getPlayerName()+"'s turn!", "Whose turn is it?", JOptionPane.PLAIN_MESSAGE);
 	}
@@ -397,7 +419,7 @@ public class SSQWorldOfSweets extends JPanel{
 		buttons = new JButton[55];
 		candyCards = new JButton[5];
 
-		JButton beginZone = new JButton("Start");
+		beginZone = new JButton("Start");
 		beginZone.setBackground(Color.white);
 		beginZone.setLayout(new GridLayout(2,2));
 		beginZone.setOpaque(true);
@@ -636,99 +658,101 @@ public class SSQWorldOfSweets extends JPanel{
 	 * @return none
 	 */
 	private static void draw(){
-		ImageIcon img;
 		if(gameDeck.empty() == false){
 			lastCardDrawn = gameDeck.drawCard();
 			playerObjs[curPlayer].setLastCard(lastCardDrawn);
-
-			try {
-				switch(lastCardDrawn) {
-					case -1:
-						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/NoCard.png"));
-						drawDeck2.setIcon(img);
-						break;
-					case 0:
-						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/RedCard.png"));
-						drawDeck2.setIcon(img);
-						break;
-					case 1:
-						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/YellowCard.png"));
-						drawDeck2.setIcon(img);
-						break;
-					case 2:
-						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/BlueCard.png"));
-						drawDeck2.setIcon(img);
-						break;
-					case 3:
-						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/GreenCard.png"));
-						drawDeck2.setIcon(img);
-						break;
-					case 4:
-						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/OrangeCard.png"));
-						drawDeck2.setIcon(img);
-						break;
-					case 5:
-						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/DoubleRedCard.png"));
-						drawDeck2.setIcon(img);
-						break;
-					case 6:
-						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/DoubleYellowCard.png"));
-						drawDeck2.setIcon(img);
-						break;
-					case 7:
-						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/DoubleBlueCard.png"));
-						drawDeck2.setIcon(img);
-						break;
-					case 8:
-						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/DoubleGreenCard.png"));
-						drawDeck2.setIcon(img);
-						break;
-					case 9:
-						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/DoubleOrangeCard.png"));
-						drawDeck2.setIcon(img);
-						break;
-					case 10:
-						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/SkipATurn.png"));
-						drawDeck2.setIcon(img);
-						break;
-					case 11:
-						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/CandyCornCard.png"));
-						drawDeck2.setIcon(img);
-						break;
-					case 12:
-						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/LollipopCard.png"));
-						drawDeck2.setIcon(img);
-						break;
-					case 13:
-						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/WrappedCandy.png"));
-						drawDeck2.setIcon(img);
-						break;
-					case 14:
-						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/ChocolateCard.png"));
-						drawDeck2.setIcon(img);
-						break;
-					case 15:
-						img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/CakeCard.png"));
-						drawDeck2.setIcon(img);
-						break;
-				}
-		} catch (Exception e) {
-				System.out.println(e);
-		}
-			drawDeck2.repaint();
-
+			displayDrawnCard(lastCardDrawn);
 		}
 		else{
 
 			lastCardDrawn = -1;
-			 img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/NoCard.png"));
-			drawDeck2.setIcon(img);
+			displayDrawnCard(lastCardDrawn);
 
 			JOptionPane.showMessageDialog(null, "You ran out of cards in the deck! Click OK to shuffle and redraw!");
 			gameDeck.shuffle();
-			drawDeck2.repaint();
 			draw();
 		}
+	}
+
+	public static void displayDrawnCard(int card){
+		ImageIcon img;
+		try {
+			switch(card) {
+				case -1:
+					img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/NoCard.png"));
+					drawDeck2.setIcon(img);
+					break;
+				case 0:
+					img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/RedCard.png"));
+					drawDeck2.setIcon(img);
+					break;
+				case 1:
+					img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/YellowCard.png"));
+					drawDeck2.setIcon(img);
+					break;
+				case 2:
+					img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/BlueCard.png"));
+					drawDeck2.setIcon(img);
+					break;
+				case 3:
+					img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/GreenCard.png"));
+					drawDeck2.setIcon(img);
+					break;
+				case 4:
+					img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/OrangeCard.png"));
+					drawDeck2.setIcon(img);
+					break;
+				case 5:
+					img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/DoubleRedCard.png"));
+					drawDeck2.setIcon(img);
+					break;
+				case 6:
+					img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/DoubleYellowCard.png"));
+					drawDeck2.setIcon(img);
+					break;
+				case 7:
+					img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/DoubleBlueCard.png"));
+					drawDeck2.setIcon(img);
+					break;
+				case 8:
+					img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/DoubleGreenCard.png"));
+					drawDeck2.setIcon(img);
+					break;
+				case 9:
+					img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/DoubleOrangeCard.png"));
+					drawDeck2.setIcon(img);
+					break;
+				case 10:
+					img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/SkipATurn.png"));
+					drawDeck2.setIcon(img);
+					break;
+				case 11:
+					img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/CandyCornCard.png"));
+					drawDeck2.setIcon(img);
+					break;
+				case 12:
+					img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/LollipopCard.png"));
+					drawDeck2.setIcon(img);
+					break;
+				case 13:
+					img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/WrappedCandy.png"));
+					drawDeck2.setIcon(img);
+					break;
+				case 14:
+					img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/ChocolateCard.png"));
+					drawDeck2.setIcon(img);
+					break;
+				case 15:
+					img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/CakeCard.png"));
+					drawDeck2.setIcon(img);
+					break;
+			}
+	} catch (Exception e) {
+			System.out.println(e);
+	}
+		drawDeck2.repaint();
+
+
 	}
 
 	/**
@@ -1030,14 +1054,18 @@ public class SSQWorldOfSweets extends JPanel{
 		try{
 			File dir = new File(System.getProperty("user.dir"));
 			File[] files = finder();
-	    // File[] files = dir.listFiles(new FilenameFilter() {
-	    //          public boolean accept(File dir, String filename)
-	    //               { return filename.endsWith(".wos"); }
-	    // } );
+
+			if(files.length == 0){
+				JOptionPane.showMessageDialog(null, "No save files found, starting new game!", "File not found", JOptionPane.PLAIN_MESSAGE);
+				loaded = false;
+				gameDeck = new Deck();
+			}
+
 			String[] filenames = new String[files.length];
 			for(int i = 0; i < files.length; i++){
 				filenames[i] = files[i].getName();
 			}
+
 
 			Object f = JOptionPane.showInputDialog(null, "Which file do you want to load?", "Welcome to World Of Sweets!", JOptionPane.DEFAULT_OPTION, null, filenames, filenames[0]);
 			String selectedFName = f.toString();
@@ -1066,10 +1094,11 @@ public class SSQWorldOfSweets extends JPanel{
 			hours = scan.nextInt();
 			days = scan.nextInt();
 			curPlayer = scan.nextInt();
+			lastCardDrawn = scan.nextInt();
 
 		}
 		catch(Exception e){
-			System.out.println("oops");
+			System.out.println(e);
 		}
 	}
 
