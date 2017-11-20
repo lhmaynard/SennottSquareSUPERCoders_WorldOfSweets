@@ -35,6 +35,10 @@ public class Deck {
 		shuffle();
 	}
 
+	public Deck(int i){
+		mydeck = new Stack<>();
+	}
+
 
 	/**
 	 * This shuffle method is used to "shuffle" the deck and create a
@@ -135,6 +139,11 @@ public class Deck {
 		int card = mydeck.pop();
 		size--;
 		return card;
+	}
+
+	public void push(int i){
+		mydeck.push(i);
+		size++;
 	}
 
 	/**

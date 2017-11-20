@@ -16,6 +16,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.util.*;
 import javax.swing.Timer;
+import java.io.*;
 
 /**
  *
@@ -44,6 +45,7 @@ public class SSQWorldOfSweets extends JPanel{
 	static SpaceFinder sf;
 	static Thread t;
 	static Timer currTimer;
+	static boolean loaded;
 
 	/**
 	 * This is the main method that runs and initializes the game window
@@ -56,7 +58,15 @@ public class SSQWorldOfSweets extends JPanel{
 
 			javax.swing.SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
-					gameDeck = new Deck();
+					if (JOptionPane.showConfirmDialog(null, "Do you want to load a previous game?", "WINNER WINNER WINNER",
+		        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+							load();
+							loaded = true;
+					}
+					else{
+						gameDeck = new Deck();
+						loaded = false;
+					}
 					sf = new SpaceFinder();
 					createAndShowGUI();
 				}
@@ -71,7 +81,7 @@ public class SSQWorldOfSweets extends JPanel{
 	 */
 	private static void createAndShowGUI(){
 		f = new MyFrame("World of Sweets!");
-		nameEntry();
+		if(!loaded) nameEntry();
 		addPanel(f.getContentPane());
 
 		f.pack();
@@ -83,6 +93,38 @@ public class SSQWorldOfSweets extends JPanel{
 		int ySize = (int) tk.getScreenSize().getHeight();
 		f.setSize(xSize - 100, ySize - 100);
 		f.setLocationRelativeTo(null);
+		if(loaded){
+
+			int saveCurPlayer = curPlayer;
+			for(int i = 0; i < playerObjs.length; i++){
+				boolean candyCardCheck=false;
+				int candyCardNum=0;
+				curPlayer = i;
+				int card = playerObjs[curPlayer].getLastCard();
+				if (card > 10 && card < 16){
+					candyCardCheck = true;
+					switch (card){
+						case 11:
+							candyCardNum = 0;
+							break;
+						case 12:
+							candyCardNum = 1;
+							break;
+						case 13:
+							candyCardNum = 2;
+							break;
+						case 14:
+							candyCardNum = 3;
+							break;
+						case 15:
+							candyCardNum = 4;
+							break;
+					}
+				}
+
+				addLabels(candyCardCheck, candyCardNum);
+			}
+		}
 		JOptionPane.showMessageDialog(null, "It is "+playerObjs[curPlayer].getPlayerName()+"'s turn!", "Whose turn is it?", JOptionPane.PLAIN_MESSAGE);
 	}
 
@@ -340,24 +382,24 @@ public class SSQWorldOfSweets extends JPanel{
 		beginZone.setOpaque(true);
 		beginZone.setBorderPainted(false);
 
-
 		switch (playerObjs.length){
 			case 4:
 				L4 = new JLabel(playerObjs[3].getToken());
 				L4.setHorizontalAlignment(JLabel.CENTER);
-				beginZone.add(L4);
+				if(!loaded)beginZone.add(L4);
 			case 3:
 				L3 = new JLabel(playerObjs[2].getToken());
 				L3.setHorizontalAlignment(JLabel.CENTER);
-				beginZone.add(L3);
+				if(!loaded)beginZone.add(L3);
 			case 2:
 				L1 = new JLabel(playerObjs[0].getToken());
 				L1.setHorizontalAlignment(JLabel.CENTER);
 				L2 = new JLabel(playerObjs[1].getToken());
 				L2.setHorizontalAlignment(JLabel.CENTER);
-				beginZone.add(L1);
-				beginZone.add(L2);
+				if(!loaded)beginZone.add(L1);
+				if(!loaded)beginZone.add(L2);
 		}
+
 
 		for(int i = 0; i < 54; i++){
 			//Array of JButtons that is the game board spaces
@@ -526,7 +568,7 @@ public class SSQWorldOfSweets extends JPanel{
 			candyCards[2].setIcon(candy);
 			candyCards[1].setIcon(lollipop);
 			candyCards[0].setIcon(corn);
-      
+
 		} catch (Exception e) {
 			System.out.println(e);
 		}
@@ -793,7 +835,7 @@ public class SSQWorldOfSweets extends JPanel{
 					candyCardNum = 4;
 					break;
 			}
-				
+
 		}
 
 		if(playerObjs[curPlayer].getCurrentSpace() == 53)
@@ -947,6 +989,62 @@ public class SSQWorldOfSweets extends JPanel{
 		}
 
 
+	}
+	public static File[] finder(){
+        File dir = new File(System.getProperty("user.dir"));
+
+        return dir.listFiles(new FilenameFilter() {
+                 public boolean accept(File dir, String filename)
+                      { return filename.endsWith(".wos"); }
+        } );
+
+    }
+
+	public static void load(){
+		try{
+			File dir = new File(System.getProperty("user.dir"));
+			File[] files = finder();
+	    // File[] files = dir.listFiles(new FilenameFilter() {
+	    //          public boolean accept(File dir, String filename)
+	    //               { return filename.endsWith(".wos"); }
+	    // } );
+			String[] filenames = new String[files.length];
+			for(int i = 0; i < files.length; i++){
+				filenames[i] = files[i].getName();
+			}
+
+			Object f = JOptionPane.showInputDialog(null, "Which file do you want to load?", "Welcome to World Of Sweets!", JOptionPane.DEFAULT_OPTION, null, filenames, filenames[0]);
+			String selectedFName = f.toString();
+			File selectedFile = new File(selectedFName);
+			Scanner scan = new Scanner(selectedFile);
+			int numPlayers = scan.nextInt();
+			playerObjs = new Player[numPlayers];
+			for(int i = 0; i < numPlayers; i++){
+				String n = scan.next();
+				String t = scan.next();
+				int s = scan.nextInt();
+				int c = scan.nextInt();
+				playerObjs[i] = new Player(i, n, t, s, c);
+			}
+			int dSize = scan.nextInt();
+			Stack<Integer> tempStack = new Stack<Integer>();
+			for(int i = 0; i < dSize; i++){
+				tempStack.push(scan.nextInt());
+			}
+			gameDeck = new Deck(1);
+			for(int i = 0; i < dSize; i++){
+				gameDeck.push(tempStack.pop());
+			}
+			seconds = scan.nextInt();
+			minutes = scan.nextInt();
+			hours = scan.nextInt();
+			days = scan.nextInt();
+			curPlayer = scan.nextInt();
+
+		}
+		catch(Exception e){
+			System.out.println("oops");
+		}
 	}
 }
 
