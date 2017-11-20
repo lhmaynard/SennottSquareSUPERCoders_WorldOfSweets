@@ -16,6 +16,8 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.util.*;
 import javax.swing.Timer;
+import javax.sound.sampled.*;
+import sun.audio.*;
 import java.io.*;
 
 /**
@@ -59,21 +61,40 @@ public class SSQWorldOfSweets extends JPanel{
 
 			javax.swing.SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
-					if (JOptionPane.showConfirmDialog(null, "Do you want to load a previous game?", "Welcome to World of Sweets!",
-		        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-							loaded = true;
-							load();
+
+					try{
+						if (JOptionPane.showConfirmDialog(null, "Do you want to load a previous game?", "Welcome to World of Sweets!",
+					JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+								loaded = true;
+								load();
+						}
+						else{
+							gameDeck = new Deck();
+							loaded = false;
+						}
+						sf = new SpaceFinder();
+						playSound();
+						createAndShowGUI();
 					}
-					else{
-						gameDeck = new Deck();
-						loaded = false;
+					catch(java.lang.NullPointerException npe){
+						System.exit(1);
 					}
-					sf = new SpaceFinder();
-					createAndShowGUI();
+
 				}
 			});
 	}
 
+
+	private static void playSound(){
+		try{
+			InputStream stream = (ClassLoader.getSystemClassLoader().getResourceAsStream("./music/Sample.wav"));
+			AudioStream audioStream = new AudioStream(stream);
+			AudioPlayer.player.start(audioStream);
+		}catch (Exception e){
+			System.out.println(e);
+		}
+
+	}
 	/**
 	 * This method creates the game GUI window
 	 *
@@ -746,6 +767,11 @@ public class SSQWorldOfSweets extends JPanel{
 					img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/CakeCard.png"));
 					drawDeck2.setIcon(img);
 					break;
+				case 16:
+					img = new ImageIcon(ClassLoader.getSystemClassLoader().getResource("./cards/SwapCard.png"));
+					drawDeck2.setIcon(img);
+					swapPlayers();
+					break;
 			}
 	} catch (Exception e) {
 			System.out.println(e);
@@ -1068,36 +1094,39 @@ public class SSQWorldOfSweets extends JPanel{
 				filenames[i] = files[i].getName();
 			}
 
-
-			Object f = JOptionPane.showInputDialog(null, "Which file do you want to load?", "Welcome to World Of Sweets!", JOptionPane.DEFAULT_OPTION, null, filenames, filenames[0]);
-			String selectedFName = f.toString();
-			File selectedFile = new File(selectedFName);
-			Scanner scan = new Scanner(selectedFile);
-			int numPlayers = scan.nextInt();
-			playerObjs = new Player[numPlayers];
-			for(int i = 0; i < numPlayers; i++){
-				String n = scan.next();
-				String t = scan.next();
-				int s = scan.nextInt();
-				int c = scan.nextInt();
-				playerObjs[i] = new Player(i, n, t, s, c);
+			try{
+				Object f = JOptionPane.showInputDialog(null, "Which file do you want to load?", "Welcome to World Of Sweets!", JOptionPane.DEFAULT_OPTION, null, filenames, filenames[0]);
+				String selectedFName = f.toString();
+				File selectedFile = new File(selectedFName);
+				Scanner scan = new Scanner(selectedFile);
+				int numPlayers = scan.nextInt();
+				playerObjs = new Player[numPlayers];
+				for(int i = 0; i < numPlayers; i++){
+					String n = scan.next();
+					String t = scan.next();
+					int s = scan.nextInt();
+					int c = scan.nextInt();
+					playerObjs[i] = new Player(i, n, t, s, c);
+				}
+				int dSize = scan.nextInt();
+				Stack<Integer> tempStack = new Stack<Integer>();
+				for(int i = 0; i < dSize; i++){
+					tempStack.push(scan.nextInt());
+				}
+				gameDeck = new Deck(1);
+				for(int i = 0; i < dSize; i++){
+					gameDeck.push(tempStack.pop());
+				}
+				seconds = scan.nextInt();
+				minutes = scan.nextInt();
+				hours = scan.nextInt();
+				days = scan.nextInt();
+				curPlayer = scan.nextInt();
+				lastCardDrawn = scan.nextInt();
 			}
-			int dSize = scan.nextInt();
-			Stack<Integer> tempStack = new Stack<Integer>();
-			for(int i = 0; i < dSize; i++){
-				tempStack.push(scan.nextInt());
+			catch(java.lang.NullPointerException npe){
+				System.exit(1);
 			}
-			gameDeck = new Deck(1);
-			for(int i = 0; i < dSize; i++){
-				gameDeck.push(tempStack.pop());
-			}
-			seconds = scan.nextInt();
-			minutes = scan.nextInt();
-			hours = scan.nextInt();
-			days = scan.nextInt();
-			curPlayer = scan.nextInt();
-			lastCardDrawn = scan.nextInt();
-
 		}
 		catch(Exception e){
 			System.out.println(e);
@@ -1115,6 +1144,89 @@ public class SSQWorldOfSweets extends JPanel{
 		 JOptionPane.showMessageDialog(null, "Done, goodbye!", " ", JOptionPane.PLAIN_MESSAGE);
 		 System.exit(0);
 	 }
+
+	 private static void swapPlayers() {
+		 Random rand = new Random();
+		 rand.setSeed(System.currentTimeMillis());
+		 ArrayList<Integer> usedNums = new ArrayList<Integer>(playerObjs.length);
+		 int i = 0;
+		 for(Player p: playerObjs)
+		 {
+			int playerToChangeWith = rand.nextInt(playerObjs.length);
+			while(usedNums.contains(playerToChangeWith) || playerToChangeWith == i)
+			{
+				playerToChangeWith = rand.nextInt(playerObjs.length);
+			}
+			usedNums.add(playerToChangeWith);
+			JOptionPane.showMessageDialog(null, "Swapping " + p.getPlayerName() + " with " + playerObjs[playerToChangeWith].getPlayerName(), " ", JOptionPane.PLAIN_MESSAGE);
+			p.setCurrentSpace(playerObjs[playerToChangeWith].getCurrentSpace());
+			moveSwappedPlayer(i);
+			i++;
+		 }
+	 }
+
+	 private static void moveSwappedPlayer(int cur){
+ 		boolean candyCardCheck = false;
+ 		int candyCardNum = 0;
+ 		int card = playerObjs[curPlayer].getLastCard();
+ 		if (card > 10 && card < 16){
+ 			candyCardCheck = true;
+ 			switch (card){
+ 				case 11:
+ 					candyCardNum = 0;
+ 					break;
+ 				case 12:
+ 					candyCardNum = 1;
+ 					break;
+ 				case 13:
+ 					candyCardNum = 2;
+ 					break;
+ 				case 14:
+ 					candyCardNum = 3;
+ 					break;
+ 				case 15:
+ 					candyCardNum = 4;
+ 					break;
+ 			}
+ 		}
+ 		swapLabels(candyCardCheck, candyCardNum, cur);
+ 	}
+
+	private static void swapLabels(boolean cardCheck, int cardNum, int cur){
+		if(cur == 0) {
+				if(cardCheck == true){
+					candyCards[cardNum].add(L1, BorderLayout.SOUTH);
+				}
+				else{
+					buttons[playerObjs[0].getCurrentSpace()].add(L1);
+				}
+		}
+		else if(cur == 1){
+				if(cardCheck == true){
+					candyCards[cardNum].add(L2, BorderLayout.SOUTH);
+				}
+				else{
+					buttons[playerObjs[1].getCurrentSpace()].add(L2);
+				}
+		}
+		else if(cur == 2){
+				if(cardCheck == true){
+					candyCards[cardNum].add(L3, BorderLayout.SOUTH);
+				}
+				else{
+					buttons[playerObjs[2].getCurrentSpace()].add(L3);
+				}
+		}
+		else{
+				if(cardCheck == true){
+					candyCards[cardNum].add(L4, BorderLayout.SOUTH);
+				}
+				else{
+					buttons[playerObjs[3].getCurrentSpace()].add(L4);
+				}
+		}
+		gameArea.repaint();
+	}
 
 }
 
