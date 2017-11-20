@@ -114,6 +114,19 @@ public class SSQWorldOfSweetsTest {
 	}
 
 	@Test
+	public void testForSwapCard(){
+		Deck d = new Deck();
+		int m = 0;
+		while(!d.empty()) {
+			int c=d.drawCard();
+			if(c==16) {
+				m++;
+			}
+		}
+		assertTrue(m==4);
+	}
+
+	@Test
 	public void testFileCreation() throws IOException {
 		Player[] p = new Player[4];
 		for(int i = 0; i<4; i++)
