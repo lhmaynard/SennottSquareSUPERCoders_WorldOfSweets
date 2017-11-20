@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 public class Save {
-	/**
 	private Player[] players;
 	private Deck deckToBeSaved;
 	private int seconds, minutes, hours, days, currPlayer, lastCard;
@@ -57,5 +56,4 @@ public class Save {
 		pw.println(lastCard);
 		pw.close();
 	}
-	*/
 }
