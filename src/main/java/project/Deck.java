@@ -56,7 +56,7 @@ public class Deck {
 		size = 0;
 		//Arraylist to hold all of the cards that still need to be added
 		ArrayList<Integer> toAdd = new ArrayList<Integer>();
-		for(int i = 0; i < 70; i++){
+		for(int i = 0; i < 75; i++){
 			if(i < 10){
 				toAdd.add(0);
 			}
@@ -105,6 +105,10 @@ public class Deck {
 			else if(i == 69){
 				toAdd.add(15);
 			}
+			else if(i >69 || i <75)
+			{
+				toAdd.add(16);
+			}
 			size++;
 
 		}
@@ -141,6 +145,7 @@ public class Deck {
 	 * @return	13	A go to wrapped candy card
 	 * @return  14  A go to chocolate bar card
 	 * @return  15  A go to cake card
+	 * @return	16 a swap character card
 	 */
 	public int drawCard(){
 		int card = mydeck.pop();
