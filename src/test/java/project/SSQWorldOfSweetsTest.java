@@ -123,7 +123,7 @@ public class SSQWorldOfSweetsTest {
 				m++;
 			}
 		}
-		assertTrue(m==4);
+		assertTrue(m==5);
 	}
 
 	@Test
