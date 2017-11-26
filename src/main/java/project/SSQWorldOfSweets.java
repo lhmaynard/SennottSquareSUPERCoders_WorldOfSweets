@@ -29,6 +29,7 @@ public class SSQWorldOfSweets extends JPanel{
 	static int lastCardDrawn = -1;
 	static Deck gameDeck;
 	static int curPlayer=0;
+	static int gameMode = 0;
 	static JButton drawDeck2;
 	static JButton panelTimer;
 	static JButton t0, t1, t2, t3;
@@ -90,8 +91,16 @@ public class SSQWorldOfSweets extends JPanel{
 	 * @return none
 	 */
 	private static void createAndShowGUI(){
-		f = new MyFrame("World of Sweets!");
-		if(!loaded) nameEntry();
+		f = new MyFrame("World of Sweets!");		
+		if(!loaded){
+			String[] choices = {"Classic", "Strategic"};
+			Object selected = JOptionPane.showInputDialog(null, "What game mode would you like to play?", "Game Mode", JOptionPane.DEFAULT_OPTION, null, choices, "Classic");
+			if(selected.toString().equals("Classic"))
+				gameMode = 0;
+			else
+				gameMode = 1;
+			nameEntry();
+		}
 		addPanel(f.getContentPane());
 
 		f.pack();
