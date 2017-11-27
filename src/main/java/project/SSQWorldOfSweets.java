@@ -29,6 +29,7 @@ public class SSQWorldOfSweets extends JPanel{
 	static int lastCardDrawn = -1;
 	static Deck gameDeck;
 	static int curPlayer=0;
+	static int gameMode = 0;
 	static JButton drawDeck2;
 	static JButton panelTimer;
 	static JButton t0, t1, t2, t3;
@@ -90,8 +91,16 @@ public class SSQWorldOfSweets extends JPanel{
 	 * @return none
 	 */
 	private static void createAndShowGUI(){
-		f = new MyFrame("World of Sweets!");
-		if(!loaded) nameEntry();
+		f = new MyFrame("World of Sweets!");		
+		if(!loaded){
+			String[] choices = {"Classic", "Strategic"};
+			Object selected = JOptionPane.showInputDialog(null, "What game mode would you like to play?", "Game Mode", JOptionPane.DEFAULT_OPTION, null, choices, "Classic");
+			if(selected.toString().equals("Classic"))
+				gameMode = 0;
+			else
+				gameMode = 1;
+			nameEntry();
+		}
 		addPanel(f.getContentPane());
 
 		f.pack();
@@ -425,7 +434,7 @@ public class SSQWorldOfSweets extends JPanel{
 
 		//Setting size of gameArea panel
 		gameArea.setPreferredSize(new Dimension(650,750));
-		buttons = new JButton[55];
+		buttons = new JButton[56];
 		candyCards = new JButton[5];
 
 		beginZone = new JButton("Start");
@@ -452,8 +461,8 @@ public class SSQWorldOfSweets extends JPanel{
 				if(!loaded)beginZone.add(L2);
 		}
 
-
-		for(int i = 0; i < 54; i++){
+		buttons[0] = beginZone;
+		for(int i = 1; i < 55; i++){
 			//Array of JButtons that is the game board spaces
 			buttons[i] = new JButton();
 			buttons[i].setLayout(new GridLayout(2,2));
@@ -467,33 +476,38 @@ public class SSQWorldOfSweets extends JPanel{
 		paintCandyCards();
 
 		gameArea.setLayout(new GridLayout(13, 8, 0, 0));
-		for(int i = 0; i <= 53; i++){
+		for(int i = 0; i <= 54; i++){
 			//Hard Coding colors of Spaces
-			if((i % 5) == 0 ){
+			if((i % 5) == 1 ){
 				buttons[i].setBackground(Color.red);
 				sf.addRed(i);
 			}
-			if((i % 5) == 1){
+			if((i % 5) == 2){
 				buttons[i].setBackground(Color.yellow);
 				sf.addYellow(i);
 			}
-			if((i % 5) == 2){
-				buttons[i].setBackground(Color.cyan);
-				sf.addBlue(i);
-			}
 			if((i % 5) == 3){
-				if(i == 53){
+				if(i == 54){
 					buttons[i].setBackground(Color.magenta);
 					sf.setGrandma(i);
 				}
 				else{
-					buttons[i].setBackground(Color.green);
-					sf.addGreen(i);
+					buttons[i].setBackground(Color.cyan);
+					sf.addBlue(i);
 				}
 			}
 			if((i % 5) == 4){
-				buttons[i].setBackground(new Color(255, 201, 14));
-				sf.addOrange(i);
+				buttons[i].setBackground(Color.green);
+				sf.addGreen(i);
+			}
+			if((i % 5) == 0){
+				if(i == 0){
+				
+				}
+				else{
+					buttons[i].setBackground(new Color(255, 201, 14));
+					sf.addOrange(i);
+				}
 			}
 
 			buttons[i].setOpaque(true);
@@ -501,8 +515,9 @@ public class SSQWorldOfSweets extends JPanel{
 		}
 
 		//Snakes the area of buttons accross the board, adding white space to counteract the grid layout dynamics
-		int curSpace = 0;
+		
 		gameArea.add(beginZone);
+		int curSpace = 1;
 		for(int i = 0; i <= 2; i++){
 			if(i == 0){
 
