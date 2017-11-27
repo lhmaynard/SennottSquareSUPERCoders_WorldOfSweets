@@ -431,10 +431,12 @@ public class SSQWorldOfSweets extends JPanel{
 	private static void drawGameArea(JPanel gameArea){
 		//Setting background color of gameArea panel
 		gameArea.setBackground(Color.white);
-
+		
 		//Setting size of gameArea panel
 		gameArea.setPreferredSize(new Dimension(650,750));
-		buttons = new JButton[56];
+		JButton[] buttonsInit = new JButton[61];
+		int count = 1;
+		buttons = new JButton[61];
 		candyCards = new JButton[5];
 
 		beginZone = new JButton("Start");
@@ -461,11 +463,11 @@ public class SSQWorldOfSweets extends JPanel{
 				if(!loaded)beginZone.add(L2);
 		}
 
-		buttons[0] = beginZone;
-		for(int i = 1; i < 55; i++){
+		buttonsInit[0] = beginZone;
+		for(int i = 1; i < 60; i++){
 			//Array of JButtons that is the game board spaces
-			buttons[i] = new JButton();
-			buttons[i].setLayout(new GridLayout(2,2));
+			buttonsInit[i] = new JButton();
+			buttonsInit[i].setLayout(new GridLayout(2,2));
 		}
 		for(int i = 0; i < 5; i++){
 			candyCards[i] = new JButton();
@@ -479,39 +481,51 @@ public class SSQWorldOfSweets extends JPanel{
 		for(int i = 0; i <= 54; i++){
 			//Hard Coding colors of Spaces
 			if((i % 5) == 1 ){
-				buttons[i].setBackground(Color.red);
+				buttonsInit[i].setBackground(Color.red);
 				sf.addRed(i);
 			}
 			if((i % 5) == 2){
-				buttons[i].setBackground(Color.yellow);
+				buttonsInit[i].setBackground(Color.yellow);
 				sf.addYellow(i);
 			}
 			if((i % 5) == 3){
 				if(i == 54){
-					buttons[i].setBackground(Color.magenta);
+					buttonsInit[i].setBackground(Color.magenta);
 					sf.setGrandma(i);
 				}
 				else{
-					buttons[i].setBackground(Color.cyan);
+					buttonsInit[i].setBackground(Color.cyan);
 					sf.addBlue(i);
 				}
 			}
 			if((i % 5) == 4){
-				buttons[i].setBackground(Color.green);
+				buttonsInit[i].setBackground(Color.green);
 				sf.addGreen(i);
 			}
 			if((i % 5) == 0){
-				if(i == 0){
-				
-				}
-				else{
-					buttons[i].setBackground(new Color(255, 201, 14));
+				if(i != 0){
+					buttonsInit[i].setBackground(new Color(255, 201, 14));
 					sf.addOrange(i);
 				}
 			}
-
-			buttons[i].setOpaque(true);
-			buttons[i].setBorderPainted(false);
+			buttonsInit[i].setOpaque(true);
+			buttonsInit[i].setBorderPainted(false);
+		}
+		for (int i = 1; i < 60; i++){
+			if(i == 3)
+				buttons[i] = candyCards[4];
+			else if(i == 15)
+				buttons[i] = candyCards[2];
+			else if(i == 26)
+				buttons[i] = candyCards[3];
+			else if(i == 37)
+				buttons[i] = candyCards[1];
+			else if(i == 47)
+				buttons[i] = candyCards[0];
+			else{
+				buttons[i] = buttonsInit[count];
+				count++;
+			}
 		}
 
 		//Snakes the area of buttons accross the board, adding white space to counteract the grid layout dynamics
@@ -520,24 +534,13 @@ public class SSQWorldOfSweets extends JPanel{
 		int curSpace = 1;
 		for(int i = 0; i <= 2; i++){
 			if(i == 0){
-
 				for(int j = 0; j < 7; j++){
-					if(j == 2){
-						gameArea.add(candyCards[4]);
-					}
-					else{
-						gameArea.add(buttons[curSpace++]);
-					}
+					gameArea.add(buttons[curSpace++]);
 				}
 			}
 			else{
 				for(int j = 0; j < 8; j++){
-					if(i == 2 && j == 1){
-						gameArea.add(candyCards[1]);
-					}
-					else{
-						gameArea.add(buttons[curSpace++]);
-					}
+					gameArea.add(buttons[curSpace++]);
 				}
 			}
 
@@ -548,32 +551,13 @@ public class SSQWorldOfSweets extends JPanel{
 				white.setBackground(Color.WHITE);
 				gameArea.add(white);
 			}
-
-			if(i == 1){
-				gameArea.add(candyCards[3]);
+			
+			gameArea.add(buttons[curSpace++]);
+			
+			for(int j = 7; j >= 0; j--){
+				gameArea.add(buttons[curSpace + j]);
 			}
-			else{
-				gameArea.add(buttons[curSpace++]);
-			}
-
-			if(i == 1){
-				for(int j = 7; j >= 0; j--){
-					gameArea.add(buttons[curSpace + j]);
-				}
-				curSpace = curSpace + 8;
-			}
-			else{
-				for(int j = 6; j >= 0; j--){
-					if(i == 0 && j == 5){
-						gameArea.add(candyCards[2]);
-					}
-					else if(i == 2 && j == 1){
-						gameArea.add(candyCards[0]);
-					}
-					gameArea.add(buttons[curSpace + j]);
-				}
-				curSpace = curSpace + 7;
-			}
+			curSpace = curSpace + 8;
 
 			gameArea.add(buttons[curSpace++]);
 
