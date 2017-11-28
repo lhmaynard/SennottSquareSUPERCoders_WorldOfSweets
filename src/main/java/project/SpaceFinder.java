@@ -37,7 +37,7 @@ public class SpaceFinder{
     chocolate= 26;
     lollipop= 37;
     wrapped= 15;
-    grandma=53;
+    grandma=60;
   }
 
   public int findSpace(int space, int card){
