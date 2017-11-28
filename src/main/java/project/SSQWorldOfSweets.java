@@ -91,7 +91,7 @@ public class SSQWorldOfSweets extends JPanel{
 	 * @return none
 	 */
 	private static void createAndShowGUI(){
-		f = new MyFrame("World of Sweets!");		
+		f = new MyFrame("World of Sweets!");
 		if(!loaded){
 			String[] choices = {"Classic", "Strategic"};
 			Object selected = JOptionPane.showInputDialog(null, "What game mode would you like to play?", "Game Mode", JOptionPane.DEFAULT_OPTION, null, choices, "Classic");
@@ -431,7 +431,7 @@ public class SSQWorldOfSweets extends JPanel{
 	private static void drawGameArea(JPanel gameArea){
 		//Setting background color of gameArea panel
 		gameArea.setBackground(Color.white);
-		
+
 		//Setting size of gameArea panel
 		gameArea.setPreferredSize(new Dimension(650,750));
 		JButton[] buttonsInit = new JButton[61];
@@ -529,7 +529,7 @@ public class SSQWorldOfSweets extends JPanel{
 		}
 
 		//Snakes the area of buttons accross the board, adding white space to counteract the grid layout dynamics
-		
+
 		gameArea.add(beginZone);
 		int curSpace = 1;
 		for(int i = 0; i <= 2; i++){
@@ -551,9 +551,9 @@ public class SSQWorldOfSweets extends JPanel{
 				white.setBackground(Color.WHITE);
 				gameArea.add(white);
 			}
-			
+
 			gameArea.add(buttons[curSpace++]);
-			
+
 			for(int j = 7; j >= 0; j--){
 				gameArea.add(buttons[curSpace + j]);
 			}
@@ -1090,6 +1090,13 @@ public class SSQWorldOfSweets extends JPanel{
 				playerObjs = new Player[numPlayers];
 				for(int i = 0; i < numPlayers; i++){
 					String n = scan.next();
+					if (n.contains("\"")) {
+						if (n.equals("\"\"")) {
+							n = "";
+						} else {
+							n = n.split("\"")[1];
+						}
+					}
 					String t = scan.next();
 					int s = scan.nextInt();
 					int c = scan.nextInt();
