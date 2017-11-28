@@ -37,7 +37,7 @@ public class Save {
 		pw.println(players.length);
 		for(int i = 0; i<players.length; i++)
 		{
-			pw.println(players[i].getPlayerName());
+			pw.println("\"" + players[i].getPlayerName() + "\"");
 			pw.println(players[i].getToken());
 			pw.println(players[i].getCurrentSpace());
 			pw.println(players[i].getLastCard());
