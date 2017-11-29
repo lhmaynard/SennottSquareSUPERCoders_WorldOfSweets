@@ -32,12 +32,12 @@ public class SpaceFinder{
     greenSpaces = new ArrayList<Integer>();
     orangeSpaces = new ArrayList<Integer>();
 
-    cake= 1; //temporary so can run with old go to middle card
-    candyCorn= 41;
-    chocolate= 22;
-    lollipop= 32;
-    wrapped= 12;
-    grandma=53;
+    cake= 3; //temporary so can run with old go to middle card
+    candyCorn= 47;
+    chocolate= 26;
+    lollipop= 37;
+    wrapped= 15;
+    grandma=60;
   }
 
   public int findSpace(int space, int card){

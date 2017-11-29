@@ -29,6 +29,7 @@ public class SSQWorldOfSweets extends JPanel{
 	static int lastCardDrawn = -1;
 	static Deck gameDeck;
 	static int curPlayer=0;
+	static int gameMode = 0;
 	static JButton drawDeck2;
 	static JButton panelTimer;
 	static JButton t0, t1, t2, t3;
@@ -91,7 +92,15 @@ public class SSQWorldOfSweets extends JPanel{
 	 */
 	private static void createAndShowGUI(){
 		f = new MyFrame("World of Sweets!");
-		if(!loaded) nameEntry();
+		if(!loaded){
+			String[] choices = {"Classic", "Strategic"};
+			Object selected = JOptionPane.showInputDialog(null, "What game mode would you like to play?", "Game Mode", JOptionPane.DEFAULT_OPTION, null, choices, "Classic");
+			if(selected.toString().equals("Classic"))
+				gameMode = 0;
+			else
+				gameMode = 1;
+			nameEntry();
+		}
 		addPanel(f.getContentPane());
 
 		f.pack();
@@ -425,7 +434,9 @@ public class SSQWorldOfSweets extends JPanel{
 
 		//Setting size of gameArea panel
 		gameArea.setPreferredSize(new Dimension(650,750));
-		buttons = new JButton[55];
+		JButton[] buttonsInit = new JButton[61];
+		int count = 1;
+		buttons = new JButton[61];
 		candyCards = new JButton[5];
 
 		beginZone = new JButton("Start");
@@ -452,77 +463,94 @@ public class SSQWorldOfSweets extends JPanel{
 				if(!loaded)beginZone.add(L2);
 		}
 
-
-		for(int i = 0; i < 54; i++){
+		buttonsInit[0] = beginZone;
+		for(int i = 1; i < 60; i++){
 			//Array of JButtons that is the game board spaces
-			buttons[i] = new JButton();
-			buttons[i].setLayout(new GridLayout(2,2));
+			buttonsInit[i] = new JButton();
+			buttonsInit[i].setLayout(new GridLayout(2,2));
 		}
 		for(int i = 0; i < 5; i++){
 			candyCards[i] = new JButton();
 			candyCards[i].setLayout(new BorderLayout());
 			candyCards[i].setBackground(Color.pink);
 		}
-
 		paintCandyCards();
 
 		gameArea.setLayout(new GridLayout(13, 8, 0, 0));
-		for(int i = 0; i <= 53; i++){
+		for(int i = 0; i <= 54; i++){
 			//Hard Coding colors of Spaces
-			if((i % 5) == 0 ){
-				buttons[i].setBackground(Color.red);
-				sf.addRed(i);
-			}
-			if((i % 5) == 1){
-				buttons[i].setBackground(Color.yellow);
-				sf.addYellow(i);
+			if((i % 5) == 1 ){
+				buttonsInit[i].setBackground(Color.red);
 			}
 			if((i % 5) == 2){
-				buttons[i].setBackground(Color.cyan);
-				sf.addBlue(i);
+				buttonsInit[i].setBackground(Color.yellow);
 			}
 			if((i % 5) == 3){
-				if(i == 53){
-					buttons[i].setBackground(Color.magenta);
-					sf.setGrandma(i);
-				}
-				else{
-					buttons[i].setBackground(Color.green);
-					sf.addGreen(i);
-				}
+				buttonsInit[i].setBackground(Color.cyan);
 			}
 			if((i % 5) == 4){
-				buttons[i].setBackground(new Color(255, 201, 14));
-				sf.addOrange(i);
+				buttonsInit[i].setBackground(Color.green);
 			}
-
-			buttons[i].setOpaque(true);
-			buttons[i].setBorderPainted(false);
+			if((i % 5) == 0){
+				if(i != 0){
+					buttonsInit[i].setBackground(new Color(255, 201, 14));
+				}
+			}
+			buttonsInit[i].setOpaque(true);
+			buttonsInit[i].setBorderPainted(false);
+		}
+		for (int i = 1; i < 60; i++){
+			if(i == 3)
+				buttons[i] = candyCards[4];
+			else if(i == 15)
+				buttons[i] = candyCards[2];
+			else if(i == 26)
+				buttons[i] = candyCards[3];
+			else if(i == 37)
+				buttons[i] = candyCards[1];
+			else if(i == 47)
+				buttons[i] = candyCards[0];
+			else{
+				if((count % 5) == 1 ){
+					sf.addRed(i);
+				}
+				if((count % 5) == 2){
+					sf.addYellow(i);
+				}
+				if((count % 5) == 3){
+					if(count == 60){
+						sf.setGrandma(i);
+					}
+					else{
+						sf.addBlue(i);
+					}
+				}
+				if((count % 5) == 4){
+					sf.addGreen(i);
+				}
+				if((count % 5) == 0){
+					if(i != 0){
+						sf.addOrange(i);
+					}
+				}
+				buttons[i] = buttonsInit[count];
+				count++;
+			}
 		}
 
 		//Snakes the area of buttons accross the board, adding white space to counteract the grid layout dynamics
-		int curSpace = 0;
+
 		gameArea.add(beginZone);
+		int curSpace = 1;
 		for(int i = 0; i <= 2; i++){
 			if(i == 0){
-
 				for(int j = 0; j < 7; j++){
-					if(j == 2){
-						gameArea.add(candyCards[4]);
-					}
-					else{
-						gameArea.add(buttons[curSpace++]);
-					}
+					gameArea.add(buttons[curSpace++]);
 				}
 			}
 			else{
 				for(int j = 0; j < 8; j++){
-					if(i == 2 && j == 1){
-						gameArea.add(candyCards[1]);
-					}
-					else{
-						gameArea.add(buttons[curSpace++]);
-					}
+					gameArea.add(buttons[curSpace++]);
 				}
 			}
 
@@ -534,31 +562,12 @@ public class SSQWorldOfSweets extends JPanel{
 				gameArea.add(white);
 			}
 
-			if(i == 1){
-				gameArea.add(candyCards[3]);
-			}
-			else{
-				gameArea.add(buttons[curSpace++]);
-			}
+			gameArea.add(buttons[curSpace++]);
 
-			if(i == 1){
-				for(int j = 7; j >= 0; j--){
-					gameArea.add(buttons[curSpace + j]);
-				}
-				curSpace = curSpace + 8;
+			for(int j = 7; j >= 0; j--){
+				gameArea.add(buttons[curSpace + j]);
 			}
-			else{
-				for(int j = 6; j >= 0; j--){
-					if(i == 0 && j == 5){
-						gameArea.add(candyCards[2]);
-					}
-					else if(i == 2 && j == 1){
-						gameArea.add(candyCards[0]);
-					}
-					gameArea.add(buttons[curSpace + j]);
-				}
-				curSpace = curSpace + 7;
-			}
+			curSpace = curSpace + 8;
 
 			gameArea.add(buttons[curSpace++]);
 
@@ -575,7 +584,7 @@ public class SSQWorldOfSweets extends JPanel{
 		gameArea.add(buttons[curSpace++]);
 		gameArea.add(buttons[curSpace++]);
 		gameArea.add(buttons[curSpace++]);
-
+		gameArea.add(buttons[curSpace++]);
 
 		JButton endzone1 = new JButton();
 		endzone1.setLayout(new GridLayout(2, 1));
@@ -592,7 +601,7 @@ public class SSQWorldOfSweets extends JPanel{
 		endzone1.add(ezL2);
 
 
-
+		
 		JButton house = new JButton();
 		house.setBackground(Color.white);
 		house.setBorderPainted(false);
@@ -603,8 +612,9 @@ public class SSQWorldOfSweets extends JPanel{
 		} catch (Exception e) {
 			System.out.println(e);
 		}
+	
+		buttons[curSpace] = endzone1;
 		gameArea.add(buttons[curSpace]);
-		gameArea.add(endzone1);
 		gameArea.add(house);
 	}
 
@@ -898,7 +908,7 @@ public class SSQWorldOfSweets extends JPanel{
 
 		}
 
-		if(playerObjs[curPlayer].getCurrentSpace() == 53)
+		if(playerObjs[curPlayer].getCurrentSpace() == 60)
 			playerObjs[curPlayer].setGrandmasHouse(true);
 		addLabels(candyCardCheck, candyCardNum);
 	}
@@ -1091,6 +1101,13 @@ public class SSQWorldOfSweets extends JPanel{
 				playerObjs = new Player[numPlayers];
 				for(int i = 0; i < numPlayers; i++){
 					String n = scan.next();
+					if (n.contains("\"")) {
+						if (n.equals("\"\"")) {
+							n = "";
+						} else {
+							n = n.split("\"")[1];
+						}
+					}
 					String t = scan.next();
 					int s = scan.nextInt();
 					int c = scan.nextInt();
@@ -1208,68 +1225,6 @@ public class SSQWorldOfSweets extends JPanel{
 		playerObjs[curPlayer].setLastCard(16);
 	}
 
-	//  private static void moveSwappedPlayer(int cur){
- 	// 	boolean candyCardCheck = false;
- 	// 	int candyCardNum = 0;
- 	// 	int card = playerObjs[cur].getLastCard();
- 	// 	if (card > 10 && card < 16){
- 	// 		candyCardCheck = true;
- 	// 		switch (card){
- 	// 			case 11:
- 	// 				candyCardNum = 0;
- 	// 				break;
- 	// 			case 12:
- 	// 				candyCardNum = 1;
- 	// 				break;
- 	// 			case 13:
- 	// 				candyCardNum = 2;
- 	// 				break;
- 	// 			case 14:
- 	// 				candyCardNum = 3;
- 	// 				break;
- 	// 			case 15:
- 	// 				candyCardNum = 4;
- 	// 				break;
- 	// 		}
- 	// 	}
- 	// 	swapLabels(candyCardCheck, candyCardNum, cur);
- 	// }
-  //
-	// private static void swapLabels(boolean cardCheck, int cardNum, int cur){
-	// 	if(cur == 0) {
-	// 			if(cardCheck == true){
-	// 				candyCards[cardNum].add(L1, BorderLayout.SOUTH);
-	// 			}
-	// 			else{
-	// 				buttons[playerObjs[0].getCurrentSpace()].add(L1);
-	// 			}
-	// 	}
-	// 	else if(cur == 1){
-	// 			if(cardCheck == true){
-	// 				candyCards[cardNum].add(L2, BorderLayout.SOUTH);
-	// 			}
-	// 			else{
-	// 				buttons[playerObjs[1].getCurrentSpace()].add(L2);
-	// 			}
-	// 	}
-	// 	else if(cur == 2){
-	// 			if(cardCheck == true){
-	// 				candyCards[cardNum].add(L3, BorderLayout.SOUTH);
-	// 			}
-	// 			else{
-	// 				buttons[playerObjs[2].getCurrentSpace()].add(L3);
-	// 			}
-	// 	}
-	// 	else{
-	// 			if(cardCheck == true){
-	// 				candyCards[cardNum].add(L4, BorderLayout.SOUTH);
-	// 			}
-	// 			else{
-	// 				buttons[playerObjs[3].getCurrentSpace()].add(L4);
-	// 			}
-	// 	}
-	// 	gameArea.repaint();
-	// }
 
 }
 
