@@ -601,7 +601,7 @@ public class SSQWorldOfSweets extends JPanel{
 		endzone1.add(ezL2);
 
 
-		
+
 		JButton house = new JButton();
 		house.setBackground(Color.white);
 		house.setBorderPainted(false);
@@ -612,7 +612,7 @@ public class SSQWorldOfSweets extends JPanel{
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-	
+
 		buttons[curSpace] = endzone1;
 		gameArea.add(buttons[curSpace]);
 		gameArea.add(house);
@@ -678,6 +678,10 @@ public class SSQWorldOfSweets extends JPanel{
 	 */
 	private static void draw(){
 		if(gameDeck.empty() == false){
+			if(playerObjs[curPlayer].isDad()){
+				int replaceCard = sf.findDadCard(playerObjs[curPlayer].getCurrentSpace(), gameDeck);
+				gameDeck.moveToTop(replaceCard);
+			}
 			lastCardDrawn = gameDeck.drawCard();
 			if(lastCardDrawn != 16) playerObjs[curPlayer].setLastCard(lastCardDrawn);
 			displayDrawnCard(lastCardDrawn);
@@ -927,12 +931,12 @@ public class SSQWorldOfSweets extends JPanel{
 				buttons[playerObjs[0].getCurrentSpace()].add(L1);
 			}
 			else if(playerObjs[0].getCurrentSpace() != -1){
-				if(cardCheck == true){
-					candyCards[cardNum].add(L1, BorderLayout.SOUTH);
-				}
-				else{
+				// if(cardCheck == true){
+				// 	candyCards[cardNum].add(L1, BorderLayout.SOUTH);
+				// }
+				// else{
 					buttons[playerObjs[0].getCurrentSpace()].add(L1);
-				}
+				// }
 			}
 		}
 		else if(curPlayer == 1){
@@ -941,12 +945,12 @@ public class SSQWorldOfSweets extends JPanel{
 				buttons[playerObjs[1].getCurrentSpace()].add(L2);
 			}
 			else if(playerObjs[1].getCurrentSpace() != -1){
-				if(cardCheck == true){
-					candyCards[cardNum].add(L2, BorderLayout.SOUTH);
-				}
-				else{
+				// if(cardCheck == true){
+				// 	candyCards[cardNum].add(L2, BorderLayout.SOUTH);
+				// }
+				// else{
 					buttons[playerObjs[1].getCurrentSpace()].add(L2);
-				}
+				// }
 			}
 		}
 		else if(curPlayer == 2){
@@ -955,12 +959,12 @@ public class SSQWorldOfSweets extends JPanel{
 				buttons[playerObjs[2].getCurrentSpace()].add(L3);
 			}
 			else if(playerObjs[2].getCurrentSpace() != -1){
-				if(cardCheck == true){
-					candyCards[cardNum].add(L3, BorderLayout.SOUTH);
-				}
-				else{
+				// if(cardCheck == true){
+				// 	candyCards[cardNum].add(L3, BorderLayout.SOUTH);
+				// }
+				// else{
 					buttons[playerObjs[2].getCurrentSpace()].add(L3);
-				}
+				// }
 			}
 		}
 		else{
@@ -969,12 +973,12 @@ public class SSQWorldOfSweets extends JPanel{
 				buttons[playerObjs[3].getCurrentSpace()].add(L4);
 			}
 			else if(playerObjs[3].getCurrentSpace() != -1){
-				if(cardCheck == true){
-					candyCards[cardNum].add(L4, BorderLayout.SOUTH);
-				}
-				else{
+				// if(cardCheck == true){
+				// 	candyCards[cardNum].add(L4, BorderLayout.SOUTH);
+				// }
+				// else{
 					buttons[playerObjs[3].getCurrentSpace()].add(L4);
-				}
+				// }
 			}
 		}
 		gameArea.repaint();

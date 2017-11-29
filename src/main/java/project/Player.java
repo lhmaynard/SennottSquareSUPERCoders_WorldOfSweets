@@ -23,6 +23,7 @@ public class Player {
 	private int currentSpace;
 	private String playerToken;
 	private Boolean grandmasHouse;
+	private boolean dad;
 
 	/**
 	 * This is the player constructor that initializes a player based
@@ -40,6 +41,8 @@ public class Player {
 		playerNumber = num;
 		playerToken = tok;
 		grandmasHouse=false;
+		if(nam.equalsIgnoreCase("dad")) dad = true;
+		else dad = false;
 	}
 
 	public Player(int num, String nam, String tok, int space, int c){
@@ -49,6 +52,8 @@ public class Player {
 		playerToken = tok;
 		lastCard = c;
 		grandmasHouse=false;
+		if(nam.equalsIgnoreCase("dad")) dad = true;
+		else dad = false;
 	}
 
 	/**
@@ -171,6 +176,10 @@ public class Player {
 	 */
 	public void setGrandmasHouse(Boolean g){
 		grandmasHouse = g;
+	}
+
+	public boolean isDad(){
+		return dad;
 	}
 
 	/**

@@ -32,11 +32,11 @@ public class SpaceFinder{
     greenSpaces = new ArrayList<Integer>();
     orangeSpaces = new ArrayList<Integer>();
 
-    cake= 3; //temporary so can run with old go to middle card
-    candyCorn= 47;
+    cake= 3;
+    wrapped= 15;
     chocolate= 26;
     lollipop= 37;
-    wrapped= 15;
+    candyCorn= 47;
     grandma=60;
   }
 
@@ -99,6 +99,68 @@ public class SpaceFinder{
         break;
     }
     return ret;
+
+  }
+
+  public int findDadCard(int space, Deck deck){
+
+//need to do check for skip even if not candy candyCards
+//check behind
+//check skips
+//check candy next
+//check colors
+
+    if(space > cake)
+      if(deck.contains(15)) return 15;
+    if(space > wrapped)
+      if(deck.contains(13)) return 13;
+    if(space > chocolate)
+      if(deck.contains(14)) return 14;
+    if(space > lollipop)
+      if(deck.contains(12)) return 12;
+    if(space > candyCorn)
+      if(deck.contains(11)) return 11;
+
+
+    if(deck.contains(10)) return 10;
+
+
+    int count=0;
+    int checkTarget = space + 1;
+    int checkCard = 0;
+    while(checkTarget != grandma){
+      if(checkTarget == cake)
+        if(deck.contains(15)) return 15;
+
+      if(checkTarget == wrapped)
+        if(deck.contains(13)) return 13;
+
+      if(checkTarget == chocolate)
+        if(deck.contains(14)) return 14;
+
+      if(checkTarget == lollipop)
+        if(deck.contains(12)) return 12;
+
+      if(checkTarget == candyCorn)
+        if(deck.contains(11)) return 11;
+
+      checkCard = 0;
+      if(count > 4) checkCard = 5;
+
+      if(redSpaces.contains(checkTarget) && deck.contains(checkCard)) return checkCard;
+      checkCard++;
+      if(yellowSpaces.contains(checkTarget) && deck.contains(checkCard)) return checkCard;
+      checkCard++;
+      if(blueSpaces.contains(checkTarget) && deck.contains(checkCard)) return checkCard;
+      checkCard++;
+      if(greenSpaces.contains(checkTarget) && deck.contains(checkCard)) return checkCard;
+      checkCard++;
+      if(orangeSpaces.contains(checkTarget) && deck.contains(checkCard)) return checkCard;
+
+      checkTarget++;
+      count++;
+    }
+    return -1;
 
   }
 

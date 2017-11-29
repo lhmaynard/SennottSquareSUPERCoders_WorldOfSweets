@@ -184,4 +184,24 @@ public class Deck {
 			return false;
 		}
 	}
+
+	public boolean contains(int card){
+		if(mydeck.search(card) == -1) return false;
+		else return true;
+	}
+
+	public void moveToTop(int card){
+		int index = mydeck.search(card);
+		if(index == -1) return;
+
+		Stack<Integer> tempStack = new Stack<Integer>();
+		for(int i = 0; i < index; i++){
+			tempStack.push(mydeck.pop());
+		}
+		int save = tempStack.pop();
+		while(!tempStack.empty()){
+			mydeck.push(tempStack.pop());
+		}
+		mydeck.push(save);
+	}
 }
