@@ -1289,9 +1289,9 @@ class MyFrame extends JFrame {
 		curPlayer++;
 		if(curPlayer == playerObjs.length) curPlayer = 0;
 		JOptionPane.showMessageDialog(null, "It is "+playerObjs[curPlayer].getPlayerName()+"'s turn!", "Whose turn is it?", JOptionPane.PLAIN_MESSAGE);
-
-
-
+	}
+	else{
+		JOptionPane.showMessageDialog(null, "You're out of boomerangs, dummy!", "No boomerangs", JOptionPane.PLAIN_MESSAGE);
 	}
 
 
