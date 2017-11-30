@@ -17,6 +17,8 @@ import javax.swing.*;
 import java.util.*;
 import javax.swing.Timer;
 import java.io.*;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 /**
  *
@@ -31,6 +33,8 @@ public class SSQWorldOfSweets extends JPanel{
 	static int curPlayer=0;
 	static int gameMode = 0;
 	static JButton drawDeck2;
+	static Object playersO;
+	static int aiO;
 	static JButton panelTimer;
 	static JButton t0, t1, t2, t3;
 	static JPanel gameArea;
@@ -47,6 +51,7 @@ public class SSQWorldOfSweets extends JPanel{
 	static Thread t;
 	static Timer currTimer;
 	static boolean loaded;
+	static boolean successfulLoad = false;
 	static JButton beginZone;
 
 	/**
@@ -57,13 +62,15 @@ public class SSQWorldOfSweets extends JPanel{
 	 * @return none
 	 */
 	public static void main(String args[]){
-
-			javax.swing.SwingUtilities.invokeLater(new Runnable() {
+		startUp();
+	}
+	
+	private static void startUp(){
+		
+		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
-
 					try{
-						if (JOptionPane.showConfirmDialog(null, "Do you want to load a previous game?", "Welcome to World of Sweets!",
-					JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+						if (JOptionPane.showConfirmDialog(null, "Do you want to load a previous game?", "Welcome to World of Sweets!", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 								loaded = true;
 								load();
 						}
@@ -71,19 +78,26 @@ public class SSQWorldOfSweets extends JPanel{
 							gameDeck = new Deck();
 							loaded = false;
 						}
-						sf = new SpaceFinder();
-						createAndShowGUI();
+						//Ensures game is loaded after successful file read, or starting a new game
+						if(successfulLoad == true || loaded == false){
+							sf = new SpaceFinder();
+							createAndShowGUI();
+						}
 					}
 					catch(java.lang.NullPointerException npe){
+						System.out.println(npe);
+						System.exit(1);
+					}
+					catch(NoSuchAlgorithmException nsae1){
+						System.out.println(nsae1);
 						System.exit(1);
 					}
 
 				}
 			});
+		
 	}
-
-
-
+	
 	/**
 	 * This method creates the game GUI window
 	 *
@@ -92,6 +106,7 @@ public class SSQWorldOfSweets extends JPanel{
 	 */
 	private static void createAndShowGUI(){
 		f = new MyFrame("World of Sweets!");
+		playerTypes();
 		if(!loaded){
 			String[] choices = {"Classic", "Strategic"};
 			Object selected = JOptionPane.showInputDialog(null, "What game mode would you like to play?", "Game Mode", JOptionPane.DEFAULT_OPTION, null, choices, "Classic");
@@ -226,7 +241,11 @@ public class SSQWorldOfSweets extends JPanel{
 			public void actionPerformed(ActionEvent e){
 				try {
 					saveGame();
-				} catch(IOException io) { }
+				}
+				catch(Exception exc) {
+					System.out.println(exc);
+					System.exit(1);
+				}
 			}
 		};
 		saveButton.addActionListener(saveAction);
@@ -795,9 +814,8 @@ public class SSQWorldOfSweets extends JPanel{
 		if(lastCardDrawn != 16)movePlayer();
 		else swapPlayers();
 		if(playerObjs[curPlayer].getGrandmasHouse()){
-			if (JOptionPane.showConfirmDialog(null, playerObjs[curPlayer].getPlayerName()+" won the game! Have fun at Grandma's House!\nPlay again?", "WINNER WINNER WINNER",
-        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-				//yes option
+			//Play again
+			if (JOptionPane.showConfirmDialog(null, playerObjs[curPlayer].getPlayerName()+" won the game! Have fun at Grandma's House!\nPlay again?", "WINNER WINNER WINNER", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 				curPlayer=0;
 				gameDeck = new Deck();
 				lastCardDrawn = -1;
@@ -811,14 +829,16 @@ public class SSQWorldOfSweets extends JPanel{
 				try{
 					t.join();
 				}catch(InterruptedException iex){
-
+					System.out.println(iex);
+					System.exit(1);
 				}
 				f.dispose();
-				loaded = false;
-				createAndShowGUI();
+				startUp();
 			}
+			//Exit game
 			else {
 				f.dispose();
+				System.exit(0);
 			}
 		}
 		else{
@@ -844,6 +864,31 @@ public class SSQWorldOfSweets extends JPanel{
 		return playerLabels;
 	}
 
+	
+	private static void playerTypes(){
+			String[] numOfPlayers = {"2", "3", "4"};
+			playersO = JOptionPane.showInputDialog(null, "How many players are here?", "Welcome to World Of Sweets!", JOptionPane.DEFAULT_OPTION, null, numOfPlayers, "2");
+			playerObjs = new Player[Integer.parseInt(playersO.toString())];
+		
+			if(playerObjs.length  == 3){
+				String[] aiPlayers = {"0", "1", "2", "3"};
+				Object aiObj = JOptionPane.showInputDialog(null, "How many players are AI Players?", "Welcome to World Of Sweets!", JOptionPane.DEFAULT_OPTION, null,aiPlayers, "0");
+				aiO = Integer.parseInt(aiObj.toString());
+				
+			}
+			else if(playerObjs.length < 3){
+				String[] aiPlayers = {"0", "1", "2"};
+				Object aiObj = JOptionPane.showInputDialog(null, "How many players are AI Players?", "Welcome to World Of Sweets!", JOptionPane.DEFAULT_OPTION, null,aiPlayers, "0");
+				aiO = Integer.parseInt(aiObj.toString());
+			}
+			else{
+				String[] aiPlayers = {"0", "1", "2", "3", "4"};
+				Object aiObj = JOptionPane.showInputDialog(null, "How many players are AI Players?", "Welcome to World Of Sweets!", JOptionPane.DEFAULT_OPTION, null,aiPlayers, "0");
+				aiO = Integer.parseInt(aiObj.toString());
+			}
+	}
+	
+	
 	/**
 	 * This method is a helper method that collects player information from
 	 * the users such as number of players, player names, and player tokens
@@ -853,19 +898,28 @@ public class SSQWorldOfSweets extends JPanel{
 	 */
 	private static void nameEntry(){
 		try{
-			String[] numOfPlayers = {"2", "3", "4"};
 			String[] symbolsOfPlayers = {"@", "#", "$", "%"};
 			ArrayList<String> al = new ArrayList<String>(Arrays.asList("@", "#", "$", "%"));
-			Object playersO = JOptionPane.showInputDialog(null, "How many players are here?", "Welcome to World Of Sweets!", JOptionPane.DEFAULT_OPTION, null, numOfPlayers, "2");
-			playerObjs = new Player[Integer.parseInt(playersO.toString())];
-			for(int i=0; i < playerObjs.length; i++)
+			int p = playerObjs.length - aiO;
+			for(int i=0; i < (playerObjs.length); i++)
 			{
-			  String tempName = JOptionPane.showInputDialog(null, "What is your name?", "Player " + (i+1), JOptionPane.QUESTION_MESSAGE);
-				playersO = JOptionPane.showInputDialog(null, "What Token would you like?", "Player " + (i+1), JOptionPane.DEFAULT_OPTION, null, symbolsOfPlayers, "@");
-				String str = playersO.toString();
-				al.remove(str);
-				symbolsOfPlayers=al.toArray(new String[al.size()]);
-			  playerObjs[i] = new Player(i+1, tempName, str);
+				if(i > (p-1)){
+					String tempName = JOptionPane.showInputDialog(null, "What is the AI Name?", "AI " + (i+1), JOptionPane.QUESTION_MESSAGE);
+					playersO = JOptionPane.showInputDialog(null, "What Token should the AI have?", "AI " + (i+1), JOptionPane.DEFAULT_OPTION, null, symbolsOfPlayers, "@");
+					String str = playersO.toString();
+					al.remove(str);
+					symbolsOfPlayers=al.toArray(new String[al.size()]);
+					playerObjs[i] = new Player(i+1, tempName, str);
+				}
+				else{
+					String tempName = JOptionPane.showInputDialog(null, "What is your name?", "Player " + (i+1), JOptionPane.QUESTION_MESSAGE);
+					playersO = JOptionPane.showInputDialog(null, "What Token would you like?", "Player " + (i+1), JOptionPane.DEFAULT_OPTION, null, symbolsOfPlayers, "@");
+					String str = playersO.toString();
+					al.remove(str);
+					symbolsOfPlayers=al.toArray(new String[al.size()]);
+					playerObjs[i] = new Player(i+1, tempName, str);
+				}
+
 			}
 		}
 		//This catches if the user closes or exits from a name or token prompt before the game loads
@@ -1079,7 +1133,7 @@ public class SSQWorldOfSweets extends JPanel{
 
     }
 
-	public static void load(){
+	public static void load() throws NoSuchAlgorithmException{
 		try{
 			File dir = new File(System.getProperty("user.dir"));
 			File[] files = finder();
@@ -1099,39 +1153,94 @@ public class SSQWorldOfSweets extends JPanel{
 			try{
 				Object f = JOptionPane.showInputDialog(null, "Which file do you want to load?", "Welcome to World Of Sweets!", JOptionPane.DEFAULT_OPTION, null, filenames, filenames[0]);
 				String selectedFName = f.toString();
-				File selectedFile = new File(selectedFName);
-				Scanner scan = new Scanner(selectedFile);
-				int numPlayers = scan.nextInt();
-				playerObjs = new Player[numPlayers];
-				for(int i = 0; i < numPlayers; i++){
-					String n = scan.next();
-					if (n.contains("\"")) {
-						if (n.equals("\"\"")) {
-							n = "";
-						} else {
-							n = n.split("\"")[1];
+				
+				
+				FileReader fr = new FileReader(selectedFName);
+				BufferedReader br = new BufferedReader(fr);
+				PrintWriter pw = new PrintWriter(new File("tempFile.wos"));
+				
+				String hexHash = br.readLine();
+				String curLine;
+				
+				//Printing data minus hash to a new temp file so that
+				//it can be rehashed to compare the value
+				while((curLine = br.readLine()) != null){
+					pw.println(curLine);
+				}
+				fr.close();
+				br.close();
+				pw.close();
+				
+				//Rehashing temp file so that hash values can be compared
+				File tempFileToHash = new File("tempFile.wos");
+				FileInputStream fis = new FileInputStream(tempFileToHash);
+				int byteLength = (int)tempFileToHash.length();
+				
+				byte[] fileByteArray = new byte[byteLength];
+				byte[] fileHash;
+				fis.read(fileByteArray, 0, byteLength);
+				fis.close();
+				
+				MessageDigest md = MessageDigest.getInstance("SHA-256");
+				md.update(fileByteArray);
+				fileHash = md.digest();
+				
+				StringBuilder sb = new StringBuilder();
+				for(byte b : fileHash){
+					sb.append(String.format("%02x", b&0xff));
+				}
+				
+				//Deleting temp file used for hashing
+				File rmf0 = new File("tempFile.wos");
+				rmf0.delete();
+				
+				String newHash = sb.toString();
+				
+				//If file has been tampered with
+				if(!newHash.equals(hexHash)){
+					JOptionPane.showMessageDialog(null, "The file you are trying to load is corrupt or has been tampered with!", "CORRUPT FILE!", JOptionPane.PLAIN_MESSAGE);
+					successfulLoad = false;
+					startUp();
+				}
+				else{
+					File selectedFile = new File(selectedFName);
+					Scanner scan = new Scanner(selectedFile);
+					//Consuming hash string from first line
+					scan.nextLine();
+					
+					int numPlayers = scan.nextInt();
+					playerObjs = new Player[numPlayers];
+					for(int i = 0; i < numPlayers; i++){
+						String n = scan.next();
+						if (n.contains("\"")) {
+							if (n.equals("\"\"")) {
+								n = "";
+							} else {
+								n = n.split("\"")[1];
+							}
 						}
+						String t = scan.next();
+						int s = scan.nextInt();
+						int c = scan.nextInt();
+						playerObjs[i] = new Player(i, n, t, s, c);
 					}
-					String t = scan.next();
-					int s = scan.nextInt();
-					int c = scan.nextInt();
-					playerObjs[i] = new Player(i, n, t, s, c);
+					int dSize = scan.nextInt();
+					Stack<Integer> tempStack = new Stack<Integer>();
+					for(int i = 0; i < dSize; i++){
+						tempStack.push(scan.nextInt());
+					}
+					gameDeck = new Deck(1);
+					for(int i = 0; i < dSize; i++){
+						gameDeck.push(tempStack.pop());
+					}
+					seconds = scan.nextInt();
+					minutes = scan.nextInt();
+					hours = scan.nextInt();
+					days = scan.nextInt();
+					curPlayer = scan.nextInt();
+					lastCardDrawn = scan.nextInt();
+					successfulLoad = true;
 				}
-				int dSize = scan.nextInt();
-				Stack<Integer> tempStack = new Stack<Integer>();
-				for(int i = 0; i < dSize; i++){
-					tempStack.push(scan.nextInt());
-				}
-				gameDeck = new Deck(1);
-				for(int i = 0; i < dSize; i++){
-					gameDeck.push(tempStack.pop());
-				}
-				seconds = scan.nextInt();
-				minutes = scan.nextInt();
-				hours = scan.nextInt();
-				days = scan.nextInt();
-				curPlayer = scan.nextInt();
-				lastCardDrawn = scan.nextInt();
 			}
 			catch(java.lang.NullPointerException npe){
 				System.exit(1);
@@ -1139,6 +1248,7 @@ public class SSQWorldOfSweets extends JPanel{
 		}
 		catch(Exception e){
 			System.out.println(e);
+			System.exit(1);
 		}
 	}
 
@@ -1147,11 +1257,17 @@ public class SSQWorldOfSweets extends JPanel{
 	 *
 	 *
 	 */
-	 private static void saveGame() throws IOException {
-		 JOptionPane.showMessageDialog(null, "Now saving game!", "Save Game", JOptionPane.PLAIN_MESSAGE);
-		 Save s = new Save(playerObjs, gameDeck, seconds, minutes, hours, days, curPlayer, lastCardDrawn);
-		 JOptionPane.showMessageDialog(null, "Done, goodbye!", " ", JOptionPane.PLAIN_MESSAGE);
-		 System.exit(0);
+	 private static void saveGame() throws Exception {
+		try{
+			JOptionPane.showMessageDialog(null, "Now saving game!", "Save Game", JOptionPane.PLAIN_MESSAGE);
+			Save s = new Save(playerObjs, gameDeck, seconds, minutes, hours, days, curPlayer, lastCardDrawn);
+			JOptionPane.showMessageDialog(null, "Done, goodbye!", " ", JOptionPane.PLAIN_MESSAGE);
+			System.exit(0);
+		}
+		catch(Exception exc){
+			System.out.println(exc);
+			System.exit(1);
+		}
 	 }
 
 	 private static void swapPlayers() {
