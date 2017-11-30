@@ -85,8 +85,7 @@ public class Save {
 			}
 			
 			String finalHexString = sb.toString();
-			fis.close();
-			rewriteFile(fileName, finalHexString);
+			//rewriteFile(fileName, finalHexString);
 			
 		}
 		catch(NoSuchAlgorithmException nsae){
@@ -100,41 +99,15 @@ public class Save {
 		FileReader fr = new FileReader(fileName);
 		BufferedReader br = new BufferedReader(fr);
 		
-		//Printing hex hash to first line of new file
 		pw.println(hexVal);
 		String curLine;
 		
-		//Printing same data from original file to new file
 		while((curLine = br.readLine()) != null){
 			pw.println(curLine);
 		}
 		br.close();
 		fr.close();
 		pw.close();
-		
-		//Removing old file
-		File rmF = new File(fileName);
-		rmF.delete();
-		
-		//Renaming file to old file name
-		pw = new PrintWriter(new File(fileName));
-		fr = new FileReader(tempFileName);
-		br = new BufferedReader(fr);
-		
-		String newLine;
-		
-		while((newLine = br.readLine()) != null){
-			pw.println(newLine);
-		}
-		
-		br.close();
-		fr.close();
-		pw.close();
-		
-		//Removing temp file since new file has been renamed to old
-		//file name
-		File rmf1 = new File(tempFileName);
-		rmf1.delete();
 		
 	}
 }
