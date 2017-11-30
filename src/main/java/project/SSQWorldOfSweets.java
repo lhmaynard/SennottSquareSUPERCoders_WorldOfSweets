@@ -304,6 +304,7 @@ public class SSQWorldOfSweets extends JPanel{
 		deckArea.add(timeLabel, c);
 
 		//Padding
+		/**
 		blankLabel = new JLabel("");
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.weightx = 1.0;
@@ -312,6 +313,30 @@ public class SSQWorldOfSweets extends JPanel{
 		c.gridx =0;
 		c.gridy = 1;
 		deckArea.add(blankLabel, c);
+		*/
+		//Boomerang Button
+		JButton boomerangButton = new JButton("Use Boomerang");
+
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 0.50;
+		c.gridwidth = 1;
+		c.gridx = 0;
+		c.gridy = 1;
+		boomerangButton.setOpaque(true);
+		boomerangButton.setBorderPainted(false);
+		ActionListener boomerangAction = new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				try {
+					useBoomerang();
+				}
+				catch(Exception e01) {
+					System.out.println(e01);
+					System.exit(1);
+				}
+			}
+		};
+		boomerangButton.addActionListener(boomerangAction);
+		deckArea.add(boomerangButton, c);
 
 		//Click to Draw Card Button
 		JButton drawDeck = new JButton();
@@ -1257,7 +1282,7 @@ public class SSQWorldOfSweets extends JPanel{
 	 *
 	 *
 	 */
-	 private static void saveGame() throws Exception {
+	private static void saveGame() throws Exception{
 		try{
 			JOptionPane.showMessageDialog(null, "Now saving game!", "Save Game", JOptionPane.PLAIN_MESSAGE);
 			Save s = new Save(playerObjs, gameDeck, seconds, minutes, hours, days, curPlayer, lastCardDrawn);
@@ -1268,9 +1293,16 @@ public class SSQWorldOfSweets extends JPanel{
 			System.out.println(exc);
 			System.exit(1);
 		}
+	}
+	
+	/**
+	 * 
+	 */
+	 private static void useBoomerang() throws Exception{
+		 
 	 }
-
-	 private static void swapPlayers() {
+	
+	private static void swapPlayers() {
 		Random rand = new Random();
 		rand.setSeed(System.currentTimeMillis());
 		ArrayList<Integer> usedNums = new ArrayList<Integer>(playerObjs.length);
