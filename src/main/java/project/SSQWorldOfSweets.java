@@ -31,6 +31,8 @@ public class SSQWorldOfSweets extends JPanel{
 	static int curPlayer=0;
 	static int gameMode = 0;
 	static JButton drawDeck2;
+	static Object playersO;
+	static int aiO;
 	static JButton panelTimer;
 	static JButton t0, t1, t2, t3;
 	static JPanel gameArea;
@@ -81,9 +83,7 @@ public class SSQWorldOfSweets extends JPanel{
 				}
 			});
 	}
-
-
-
+	
 	/**
 	 * This method creates the game GUI window
 	 *
@@ -92,6 +92,7 @@ public class SSQWorldOfSweets extends JPanel{
 	 */
 	private static void createAndShowGUI(){
 		f = new MyFrame("World of Sweets!");
+		playerTypes();
 		if(!loaded){
 			String[] choices = {"Classic", "Strategic"};
 			Object selected = JOptionPane.showInputDialog(null, "What game mode would you like to play?", "Game Mode", JOptionPane.DEFAULT_OPTION, null, choices, "Classic");
@@ -844,6 +845,31 @@ public class SSQWorldOfSweets extends JPanel{
 		return playerLabels;
 	}
 
+	
+	private static void playerTypes(){
+			String[] numOfPlayers = {"2", "3", "4"};
+			playersO = JOptionPane.showInputDialog(null, "How many players are here?", "Welcome to World Of Sweets!", JOptionPane.DEFAULT_OPTION, null, numOfPlayers, "2");
+			playerObjs = new Player[Integer.parseInt(playersO.toString())];
+		
+			if(playerObjs.length  == 3){
+				String[] aiPlayers = {"0", "1", "2", "3"};
+				Object aiObj = JOptionPane.showInputDialog(null, "How many players are AI Players?", "Welcome to World Of Sweets!", JOptionPane.DEFAULT_OPTION, null,aiPlayers, "0");
+				aiO = Integer.parseInt(aiObj.toString());
+				
+			}
+			else if(playerObjs.length < 3){
+				String[] aiPlayers = {"0", "1", "2"};
+				Object aiObj = JOptionPane.showInputDialog(null, "How many players are AI Players?", "Welcome to World Of Sweets!", JOptionPane.DEFAULT_OPTION, null,aiPlayers, "0");
+				aiO = Integer.parseInt(aiObj.toString());
+			}
+			else{
+				String[] aiPlayers = {"0", "1", "2", "3", "4"};
+				Object aiObj = JOptionPane.showInputDialog(null, "How many players are AI Players?", "Welcome to World Of Sweets!", JOptionPane.DEFAULT_OPTION, null,aiPlayers, "0");
+				aiO = Integer.parseInt(aiObj.toString());
+			}
+	}
+	
+	
 	/**
 	 * This method is a helper method that collects player information from
 	 * the users such as number of players, player names, and player tokens
@@ -853,19 +879,28 @@ public class SSQWorldOfSweets extends JPanel{
 	 */
 	private static void nameEntry(){
 		try{
-			String[] numOfPlayers = {"2", "3", "4"};
 			String[] symbolsOfPlayers = {"@", "#", "$", "%"};
 			ArrayList<String> al = new ArrayList<String>(Arrays.asList("@", "#", "$", "%"));
-			Object playersO = JOptionPane.showInputDialog(null, "How many players are here?", "Welcome to World Of Sweets!", JOptionPane.DEFAULT_OPTION, null, numOfPlayers, "2");
-			playerObjs = new Player[Integer.parseInt(playersO.toString())];
-			for(int i=0; i < playerObjs.length; i++)
+			int p = playerObjs.length - aiO;
+			for(int i=0; i < (playerObjs.length); i++)
 			{
-			  String tempName = JOptionPane.showInputDialog(null, "What is your name?", "Player " + (i+1), JOptionPane.QUESTION_MESSAGE);
-				playersO = JOptionPane.showInputDialog(null, "What Token would you like?", "Player " + (i+1), JOptionPane.DEFAULT_OPTION, null, symbolsOfPlayers, "@");
-				String str = playersO.toString();
-				al.remove(str);
-				symbolsOfPlayers=al.toArray(new String[al.size()]);
-			  playerObjs[i] = new Player(i+1, tempName, str);
+				if(i > (p-1)){
+					String tempName = JOptionPane.showInputDialog(null, "What is the AI Name?", "AI " + (i+1), JOptionPane.QUESTION_MESSAGE);
+					playersO = JOptionPane.showInputDialog(null, "What Token should the AI have?", "AI " + (i+1), JOptionPane.DEFAULT_OPTION, null, symbolsOfPlayers, "@");
+					String str = playersO.toString();
+					al.remove(str);
+					symbolsOfPlayers=al.toArray(new String[al.size()]);
+					playerObjs[i] = new Player(i+1, tempName, str);
+				}
+				else{
+					String tempName = JOptionPane.showInputDialog(null, "What is your name?", "Player " + (i+1), JOptionPane.QUESTION_MESSAGE);
+					playersO = JOptionPane.showInputDialog(null, "What Token would you like?", "Player " + (i+1), JOptionPane.DEFAULT_OPTION, null, symbolsOfPlayers, "@");
+					String str = playersO.toString();
+					al.remove(str);
+					symbolsOfPlayers=al.toArray(new String[al.size()]);
+					playerObjs[i] = new Player(i+1, tempName, str);
+				}
+
 			}
 		}
 		//This catches if the user closes or exits from a name or token prompt before the game loads
