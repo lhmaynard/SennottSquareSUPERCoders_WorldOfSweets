@@ -102,6 +102,71 @@ public class SpaceFinder{
 
   }
 
+  public int findBoomerangSpace(int card, int space){
+
+    int temp;
+    int ret=-1;
+    switch(card){
+      case 0:
+        ret = getPrevRed(space);
+        break;
+      case 1:
+        ret = getPrevYellow(space);
+        break;
+      case 2:
+        ret = getPrevBlue(space);
+        break;
+      case 3:
+        ret = getPrevGreen(space);
+        break;
+      case 4:
+        ret = getPrevOrange(space);
+        break;
+      case 5:
+        temp = getPrevRed(space);
+        ret = getPrevRed(temp);
+        break;
+      case 6:
+        temp = getPrevYellow(space);
+        ret = getPrevYellow(temp);
+        break;
+      case 7:
+        temp = getPrevBlue(space);
+        ret = getPrevBlue(temp);
+        break;
+      case 8:
+        temp = getPrevGreen(space);
+        ret = getPrevGreen(temp);
+        break;
+      case 9:
+        temp = getPrevOrange(space);
+        ret = getPrevOrange(temp);
+        break;
+      case 10:
+        ret = space;
+        break;
+      case 11:
+        ret = candyCorn;
+        break;
+      case 12:
+        ret = lollipop;
+        break;
+      case 13:
+        ret = wrapped;
+        break;
+      case 14:
+        ret = chocolate;
+        break;
+      case 15:
+        ret = cake;
+        break;
+    }
+    return ret;
+
+  }
+
+
+
   public int findDadCard(int space, Deck deck){
 
 //need to do check for skip even if not candy candyCards
@@ -244,4 +309,42 @@ public class SpaceFinder{
     }
     return grandma;
   }
+
+
+  public int getPrevRed(int curSpace){
+    for(int i = redSpaces.size() -1; i <= 0; i--){
+      if(redSpaces.get(i) < curSpace) return redSpaces.get(i);
+    }
+    return 0;
+  }
+
+  public int getPrevYellow(int curSpace){
+    for(int i = redSpaces.size() -1; i <= 0; i--){
+      if(yellowSpaces.get(i) < curSpace) return yellowSpaces.get(i);
+    }
+    return 0;
+  }
+
+  public int getPrevBlue(int curSpace){
+    for(int i = redSpaces.size() -1; i <= 0; i--){
+      if(blueSpaces.get(i) < curSpace) return blueSpaces.get(i);
+    }
+    return 0;
+  }
+
+  public int getPrevGreen(int curSpace){
+    for(int i = redSpaces.size() -1; i <= 0; i--){
+      if(greenSpaces.get(i) < curSpace) return greenSpaces.get(i);
+    }
+    return 0;
+  }
+
+  public int getPrevOrange(int curSpace){
+    for(int i = redSpaces.size() -1; i <= 0; i--){
+      if(orangeSpaces.get(i) < curSpace) return orangeSpaces.get(i);
+    }
+    return 0;
+  }
+
+
 }
