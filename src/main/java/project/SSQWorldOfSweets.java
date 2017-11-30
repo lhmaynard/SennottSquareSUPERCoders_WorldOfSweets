@@ -106,8 +106,8 @@ public class SSQWorldOfSweets extends JPanel{
 	 */
 	private static void createAndShowGUI(){
 		f = new MyFrame("World of Sweets!");
-		playerTypes();
 		if(!loaded){
+			playerTypes();
 			String[] choices = {"Classic", "Strategic"};
 			Object selected = JOptionPane.showInputDialog(null, "What game mode would you like to play?", "Game Mode", JOptionPane.DEFAULT_OPTION, null, choices, "Classic");
 			if(selected.toString().equals("Classic"))
