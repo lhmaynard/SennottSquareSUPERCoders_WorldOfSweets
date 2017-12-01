@@ -904,7 +904,13 @@ public class SSQWorldOfSweets extends JPanel{
 		else{
 			curPlayer++;
 			if(curPlayer == playerObjs.length) curPlayer = 0;
-			JOptionPane.showMessageDialog(null, "It is "+playerObjs[curPlayer].getPlayerName()+"'s turn!", "Whose turn is it?", JOptionPane.PLAIN_MESSAGE);
+			if(!playerObjs[curPlayer].isAI()) {
+					JOptionPane.showMessageDialog(null, "It is "+playerObjs[curPlayer].getPlayerName()+"'s turn!", "Whose turn is it?", JOptionPane.PLAIN_MESSAGE);
+			}
+			if(playerObjs[curPlayer].isAI() && gameMode == 0) {
+				draw();
+				updateTurn();
+			}
 		}
   }
 
@@ -970,6 +976,7 @@ public class SSQWorldOfSweets extends JPanel{
 					al.remove(str);
 					symbolsOfPlayers=al.toArray(new String[al.size()]);
 					playerObjs[i] = new Player(i+1, tempName, str);
+					playerObjs[i].setAIPlayer(true);
 				}
 				else{
 					String tempName = JOptionPane.showInputDialog(null, "What is your name?", "Player " + (i+1), JOptionPane.QUESTION_MESSAGE);
@@ -1282,7 +1289,9 @@ public class SSQWorldOfSweets extends JPanel{
 						String t = scan.next();
 						int s = scan.nextInt();
 						int c = scan.nextInt();
-						playerObjs[i] = new Player(i, n, t, s, c);
+						boolean a = scan.nextBoolean();
+						int b = scan.nextInt();
+						playerObjs[i] = new Player(i, n, t, s, c, a, b);
 					}
 					int dSize = scan.nextInt();
 					Stack<Integer> tempStack = new Stack<Integer>();
@@ -1329,6 +1338,7 @@ public class SSQWorldOfSweets extends JPanel{
 			System.exit(1);
 		}
 	}
+
 	private static void swapPlayers() {
 		Random rand = new Random();
 		rand.setSeed(System.currentTimeMillis());
