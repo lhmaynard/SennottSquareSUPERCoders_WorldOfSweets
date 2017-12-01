@@ -182,6 +182,10 @@ public class Player {
 		return dad;
 	}
 
+	public boolean useBoomerang(){
+		return true;
+	}
+
 	/**
 	 * This toString method prints out relevant player information
 	 *
