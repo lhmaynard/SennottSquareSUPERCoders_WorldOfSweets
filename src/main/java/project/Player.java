@@ -43,6 +43,7 @@ public class Player {
 		playerNumber = num;
 		playerToken = tok;
 		grandmasHouse=false;
+		boomerangs = 3;
 		if(nam.equalsIgnoreCase("dad")) dad = true;
 		else dad = false;
 	}
