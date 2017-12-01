@@ -202,6 +202,7 @@ public class Player {
 		return dad;
 	}
 
+
 	public boolean isAI() {
 		return compPlayer;
 	}

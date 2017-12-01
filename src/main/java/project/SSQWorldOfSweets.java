@@ -327,7 +327,41 @@ public class SSQWorldOfSweets extends JPanel{
 		ActionListener boomerangAction = new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				try {
-					useBoomerang();
+
+					boolean canUseBoomerang = playerObjs[curPlayer].useBoomerang();
+					if(canUseBoomerang){
+						String [] playerNames = new String[playerObjs.length-1];
+						int tempCount = 0;
+						for(int i = 0;i < playerObjs.length; i ++){
+							if(!playerObjs[i].getPlayerName().equals(playerObjs[curPlayer].getPlayerName())){
+								playerNames[tempCount] = playerObjs[i].getPlayerName();
+								tempCount++;
+							}
+						}
+
+						Object f = JOptionPane.showInputDialog(null, "Who do you want to chuck that boomerang at?", "Git em!", JOptionPane.DEFAULT_OPTION, null, playerNames, playerNames[0]);
+						String selectedName = f.toString();
+						int boomPlayer = -1;
+						for(int i = 0; i < playerObjs.length; i++){
+							if(playerObjs[i].getPlayerName().equals(selectedName)) boomPlayer = i;
+						}
+						do{
+							draw();
+						}while(lastCardDrawn == 16);
+						int targetSpace = sf.findBoomerangSpace(playerObjs[curPlayer].getLastCard(), playerObjs[boomPlayer].getCurrentSpace());
+						playerObjs[boomPlayer].setCurrentSpace(targetSpace);
+						int savePlayer = curPlayer;
+						curPlayer = boomPlayer;
+						addLabels(true, 0);
+						curPlayer = savePlayer;
+						curPlayer++;
+						if(curPlayer == playerObjs.length) curPlayer = 0;
+						JOptionPane.showMessageDialog(null, "It is "+playerObjs[curPlayer].getPlayerName()+"'s turn!", "Whose turn is it?", JOptionPane.PLAIN_MESSAGE);
+					}
+					else{
+						JOptionPane.showMessageDialog(null, "You're out of boomerangs, dummy!", "No boomerangs", JOptionPane.PLAIN_MESSAGE);
+					}
+
 				}
 				catch(Exception e01) {
 					System.out.println(e01);
@@ -543,6 +577,7 @@ public class SSQWorldOfSweets extends JPanel{
 			buttonsInit[i].setOpaque(true);
 			buttonsInit[i].setBorderPainted(false);
 		}
+		buttons[0] = buttonsInit[0];
 		for (int i = 1; i < 60; i++){
 			if(i == 3)
 				buttons[i] = candyCards[4];
@@ -1304,13 +1339,6 @@ public class SSQWorldOfSweets extends JPanel{
 		}
 	}
 
-	/**
-	 *
-	 */
-	 private static void useBoomerang() throws Exception{
-
-	 }
-
 	private static void swapPlayers() {
 		Random rand = new Random();
 		rand.setSeed(System.currentTimeMillis());
@@ -1413,45 +1441,4 @@ class MyFrame extends JFrame {
 
 		contentPane.add(new SSQWorldOfSweets());
 	}
-
-	/**
-
-	boolean canUseBoomerang = PlayerObjs[curPlayer].useBoomerang()
-	if(canUseBoomerang){
-		String [] playerNames = new String[PlayerObjs.length-1];
-		int tempCount = 0;
-		for(int i = 0;i < PlayerObjs.length; i ++){
-			if(!playerObjs[i].getPlayerName().equals(playerObjs[curPlayer].getPlayerName){
-				playerNames[count] = playerObjs[i].getPlayerName();
-				count++;
-			}
-		}
-
-		Object f = JOptionPane.showInputDialog(null, "Who do you want to chuck that boomerang at?", "Git em!", JOptionPane.DEFAULT_OPTION, null, playerNames, playerNames[0]);
-		String selectedName = f.toString();
-		int boomPlayer = -1;
-		for(int i = 0; i < playerObjs.length; i++){
-			if(playerObjs[i].getPlayerName().equals(selectedName)) boomPlayer = playerObjs[i].getPlayerNumber();
-		}
-		do{
-			draw();
-		}while(lastCardDrawn == 16);
-		int targetSpace = sf.findBoomerangSpace(playerObjs[curPlayer].getLastCard(), playerObjs[boomPlayer].getCurrentSpace());
-
-		playerObjs[boomPlayer].setCurrentSpace(targetSpace);
-		int savePlayer = curPlayer;
-		curPlayer = boomPlayer;
-		addLabels(true, 0);
-		curPlayer = savePlayer;
-		curPlayer++;
-		if(curPlayer == playerObjs.length) curPlayer = 0;
-		JOptionPane.showMessageDialog(null, "It is "+playerObjs[curPlayer].getPlayerName()+"'s turn!", "Whose turn is it?", JOptionPane.PLAIN_MESSAGE);
-	}
-	else{
-		JOptionPane.showMessageDialog(null, "You're out of boomerangs, dummy!", "No boomerangs", JOptionPane.PLAIN_MESSAGE);
-	}
-
-
-	**/
-
 }
