@@ -167,6 +167,20 @@ public class Deck {
 	public int getSize() {
 		return size;
 	}
+	public void printDeck(){
+		Stack<Integer> temp = new Stack<Integer>();
+		int t;
+		while(!mydeck.empty()){
+			t = mydeck.pop();
+			System.out.println(t);
+			temp.push(t);
+		}
+		while(!temp.empty()){
+			t = temp.pop();
+			mydeck.push(t);
+		}
+
+	}
 
 	/**
 	 * This empty method is used to determine if the "deck" (stack) is empty and

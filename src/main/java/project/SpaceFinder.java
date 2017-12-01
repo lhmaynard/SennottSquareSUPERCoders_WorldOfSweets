@@ -319,28 +319,28 @@ public class SpaceFinder{
   }
 
   public int getPrevYellow(int curSpace){
-    for(int i = redSpaces.size() -1; i >= 0; i--){
+    for(int i = yellowSpaces.size() -1; i >= 0; i--){
       if(yellowSpaces.get(i) < curSpace) return yellowSpaces.get(i);
     }
     return 0;
   }
 
   public int getPrevBlue(int curSpace){
-    for(int i = redSpaces.size() -1; i >= 0; i--){
+    for(int i = blueSpaces.size() -1; i >= 0; i--){
       if(blueSpaces.get(i) < curSpace) return blueSpaces.get(i);
     }
     return 0;
   }
 
   public int getPrevGreen(int curSpace){
-    for(int i = redSpaces.size() -1; i >= 0; i--){
+    for(int i = greenSpaces.size() -1; i >= 0; i--){
       if(greenSpaces.get(i) < curSpace) return greenSpaces.get(i);
     }
     return 0;
   }
 
   public int getPrevOrange(int curSpace){
-    for(int i = redSpaces.size() -1; i >= 0; i--){
+    for(int i = orangeSpaces.size() -1; i >= 0; i--){
       if(orangeSpaces.get(i) < curSpace) return orangeSpaces.get(i);
     }
     return 0;
