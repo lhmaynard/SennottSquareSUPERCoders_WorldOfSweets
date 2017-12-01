@@ -24,6 +24,8 @@ public class Player {
 	private String playerToken;
 	private Boolean grandmasHouse;
 	private boolean dad;
+	private int boomerangs;
+	private boolean compPlayer;
 
 	/**
 	 * This is the player constructor that initializes a player based
@@ -35,7 +37,7 @@ public class Player {
 	 * @return none
 	 */
 	public Player(int num, String nam, String tok){
-		currentSpace = -1;
+		currentSpace = 0;
 		lastCard = -1;
 		playerName = nam;
 		playerNumber = num;
@@ -45,7 +47,7 @@ public class Player {
 		else dad = false;
 	}
 
-	public Player(int num, String nam, String tok, int space, int c){
+	public Player(int num, String nam, String tok, int space, int c, boolean a, int b){
 		currentSpace = space;
 		playerName = nam;
 		playerNumber = num;
@@ -54,6 +56,8 @@ public class Player {
 		grandmasHouse=false;
 		if(nam.equalsIgnoreCase("dad")) dad = true;
 		else dad = false;
+		compPlayer = a;
+		boomerangs = b;
 	}
 
 	/**
@@ -117,6 +121,10 @@ public class Player {
 		return grandmasHouse;
 	}
 
+	public int getBoomerangs() {
+		return boomerangs;
+	}
+
 	/**
 	 * This setPlayerName method sets the player's name
 	 *
@@ -178,12 +186,25 @@ public class Player {
 		grandmasHouse = g;
 	}
 
+	public void setAIPlayer(boolean a) {
+		compPlayer = a;
+	}
+
+	public boolean useBoomerang() {
+		if(boomerangs != 0) {
+			boomerangs = boomerangs-1;
+			return true;
+		}
+		return false;
+	}
+
 	public boolean isDad(){
 		return dad;
 	}
 
-	public boolean useBoomerang(){
-		return true;
+
+	public boolean isAI() {
+		return compPlayer;
 	}
 
 	/**
