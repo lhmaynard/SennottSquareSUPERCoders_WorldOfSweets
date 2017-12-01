@@ -47,7 +47,8 @@ public class Save {
 			pw.println(players[i].getToken());
 			pw.println(players[i].getCurrentSpace());
 			pw.println(players[i].getLastCard());
-
+			pw.println(players[i].isAI());
+			pw.println(players[i].getBoomerangs());
 		}
 		pw.println(deckToBeSaved.getSize());
 		while(!deckToBeSaved.empty())
@@ -61,7 +62,7 @@ public class Save {
 		pw.println(currPlayer);
 		pw.println(lastCard);
 		pw.close();
-		
+
 		checksum(fName);
 	}
 	private void checksum(String fileName) throws IOException{
@@ -69,25 +70,25 @@ public class Save {
 			File newFile = new File(fileName);
 			FileInputStream fis = new FileInputStream(newFile);
 			int byteLength = (int)newFile.length();
-			
+
 			byte[] fileByteArray = new byte[byteLength];
 			byte[] fileHash;
 			fis.read(fileByteArray, 0, byteLength);
-			
-			
+
+
 			MessageDigest md = MessageDigest.getInstance("SHA-256");
 			md.update(fileByteArray);
 			fileHash = md.digest();
-			
+
 			StringBuilder sb = new StringBuilder();
 			for(byte b : fileHash){
 				sb.append(String.format("%02x", b&0xff));
 			}
-			
+
 			String finalHexString = sb.toString();
 			fis.close();
 			rewriteFile(fileName, finalHexString);
-			
+
 		}
 		catch(NoSuchAlgorithmException nsae){
 			System.out.println(nsae);
@@ -99,11 +100,11 @@ public class Save {
 		PrintWriter pw = new PrintWriter(new File(tempFileName));
 		FileReader fr = new FileReader(fileName);
 		BufferedReader br = new BufferedReader(fr);
-		
+
 		//Printing hex hash to first line of new file
 		pw.println(hexVal);
 		String curLine;
-		
+
 		//Printing same data from original file to new file
 		while((curLine = br.readLine()) != null){
 			pw.println(curLine);
@@ -111,30 +112,30 @@ public class Save {
 		br.close();
 		fr.close();
 		pw.close();
-		
+
 		//Removing old file
 		File rmF = new File(fileName);
 		rmF.delete();
-		
+
 		//Renaming file to old file name
 		pw = new PrintWriter(new File(fileName));
 		fr = new FileReader(tempFileName);
 		br = new BufferedReader(fr);
-		
+
 		String newLine;
-		
+
 		while((newLine = br.readLine()) != null){
 			pw.println(newLine);
 		}
-		
+
 		br.close();
 		fr.close();
 		pw.close();
-		
+
 		//Removing temp file since new file has been renamed to old
 		//file name
 		File rmf1 = new File(tempFileName);
 		rmf1.delete();
-		
+
 	}
 }
