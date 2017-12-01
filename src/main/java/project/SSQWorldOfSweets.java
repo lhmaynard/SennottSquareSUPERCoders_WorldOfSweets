@@ -302,75 +302,84 @@ public class SSQWorldOfSweets extends JPanel{
 		c.gridx = 5;
 		c.gridy = 0;
 		deckArea.add(timeLabel, c);
+		
+		//Classic Mode
+		if(gameMode==0){
+			//Padding
+			blankLabel = new JLabel("");
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.weightx = 1.0;
+			c.ipady = 0;
+			c.gridwidth = 1;
+			c.gridx =0;
+			c.gridy = 1;
+			deckArea.add(blankLabel, c);
+		}
+		//Strategic Mode
+		else{
+			//Boomerang Button
+			JButton boomerangButton = new JButton("Use Boomerang");
 
-		//Padding
-		/**
-		blankLabel = new JLabel("");
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.weightx = 1.0;
-		c.ipady = 0;
-		c.gridwidth = 1;
-		c.gridx =0;
-		c.gridy = 1;
-		deckArea.add(blankLabel, c);
-		*/
-		//Boomerang Button
-		JButton boomerangButton = new JButton("Use Boomerang");
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.weightx = 0.50;
+			c.gridwidth = 1;
+			c.gridx = 0;
+			c.gridy = 1;
+			boomerangButton.setOpaque(true);
+			boomerangButton.setBorderPainted(false);
+			ActionListener boomerangAction = new ActionListener(){
+				public void actionPerformed(ActionEvent e){
+					try {
 
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.weightx = 0.50;
-		c.gridwidth = 1;
-		c.gridx = 0;
-		c.gridy = 1;
-		boomerangButton.setOpaque(true);
-		boomerangButton.setBorderPainted(false);
-		ActionListener boomerangAction = new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				try {
-
-					boolean canUseBoomerang = playerObjs[curPlayer].useBoomerang();
-					if(canUseBoomerang){
-						String [] playerNames = new String[playerObjs.length-1];
-						int tempCount = 0;
-						for(int i = 0;i < playerObjs.length; i ++){
-							if(!playerObjs[i].getPlayerName().equals(playerObjs[curPlayer].getPlayerName())){
-								playerNames[tempCount] = playerObjs[i].getPlayerName();
-								tempCount++;
+						boolean canUseBoomerang = playerObjs[curPlayer].useBoomerang();
+						if(canUseBoomerang){
+							String [] playerNames = new String[playerObjs.length-1];
+							int tempCount = 0;
+							for(int i = 0;i < playerObjs.length; i ++){
+								if(!playerObjs[i].getPlayerName().equals(playerObjs[curPlayer].getPlayerName())){
+									playerNames[tempCount] = playerObjs[i].getPlayerName();
+									tempCount++;
+								}
 							}
+
+							Object f = JOptionPane.showInputDialog(null, "Who do you want to chuck that boomerang at?", "Git em!", JOptionPane.DEFAULT_OPTION, null, playerNames, playerNames[0]);
+							String selectedName = f.toString();
+							int boomPlayer = -1;
+							for(int i = 0; i < playerObjs.length; i++){
+								if(playerObjs[i].getPlayerName().equals(selectedName)) boomPlayer = i;
+							}
+							do{
+								draw();
+							}while(lastCardDrawn == 16);
+							int targetSpace = sf.findBoomerangSpace(playerObjs[curPlayer].getLastCard(), playerObjs[boomPlayer].getCurrentSpace());
+							playerObjs[boomPlayer].setCurrentSpace(targetSpace);
+							int savePlayer = curPlayer;
+							curPlayer = boomPlayer;
+							addLabels(true, 0);
+							curPlayer = savePlayer;
+							curPlayer++;
+							if(curPlayer == playerObjs.length) curPlayer = 0;
+							JOptionPane.showMessageDialog(null, "It is "+playerObjs[curPlayer].getPlayerName()+"'s turn!", "Whose turn is it?", JOptionPane.PLAIN_MESSAGE);
+						}
+						else{
+							JOptionPane.showMessageDialog(null, "You're out of boomerangs, dummy!", "No boomerangs", JOptionPane.PLAIN_MESSAGE);
 						}
 
-						Object f = JOptionPane.showInputDialog(null, "Who do you want to chuck that boomerang at?", "Git em!", JOptionPane.DEFAULT_OPTION, null, playerNames, playerNames[0]);
-						String selectedName = f.toString();
-						int boomPlayer = -1;
-						for(int i = 0; i < playerObjs.length; i++){
-							if(playerObjs[i].getPlayerName().equals(selectedName)) boomPlayer = i;
-						}
-						do{
-							draw();
-						}while(lastCardDrawn == 16);
-						int targetSpace = sf.findBoomerangSpace(playerObjs[curPlayer].getLastCard(), playerObjs[boomPlayer].getCurrentSpace());
-						playerObjs[boomPlayer].setCurrentSpace(targetSpace);
-						int savePlayer = curPlayer;
-						curPlayer = boomPlayer;
-						addLabels(true, 0);
-						curPlayer = savePlayer;
-						curPlayer++;
-						if(curPlayer == playerObjs.length) curPlayer = 0;
-						JOptionPane.showMessageDialog(null, "It is "+playerObjs[curPlayer].getPlayerName()+"'s turn!", "Whose turn is it?", JOptionPane.PLAIN_MESSAGE);
 					}
-					else{
-						JOptionPane.showMessageDialog(null, "You're out of boomerangs, dummy!", "No boomerangs", JOptionPane.PLAIN_MESSAGE);
+					catch(Exception e01) {
+						System.out.println(e01);
+						System.exit(1);
 					}
-
 				}
-				catch(Exception e01) {
-					System.out.println(e01);
-					System.exit(1);
-				}
-			}
-		};
-		boomerangButton.addActionListener(boomerangAction);
-		deckArea.add(boomerangButton, c);
+			};
+			boomerangButton.addActionListener(boomerangAction);
+			deckArea.add(boomerangButton, c);
+			
+		}
+		
+		
+		
+		
 
 		//Click to Draw Card Button
 		JButton drawDeck = new JButton();
