@@ -64,9 +64,9 @@ public class SSQWorldOfSweets extends JPanel{
 	public static void main(String args[]){
 		startUp();
 	}
-	
+
 	private static void startUp(){
-		
+
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
 					try{
@@ -95,9 +95,9 @@ public class SSQWorldOfSweets extends JPanel{
 
 				}
 			});
-		
+
 	}
-	
+
 	/**
 	 * This method creates the game GUI window
 	 *
@@ -869,7 +869,13 @@ public class SSQWorldOfSweets extends JPanel{
 		else{
 			curPlayer++;
 			if(curPlayer == playerObjs.length) curPlayer = 0;
-			JOptionPane.showMessageDialog(null, "It is "+playerObjs[curPlayer].getPlayerName()+"'s turn!", "Whose turn is it?", JOptionPane.PLAIN_MESSAGE);
+			if(!playerObjs[curPlayer].isAI()) {
+					JOptionPane.showMessageDialog(null, "It is "+playerObjs[curPlayer].getPlayerName()+"'s turn!", "Whose turn is it?", JOptionPane.PLAIN_MESSAGE);
+			}
+			if(playerObjs[curPlayer].isAI() && gameMode == 0) {
+				draw();
+				updateTurn();
+			}
 		}
   }
 
@@ -889,17 +895,17 @@ public class SSQWorldOfSweets extends JPanel{
 		return playerLabels;
 	}
 
-	
+
 	private static void playerTypes(){
 			String[] numOfPlayers = {"2", "3", "4"};
 			playersO = JOptionPane.showInputDialog(null, "How many players are here?", "Welcome to World Of Sweets!", JOptionPane.DEFAULT_OPTION, null, numOfPlayers, "2");
 			playerObjs = new Player[Integer.parseInt(playersO.toString())];
-		
+
 			if(playerObjs.length  == 3){
 				String[] aiPlayers = {"0", "1", "2", "3"};
 				Object aiObj = JOptionPane.showInputDialog(null, "How many players are AI Players?", "Welcome to World Of Sweets!", JOptionPane.DEFAULT_OPTION, null,aiPlayers, "0");
 				aiO = Integer.parseInt(aiObj.toString());
-				
+
 			}
 			else if(playerObjs.length < 3){
 				String[] aiPlayers = {"0", "1", "2"};
@@ -912,8 +918,8 @@ public class SSQWorldOfSweets extends JPanel{
 				aiO = Integer.parseInt(aiObj.toString());
 			}
 	}
-	
-	
+
+
 	/**
 	 * This method is a helper method that collects player information from
 	 * the users such as number of players, player names, and player tokens
@@ -935,6 +941,7 @@ public class SSQWorldOfSweets extends JPanel{
 					al.remove(str);
 					symbolsOfPlayers=al.toArray(new String[al.size()]);
 					playerObjs[i] = new Player(i+1, tempName, str);
+					playerObjs[i].setAIPlayer(true);
 				}
 				else{
 					String tempName = JOptionPane.showInputDialog(null, "What is your name?", "Player " + (i+1), JOptionPane.QUESTION_MESSAGE);
@@ -1178,15 +1185,15 @@ public class SSQWorldOfSweets extends JPanel{
 			try{
 				Object f = JOptionPane.showInputDialog(null, "Which file do you want to load?", "Welcome to World Of Sweets!", JOptionPane.DEFAULT_OPTION, null, filenames, filenames[0]);
 				String selectedFName = f.toString();
-				
-				
+
+
 				FileReader fr = new FileReader(selectedFName);
 				BufferedReader br = new BufferedReader(fr);
 				PrintWriter pw = new PrintWriter(new File("tempFile.wos"));
-				
+
 				String hexHash = br.readLine();
 				String curLine;
-				
+
 				//Printing data minus hash to a new temp file so that
 				//it can be rehashed to compare the value
 				while((curLine = br.readLine()) != null){
@@ -1195,32 +1202,32 @@ public class SSQWorldOfSweets extends JPanel{
 				fr.close();
 				br.close();
 				pw.close();
-				
+
 				//Rehashing temp file so that hash values can be compared
 				File tempFileToHash = new File("tempFile.wos");
 				FileInputStream fis = new FileInputStream(tempFileToHash);
 				int byteLength = (int)tempFileToHash.length();
-				
+
 				byte[] fileByteArray = new byte[byteLength];
 				byte[] fileHash;
 				fis.read(fileByteArray, 0, byteLength);
 				fis.close();
-				
+
 				MessageDigest md = MessageDigest.getInstance("SHA-256");
 				md.update(fileByteArray);
 				fileHash = md.digest();
-				
+
 				StringBuilder sb = new StringBuilder();
 				for(byte b : fileHash){
 					sb.append(String.format("%02x", b&0xff));
 				}
-				
+
 				//Deleting temp file used for hashing
 				File rmf0 = new File("tempFile.wos");
 				rmf0.delete();
-				
+
 				String newHash = sb.toString();
-				
+
 				//If file has been tampered with
 				if(!newHash.equals(hexHash)){
 					JOptionPane.showMessageDialog(null, "The file you are trying to load is corrupt or has been tampered with!", "CORRUPT FILE!", JOptionPane.PLAIN_MESSAGE);
@@ -1232,7 +1239,7 @@ public class SSQWorldOfSweets extends JPanel{
 					Scanner scan = new Scanner(selectedFile);
 					//Consuming hash string from first line
 					scan.nextLine();
-					
+
 					int numPlayers = scan.nextInt();
 					playerObjs = new Player[numPlayers];
 					for(int i = 0; i < numPlayers; i++){
@@ -1247,7 +1254,9 @@ public class SSQWorldOfSweets extends JPanel{
 						String t = scan.next();
 						int s = scan.nextInt();
 						int c = scan.nextInt();
-						playerObjs[i] = new Player(i, n, t, s, c);
+						boolean a = scan.nextBoolean();
+						int b = scan.nextInt();
+						playerObjs[i] = new Player(i, n, t, s, c, a, b);
 					}
 					int dSize = scan.nextInt();
 					Stack<Integer> tempStack = new Stack<Integer>();
@@ -1294,14 +1303,14 @@ public class SSQWorldOfSweets extends JPanel{
 			System.exit(1);
 		}
 	}
-	
+
 	/**
-	 * 
+	 *
 	 */
 	 private static void useBoomerang() throws Exception{
-		 
+
 	 }
-	
+
 	private static void swapPlayers() {
 		Random rand = new Random();
 		rand.setSeed(System.currentTimeMillis());
