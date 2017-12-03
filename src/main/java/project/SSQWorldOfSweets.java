@@ -38,6 +38,7 @@ public class SSQWorldOfSweets extends JPanel{
 	static JButton panelTimer;
 	static JButton t0, t1, t2, t3;
 	static JPanel gameArea;
+	static JPanel playerArea;
 	static JButton[] buttons;
 	static JButton[] candyCards;
 	static JLabel L1, L2, L3, L4;
@@ -192,7 +193,7 @@ public class SSQWorldOfSweets extends JPanel{
 	private static void addPanel(Container p){
 		p.setLayout(new BorderLayout());
 		JPanel deckArea = new JPanel();
-		JPanel playerArea = new JPanel();
+		playerArea = new JPanel();
 		gameArea = new JPanel();
 
 		//Call to draw deckArea panel
@@ -364,7 +365,9 @@ public class SSQWorldOfSweets extends JPanel{
 						else{
 							JOptionPane.showMessageDialog(null, "You're out of boomerangs, dummy!", "No boomerangs", JOptionPane.PLAIN_MESSAGE);
 						}
-
+						
+						drawPlayerArea(playerArea);
+						playerArea.repaint();
 					}
 					catch(Exception e01) {
 						System.out.println(e01);
@@ -932,7 +935,7 @@ public class SSQWorldOfSweets extends JPanel{
 	private static JLabel[] generatePlayers(int num){
 		JLabel[] playerLabels = new JLabel[num];
 		for(int i = 0; i<num; i++) {
-			playerLabels[i] = new JLabel(playerObjs[i].toString());
+			playerLabels[i] = new JLabel(playerObjs[i].toString(gameMode));
 			playerLabels[i].setFont(new Font("Century", Font.BOLD, 25));
 			playerLabels[i].setForeground(new Color(0,0,0));
 		}
