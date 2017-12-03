@@ -214,9 +214,15 @@ public class Player {
 	 * @param none
 	 * @return	str	The string containing the player number, player name, and player token
 	 */
-	public String toString(){
+	public String toString(int gameMode){
 		String str;
-		str = ("Player " + playerNumber + ": " + playerToken + " " + playerName);
+		if(gameMode == 0){
+			str = ("Player " + playerNumber + ": " + playerToken + " " + playerName);
+		}
+		else{
+			str = ("Player " + playerNumber + ": " + playerToken + " " + playerName + " \n" + boomerangs);
+		}
+		
 		return str;
 	}
 }
