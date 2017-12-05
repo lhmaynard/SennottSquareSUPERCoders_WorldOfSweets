@@ -13,6 +13,7 @@
 package project;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.Robot;
 import javax.swing.*;
 import java.util.*;
 import javax.swing.Timer;
@@ -54,6 +55,7 @@ public class SSQWorldOfSweets extends JPanel{
 	static boolean loaded;
 	static boolean successfulLoad = false;
 	static JButton beginZone;
+	static Robot robot;
 
 	/**
 	 * This is the main method that runs and initializes the game window
@@ -67,6 +69,10 @@ public class SSQWorldOfSweets extends JPanel{
 	}
 
 	private static void startUp(){
+		try{
+			robot = new Robot();
+		}catch(Exception e){System.out.println(e);}
+
 
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
@@ -303,7 +309,7 @@ public class SSQWorldOfSweets extends JPanel{
 		c.gridx = 5;
 		c.gridy = 0;
 		deckArea.add(timeLabel, c);
-		
+
 		//Classic Mode
 		if(gameMode==0){
 			//Padding
@@ -318,7 +324,7 @@ public class SSQWorldOfSweets extends JPanel{
 		}
 		//Strategic Mode
 		else{
-			//Boomerang Button
+			// Button
 			JButton boomerangButton = new JButton("Use Boomerang");
 
 			c.fill = GridBagConstraints.HORIZONTAL;
@@ -365,7 +371,7 @@ public class SSQWorldOfSweets extends JPanel{
 						else{
 							JOptionPane.showMessageDialog(null, "You're out of boomerangs, dummy!", "No boomerangs", JOptionPane.PLAIN_MESSAGE);
 						}
-						
+
 						drawPlayerArea(playerArea);
 						playerArea.repaint();
 					}
@@ -377,12 +383,12 @@ public class SSQWorldOfSweets extends JPanel{
 			};
 			boomerangButton.addActionListener(boomerangAction);
 			deckArea.add(boomerangButton, c);
-			
+
 		}
-		
-		
-		
-		
+
+
+
+
 
 		//Click to Draw Card Button
 		JButton drawDeck = new JButton();
@@ -916,12 +922,17 @@ public class SSQWorldOfSweets extends JPanel{
 		else{
 			curPlayer++;
 			if(curPlayer == playerObjs.length) curPlayer = 0;
-			if(!playerObjs[curPlayer].isAI()) {
-					JOptionPane.showMessageDialog(null, "It is "+playerObjs[curPlayer].getPlayerName()+"'s turn!", "Whose turn is it?", JOptionPane.PLAIN_MESSAGE);
-			}
-			if(playerObjs[curPlayer].isAI() && gameMode == 0) {
-				draw();
-				updateTurn();
+			JOptionPane.showMessageDialog(null, "It is "+playerObjs[curPlayer].getPlayerName()+"'s turn!", "Whose turn is it?", JOptionPane.PLAIN_MESSAGE);
+
+			if(playerObjs[curPlayer].isAI()) {
+				pressEnter();
+				if(gameMode == 0){
+					draw();
+					updateTurn();
+				}
+				else{
+					//ai strategic
+				}
 			}
 		}
   }
@@ -1426,8 +1437,17 @@ public class SSQWorldOfSweets extends JPanel{
 		playerObjs[curPlayer].setLastCard(16);
 	}
 
+	public static void pressEnter(){
+		try{
+			robot.keyPress(KeyEvent.VK_ENTER);
+		  robot.keyRelease(KeyEvent.VK_ENTER);
+		}catch(Exception e){System.out.println(e);}
+
+	}
+
 
 }
+
 
 /**
  * This is the MyFrame class
