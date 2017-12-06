@@ -134,7 +134,7 @@ public class SSQWorldOfSweetsTest {
 			p[i] = new Player(i+1, "Player", "_");
 		}
 		Deck d = new Deck();
-		Save sav = new Save(p, d, 0, 0, 0, 0, 0, 0);
+		Save sav = new Save(p, d, 0, 0, 0, 0, 0, 0, 0);
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
 		LocalDate localDate = LocalDate.now();
 		File f = new File("PlayerPlayerPlayerPlayer" + dtf.format(localDate).replace('/', ';') + ".wos");
