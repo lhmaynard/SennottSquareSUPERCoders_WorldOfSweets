@@ -216,12 +216,7 @@ public class Player {
 	 */
 	public String toString(int gameMode){
 		String str;
-		if(gameMode == 0){
-			str = ("Player " + playerNumber + ": " + playerToken + " " + playerName);
-		}
-		else{
-			str = ("Player " + playerNumber + ": " + playerToken + " " + playerName + " \n" + boomerangs);
-		}
+		str = ("Player " + playerNumber + ": " + playerToken + " " + playerName);
 		
 		return str;
 	}
