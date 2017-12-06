@@ -888,18 +888,7 @@ public class SSQWorldOfSweets extends JPanel{
 			if(curPlayer == playerObjs.length) curPlayer = 0;
 			JOptionPane.showMessageDialog(null, "It is "+playerObjs[curPlayer].getPlayerName()+"'s turn!", "Whose turn is it?", JOptionPane.PLAIN_MESSAGE);
 			if(playerObjs[curPlayer].isAI()) {
-				pressEnter();
-				if(gameMode == 1) {
-					Random r = new Random();
-					r.setSeed(System.currentTimeMillis());
-					if(r.nextInt()%3 == 0) {
-						useBoomerang();
-					}
-					else{
-						draw();
-						updateTurn();
-					}
-				}
+				AIturn();
 			}
 		}
   }
@@ -1347,16 +1336,31 @@ public class SSQWorldOfSweets extends JPanel{
 				curPlayer = boomPlayer;
 				addLabels(true, 0);
 				curPlayer = savePlayer;
-				if(!playerObjs[curPlayer].isAI()) {
-					curPlayer++;
-				}
+				curPlayer++;
 				if(curPlayer == playerObjs.length) curPlayer = 0;
 				JOptionPane.showMessageDialog(null, "It is "+playerObjs[curPlayer].getPlayerName()+"'s turn!", "Whose turn is it?", JOptionPane.PLAIN_MESSAGE);
+				if(playerObjs[curPlayer].isAI()) {
+					AIturn();
+				}
 				} else {
 						JOptionPane.showMessageDialog(null, "You're out of boomerangs, dummy!", "No boomerangs", JOptionPane.PLAIN_MESSAGE);
 				}
 				drawPlayerArea(playerArea);
 				playerArea.repaint();
+	}
+
+	private static void AIturn() {
+		pressEnter();
+		if(gameMode == 1) {
+			Random r = new Random();
+			r.setSeed(System.currentTimeMillis());
+			if(r.nextInt()%3 == 0) {
+				useBoomerang();
+			} else {
+				draw();
+				updateTurn();
+			}
+		}
 	}
 
 
@@ -1455,6 +1459,7 @@ public class SSQWorldOfSweets extends JPanel{
 
 	public static void pressEnter(){
 		try{
+			Thread.sleep(750);
 			robot.keyPress(KeyEvent.VK_ENTER);
 		  robot.keyRelease(KeyEvent.VK_ENTER);
 		} catch(Exception e) { System.out.println(e); }
