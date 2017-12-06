@@ -187,6 +187,9 @@ public class SSQWorldOfSweets extends JPanel{
 			curPlayer = saveCurPlayer;
 			displayDrawnCard(lastCardDrawn);
 		}
+		if(playerObjs[curPlayer].isAI()){
+			pressEnter();
+		}
 		JOptionPane.showMessageDialog(null, "It is "+playerObjs[curPlayer].getPlayerName()+"'s turn!", "Whose turn is it?", JOptionPane.PLAIN_MESSAGE);
 		if(playerObjs[curPlayer].isAI()){
 			AIturn();
@@ -1370,6 +1373,11 @@ public class SSQWorldOfSweets extends JPanel{
 				updateTurn();
 			}
 		}
+		else{
+			draw();
+			updateTurn();
+		}
+
 	}
 
 
