@@ -984,6 +984,7 @@ public class SSQWorldOfSweets extends JPanel{
 		else swapPlayers();
 		if(playerObjs[curPlayer].getGrandmasHouse()){
 			//Play again
+			if(playerObjs[curPlayer].isAI()) JOptionPane.showConfirmDialog(null, "Good job everyone!!!!!!!!!!!!!!!!", "", JOptionPane.PLAIN_MESSAGE);
 			if (JOptionPane.showConfirmDialog(null, playerObjs[curPlayer].getPlayerName()+" won the game! Have fun at Grandma's House!\nPlay again?", "WINNER WINNER WINNER", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 				curPlayer=0;
 				gameDeck = new Deck();
