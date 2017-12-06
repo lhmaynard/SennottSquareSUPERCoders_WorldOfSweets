@@ -14,8 +14,8 @@ import java.lang.StringBuilder;
 public class Save {
 	private Player[] players;
 	private Deck deckToBeSaved;
-	private int seconds, minutes, hours, days, currPlayer, lastCard;
-	public Save(Player[] p, Deck d, int s, int m, int h, int da, int c, int l) throws IOException
+	private int seconds, minutes, hours, days, currPlayer, lastCard, gameMode;
+	public Save(Player[] p, Deck d, int s, int m, int h, int da, int c, int l, int g) throws IOException
 	{
 		players = p;
 		deckToBeSaved = d;
@@ -25,6 +25,7 @@ public class Save {
 		days = da;
 		currPlayer = c;
 		lastCard = l;
+		gameMode = g;
 		concatData();
 	}
 
@@ -61,6 +62,7 @@ public class Save {
 		pw.println(days);
 		pw.println(currPlayer);
 		pw.println(lastCard);
+		pw.println(gameMode);
 		pw.close();
 
 		checksum(fName);

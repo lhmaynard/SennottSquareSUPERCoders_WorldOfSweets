@@ -208,7 +208,7 @@ public class SSQWorldOfSweets extends JPanel{
 		playerArea = new JPanel();
 		if(gameMode > 0)
 			playerArea.setLayout(new GridLayout(2,1));
-		System.out.println(gameMode);
+		// System.out.println(gameMode);
 		gameArea = new JPanel();
 
 		//Call to draw deckArea panel
@@ -813,7 +813,7 @@ public class SSQWorldOfSweets extends JPanel{
 			int drawPlayer = 0;
 			int playerBooms = playerObjs[drawPlayer].getBoomerangs();
 			while(but[i] != null){
-				System.out.println("Booms: "+playerBooms);
+				// System.out.println("Booms: "+playerBooms);
 
 				if(i == 3){
 					// boomPanel.add(l2);
@@ -1414,6 +1414,7 @@ public class SSQWorldOfSweets extends JPanel{
 					days = scan.nextInt();
 					curPlayer = scan.nextInt();
 					lastCardDrawn = scan.nextInt();
+					gameMode = scan.nextInt();
 					successfulLoad = true;
 				}
 			}
@@ -1509,7 +1510,7 @@ public class SSQWorldOfSweets extends JPanel{
 	private static void saveGame() throws Exception{
 		try{
 			JOptionPane.showMessageDialog(null, "Now saving game!", "Save Game", JOptionPane.PLAIN_MESSAGE);
-			Save s = new Save(playerObjs, gameDeck, seconds, minutes, hours, days, curPlayer, lastCardDrawn);
+			Save s = new Save(playerObjs, gameDeck, seconds, minutes, hours, days, curPlayer, lastCardDrawn, gameMode);
 			JOptionPane.showMessageDialog(null, "Done, goodbye!", " ", JOptionPane.PLAIN_MESSAGE);
 			System.exit(0);
 		}
@@ -1605,8 +1606,8 @@ public class SSQWorldOfSweets extends JPanel{
 
 	public static void changeBoomButton(){
 		int booms = playerObjs[curPlayer].getBoomerangs();
-		System.out.println(curPlayer);
-		System.out.println(booms);
+		// System.out.println(curPlayer);
+		// System.out.println(booms);
 		boomButtons[curPlayer][booms].setIcon(null);
 		boomButtons[curPlayer][booms].repaint();
 	}
