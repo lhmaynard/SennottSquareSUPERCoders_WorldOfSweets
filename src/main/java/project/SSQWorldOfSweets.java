@@ -72,7 +72,7 @@ public class SSQWorldOfSweets extends JPanel{
 	private static void startUp(){
 		try{
 			robot = new Robot();
-		}catch(Exception e){System.out.println(e);}
+		} catch(Exception e) { System.out.println(e); }
 
 
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
@@ -135,8 +135,7 @@ public class SSQWorldOfSweets extends JPanel{
 		int ySize = (int) tk.getScreenSize().getHeight();
 		f.setSize(xSize - 100, ySize - 100);
 		f.setLocationRelativeTo(null);
-		if(loaded){
-
+		if(loaded) {
 			int saveCurPlayer = curPlayer;
 			for(int i = 0; i < playerObjs.length; i++){
 				boolean candyCardCheck=false;
@@ -209,7 +208,7 @@ public class SSQWorldOfSweets extends JPanel{
 		playerArea = new JPanel();
 		if(gameMode > 0)
 			playerArea.setLayout(new GridLayout(2,1));
-		System.out.println(gameMode);
+		// System.out.println(gameMode);
 		gameArea = new JPanel();
 
 		//Call to draw deckArea panel
@@ -730,7 +729,7 @@ public class SSQWorldOfSweets extends JPanel{
 		playerLabel.setFont(new Font("Century", Font.BOLD, 25));
 		//Setting size of namesPanel panel
 		playerArea.setPreferredSize(new Dimension(350, 750));
-		
+
 		if(gameMode > 0){
 			namesPanel.setLayout(new GridLayout(5, 1, 2, 2));
 			namesPanel.add(playerLabel);
@@ -748,10 +747,10 @@ public class SSQWorldOfSweets extends JPanel{
 			else
 				playerArea.add(allLabels[i]);
 		}
-		
+
 		if(gameMode > 0){
 			playerArea.add(namesPanel);
-			
+
 			JLabel l1, l2, l3, l4;
 			JButton[] but = new JButton[13];
 			int j = 0;
@@ -762,7 +761,7 @@ public class SSQWorldOfSweets extends JPanel{
 			l2.setFont(new Font("Century", Font.BOLD, 35));
 			l3 = new JLabel();
 			l4 = new JLabel();
-			
+
 			if(playerObjs.length == 2){
 				boomPanel.setLayout(new GridLayout(2, 4, 10, 10));
 				boomButtons = new JButton[2][3];
@@ -776,7 +775,7 @@ public class SSQWorldOfSweets extends JPanel{
 				boomButtons = new JButton[4][3];
 			}
 			switch(playerObjs.length){
-				case 4: 
+				case 4:
 					l4 = new JLabel(playerObjs[3].getToken());
 					l4.setFont(new Font("Century", Font.BOLD, 35));
 					but[9] = new JButton();
@@ -807,26 +806,53 @@ public class SSQWorldOfSweets extends JPanel{
 					boomButtons[1][0] = but[3];
 					boomButtons[1][1] = but[4];
 					boomButtons[1][2] = but[5];
-					
+
 			}
 			int i = 0;
 			boomPanel.add(l1);
+			int drawPlayer = 0;
+			int playerBooms = playerObjs[drawPlayer].getBoomerangs();
 			while(but[i] != null){
-				but[i].setIcon(img);
-				if(i == 3)
-					boomPanel.add(l2);
-				if(i == 6)
-					boomPanel.add(l3);
-				if(i == 9)
-					boomPanel.add(l4);
+				// System.out.println("Booms: "+playerBooms);
+
+				if(i == 3){
+					// boomPanel.add(l2);
+					drawPlayer = 1;
+					playerBooms = playerObjs[drawPlayer].getBoomerangs();
+				}
+				if(i == 6){
+					// boomPanel.add(l3);
+					drawPlayer = 2;
+					playerBooms = playerObjs[drawPlayer].getBoomerangs();
+				}
+
+				if(i == 9){
+					// boomPanel.add(l4);
+					drawPlayer = 3;
+					playerBooms = playerObjs[drawPlayer].getBoomerangs();
+				}
+
+
+				if(playerBooms > 0){
+					but[i].setIcon(img);
+					playerBooms--;
+				}
+				else{
+					but[i].setIcon(null);
+				}
+
+				if(i == 3) boomPanel.add(l2);
+				if(i == 6) boomPanel.add(l3);
+				if(i == 9) boomPanel.add(l4);
+
 				boomPanel.add(but[i]);
 				i++;
 			}
-			
-			
-			
-			
-			
+
+
+
+
+
 			playerArea.add(boomPanel);
 		}
 	}
@@ -1388,6 +1414,7 @@ public class SSQWorldOfSweets extends JPanel{
 					days = scan.nextInt();
 					curPlayer = scan.nextInt();
 					lastCardDrawn = scan.nextInt();
+					gameMode = scan.nextInt();
 					successfulLoad = true;
 				}
 			}
@@ -1437,7 +1464,7 @@ public class SSQWorldOfSweets extends JPanel{
 				curPlayer = boomPlayer;
 				addLabels(true, 0);
 				curPlayer = savePlayer;
-        changeBoomerangButton();
+				changeBoomButton();
 				curPlayer++;
 				if(curPlayer == playerObjs.length) curPlayer = 0;
 				JOptionPane.showMessageDialog(null, "It is "+playerObjs[curPlayer].getPlayerName()+"'s turn!", "Whose turn is it?", JOptionPane.PLAIN_MESSAGE);
@@ -1447,8 +1474,7 @@ public class SSQWorldOfSweets extends JPanel{
 				} else {
 						JOptionPane.showMessageDialog(null, "You're out of boomerangs, dummy!", "No boomerangs", JOptionPane.PLAIN_MESSAGE);
 				}
-				drawPlayerArea(playerArea);
-				playerArea.repaint();
+
 	}
 
 	private static void AIturn() {
@@ -1484,7 +1510,7 @@ public class SSQWorldOfSweets extends JPanel{
 	private static void saveGame() throws Exception{
 		try{
 			JOptionPane.showMessageDialog(null, "Now saving game!", "Save Game", JOptionPane.PLAIN_MESSAGE);
-			Save s = new Save(playerObjs, gameDeck, seconds, minutes, hours, days, curPlayer, lastCardDrawn);
+			Save s = new Save(playerObjs, gameDeck, seconds, minutes, hours, days, curPlayer, lastCardDrawn, gameMode);
 			JOptionPane.showMessageDialog(null, "Done, goodbye!", " ", JOptionPane.PLAIN_MESSAGE);
 			System.exit(0);
 		}
@@ -1570,15 +1596,18 @@ public class SSQWorldOfSweets extends JPanel{
 		playerObjs[curPlayer].setLastCard(16);
 	}
 
-	public static void pressEnter(){
+	public static void pressEnter() {
+		try {
 			Thread.sleep(1000);
 			robot.keyPress(KeyEvent.VK_ENTER);
 		  robot.keyRelease(KeyEvent.VK_ENTER);
-		} catch(Exception e) { System.out.println
-	}
+		} catch (InterruptedException iex) { System.out.println(iex); }
+		}
 
 	public static void changeBoomButton(){
 		int booms = playerObjs[curPlayer].getBoomerangs();
+		// System.out.println(curPlayer);
+		// System.out.println(booms);
 		boomButtons[curPlayer][booms].setIcon(null);
 		boomButtons[curPlayer][booms].repaint();
 	}
