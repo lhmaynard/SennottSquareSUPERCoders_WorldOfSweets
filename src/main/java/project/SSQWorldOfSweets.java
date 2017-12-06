@@ -1334,9 +1334,9 @@ public class SSQWorldOfSweets extends JPanel{
 					System.out.println("AI IS BOOMING");
 					Random r = new Random();
 					r.setSeed(System.currentTimeMillis());
-					boomPlayer = r.nextInt(4);
+					boomPlayer = r.nextInt(playerObjs.length);
 					while(boomPlayer == curPlayer) {
-						boomPlayer = r.nextInt(4);
+						boomPlayer = r.nextInt(playerObjs.length);
 					}
 				}
 				do {
