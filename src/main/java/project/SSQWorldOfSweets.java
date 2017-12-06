@@ -888,7 +888,7 @@ public class SSQWorldOfSweets extends JPanel{
 			if(curPlayer == playerObjs.length) curPlayer = 0;
 			JOptionPane.showMessageDialog(null, "It is "+playerObjs[curPlayer].getPlayerName()+"'s turn!", "Whose turn is it?", JOptionPane.PLAIN_MESSAGE);
 			if(playerObjs[curPlayer].isAI()) {
-				//pressEnter();
+				pressEnter();
 				if(gameMode == 1) {
 					Random r = new Random();
 					r.setSeed(System.currentTimeMillis());
@@ -1331,7 +1331,6 @@ public class SSQWorldOfSweets extends JPanel{
 						if(playerObjs[i].getPlayerName().equals(selectedName)) boomPlayer = i;
 					}
 				} else {
-					System.out.println("AI IS BOOMING");
 					Random r = new Random();
 					r.setSeed(System.currentTimeMillis());
 					boomPlayer = r.nextInt(playerObjs.length);
@@ -1352,7 +1351,7 @@ public class SSQWorldOfSweets extends JPanel{
 					curPlayer++;
 				}
 				if(curPlayer == playerObjs.length) curPlayer = 0;
-				//JOptionPane.showMessageDialog(null, "It is "+playerObjs[curPlayer].getPlayerName()+"'s turn!", "Whose turn is it?", JOptionPane.PLAIN_MESSAGE);
+				JOptionPane.showMessageDialog(null, "It is "+playerObjs[curPlayer].getPlayerName()+"'s turn!", "Whose turn is it?", JOptionPane.PLAIN_MESSAGE);
 				} else {
 						JOptionPane.showMessageDialog(null, "You're out of boomerangs, dummy!", "No boomerangs", JOptionPane.PLAIN_MESSAGE);
 				}
@@ -1391,7 +1390,7 @@ public class SSQWorldOfSweets extends JPanel{
 		usedNums.add(playerToChangeWith);
 		JOptionPane.showMessageDialog(null, "Swapping " + playerObjs[curPlayer].getPlayerName() + " with " + playerObjs[playerToChangeWith].getPlayerName(), " ", JOptionPane.PLAIN_MESSAGE);
 		if(playerObjs[curPlayer].isAI()) {
-			//pressEnter();
+			pressEnter();
 		}
 		playerObjs[curPlayer].setCurrentSpace(playerObjs[playerToChangeWith].getCurrentSpace());
 		playerObjs[playerToChangeWith].setCurrentSpace(oldSpace);
