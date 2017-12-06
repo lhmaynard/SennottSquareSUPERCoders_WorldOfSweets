@@ -188,6 +188,9 @@ public class SSQWorldOfSweets extends JPanel{
 			displayDrawnCard(lastCardDrawn);
 		}
 		JOptionPane.showMessageDialog(null, "It is "+playerObjs[curPlayer].getPlayerName()+"'s turn!", "Whose turn is it?", JOptionPane.PLAIN_MESSAGE);
+		if(playerObjs[curPlayer].isAI()){
+			AIturn();
+		}
 	}
 
 	/**
@@ -337,43 +340,7 @@ public class SSQWorldOfSweets extends JPanel{
 			ActionListener boomerangAction = new ActionListener(){
 				public void actionPerformed(ActionEvent e){
 					try {
-
-						boolean canUseBoomerang = playerObjs[curPlayer].useBoomerang();
-						if(canUseBoomerang){
-							String [] playerNames = new String[playerObjs.length-1];
-							int tempCount = 0;
-							for(int i = 0;i < playerObjs.length; i ++){
-								if(!playerObjs[i].getPlayerName().equals(playerObjs[curPlayer].getPlayerName())){
-									playerNames[tempCount] = playerObjs[i].getPlayerName();
-									tempCount++;
-								}
-							}
-
-							Object f = JOptionPane.showInputDialog(null, "Who do you want to chuck that boomerang at?", "Git em!", JOptionPane.DEFAULT_OPTION, null, playerNames, playerNames[0]);
-							String selectedName = f.toString();
-							int boomPlayer = -1;
-							for(int i = 0; i < playerObjs.length; i++){
-								if(playerObjs[i].getPlayerName().equals(selectedName)) boomPlayer = i;
-							}
-							do{
-								draw();
-							}while(lastCardDrawn == 16);
-							int targetSpace = sf.findBoomerangSpace(playerObjs[curPlayer].getLastCard(), playerObjs[boomPlayer].getCurrentSpace());
-							playerObjs[boomPlayer].setCurrentSpace(targetSpace);
-							int savePlayer = curPlayer;
-							curPlayer = boomPlayer;
-							addLabels(true, 0);
-							curPlayer = savePlayer;
-							curPlayer++;
-							if(curPlayer == playerObjs.length) curPlayer = 0;
-							JOptionPane.showMessageDialog(null, "It is "+playerObjs[curPlayer].getPlayerName()+"'s turn!", "Whose turn is it?", JOptionPane.PLAIN_MESSAGE);
-						}
-						else{
-							JOptionPane.showMessageDialog(null, "You're out of boomerangs, dummy!", "No boomerangs", JOptionPane.PLAIN_MESSAGE);
-						}
-
-						drawPlayerArea(playerArea);
-						playerArea.repaint();
+						useBoomerang();
 					}
 					catch(Exception e01) {
 						System.out.println(e01);
@@ -923,16 +890,8 @@ public class SSQWorldOfSweets extends JPanel{
 			curPlayer++;
 			if(curPlayer == playerObjs.length) curPlayer = 0;
 			JOptionPane.showMessageDialog(null, "It is "+playerObjs[curPlayer].getPlayerName()+"'s turn!", "Whose turn is it?", JOptionPane.PLAIN_MESSAGE);
-
 			if(playerObjs[curPlayer].isAI()) {
-				pressEnter();
-				if(gameMode == 0){
-					draw();
-					updateTurn();
-				}
-				else{
-					//ai strategic
-				}
+				AIturn();
 			}
 		}
   }
@@ -1344,6 +1303,75 @@ public class SSQWorldOfSweets extends JPanel{
 		}
 	}
 
+	private static void useBoomerang() {
+		boolean canUseBoomerang = playerObjs[curPlayer].useBoomerang();
+		if(canUseBoomerang){
+				int tempCount = 0;
+				String selectedName = new String();
+				int boomPlayer = -1;
+				if(!playerObjs[curPlayer].isAI()) {
+					String [] playerNames = new String[playerObjs.length-1];
+					for(int i = 0;i < playerObjs.length; i ++){
+						if(!playerObjs[i].getPlayerName().equals(playerObjs[curPlayer].getPlayerName())){
+							playerNames[tempCount] = playerObjs[i].getPlayerName();
+							tempCount++;
+						}
+					}
+					Object f = JOptionPane.showInputDialog(null, "Who do you want to chuck that boomerang at?", "Git em!", JOptionPane.DEFAULT_OPTION, null, playerNames, playerNames[0]);
+					selectedName = f.toString();
+					for(int i = 0; i < playerObjs.length; i++) {
+						if(playerObjs[i].getPlayerName().equals(selectedName)) boomPlayer = i;
+					}
+				} else {
+					Random r = new Random();
+					r.setSeed(System.currentTimeMillis());
+					boomPlayer = r.nextInt(playerObjs.length);
+					while(boomPlayer == curPlayer) {
+						boomPlayer = r.nextInt(playerObjs.length);
+					}
+				}
+				do {
+					draw();
+				} while(lastCardDrawn == 16);
+				int targetSpace = sf.findBoomerangSpace(playerObjs[curPlayer].getLastCard(), playerObjs[boomPlayer].getCurrentSpace());
+				playerObjs[boomPlayer].setCurrentSpace(targetSpace);
+				int savePlayer = curPlayer;
+				curPlayer = boomPlayer;
+				addLabels(true, 0);
+				curPlayer = savePlayer;
+				curPlayer++;
+				if(curPlayer == playerObjs.length) curPlayer = 0;
+				JOptionPane.showMessageDialog(null, "It is "+playerObjs[curPlayer].getPlayerName()+"'s turn!", "Whose turn is it?", JOptionPane.PLAIN_MESSAGE);
+				if(playerObjs[curPlayer].isAI()) {
+					AIturn();
+				}
+				} else {
+						JOptionPane.showMessageDialog(null, "You're out of boomerangs, dummy!", "No boomerangs", JOptionPane.PLAIN_MESSAGE);
+				}
+				drawPlayerArea(playerArea);
+				playerArea.repaint();
+	}
+
+	private static void AIturn() {
+		pressEnter();
+		if(gameMode == 1) {
+			if(playerObjs[curPlayer].getBoomerangs() > 0){
+				Random r = new Random();
+				r.setSeed(System.currentTimeMillis());
+				if(r.nextInt()%3 == 0) {
+					useBoomerang();
+				} else {
+					draw();
+					updateTurn();
+				}
+			}
+			else{
+				draw();
+				updateTurn();
+			}
+		}
+	}
+
 
 	/**
 	 *
@@ -1374,10 +1402,11 @@ public class SSQWorldOfSweets extends JPanel{
 		}
 		usedNums.add(playerToChangeWith);
 		JOptionPane.showMessageDialog(null, "Swapping " + playerObjs[curPlayer].getPlayerName() + " with " + playerObjs[playerToChangeWith].getPlayerName(), " ", JOptionPane.PLAIN_MESSAGE);
+		if(playerObjs[curPlayer].isAI()) {
+			pressEnter();
+		}
 		playerObjs[curPlayer].setCurrentSpace(playerObjs[playerToChangeWith].getCurrentSpace());
 		playerObjs[playerToChangeWith].setCurrentSpace(oldSpace);
-		// moveSwappedPlayer(curPlayer);
-		// moveSwappedPlayer(playerToChangeWith);
 		int saveCurPlayer = curPlayer;
 		for(int i = 0; i < 2; i++){
 			boolean candyCardCheck=false;
@@ -1439,9 +1468,10 @@ public class SSQWorldOfSweets extends JPanel{
 
 	public static void pressEnter(){
 		try{
+			Thread.sleep(1000);
 			robot.keyPress(KeyEvent.VK_ENTER);
 		  robot.keyRelease(KeyEvent.VK_ENTER);
-		}catch(Exception e){System.out.println(e);}
+		} catch(Exception e) { System.out.println(e); }
 
 	}
 
