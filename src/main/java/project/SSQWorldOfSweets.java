@@ -895,9 +895,11 @@ public class SSQWorldOfSweets extends JPanel{
 					if(r.nextInt()%3 == 0) {
 						useBoomerang();
 					}
+					else{
+						draw();
+						updateTurn();
+					}
 				}
-				draw();
-				updateTurn();
 			}
 		}
   }
