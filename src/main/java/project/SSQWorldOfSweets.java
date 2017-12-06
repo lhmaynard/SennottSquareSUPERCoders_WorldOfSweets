@@ -810,14 +810,41 @@ public class SSQWorldOfSweets extends JPanel{
 			}
 			int i = 0;
 			boomPanel.add(l1);
+			int drawPlayer = 0;
+			int playerBooms = playerObjs[drawPlayer].getBoomerangs();
 			while(but[i] != null){
-				but[i].setIcon(img);
-				if(i == 3)
-					boomPanel.add(l2);
-				if(i == 6)
-					boomPanel.add(l3);
-				if(i == 9)
-					boomPanel.add(l4);
+				System.out.println("Booms: "+playerBooms);
+
+				if(i == 3){
+					// boomPanel.add(l2);
+					drawPlayer = 1;
+					playerBooms = playerObjs[drawPlayer].getBoomerangs();
+				}
+				if(i == 6){
+					// boomPanel.add(l3);
+					drawPlayer = 2;
+					playerBooms = playerObjs[drawPlayer].getBoomerangs();
+				}
+
+				if(i == 9){
+					// boomPanel.add(l4);
+					drawPlayer = 3;
+					playerBooms = playerObjs[drawPlayer].getBoomerangs();
+				}
+
+
+				if(playerBooms > 0){
+					but[i].setIcon(img);
+					playerBooms--;
+				}
+				else{
+					but[i].setIcon(null);
+				}
+
+				if(i == 3) boomPanel.add(l2);
+				if(i == 6) boomPanel.add(l3);
+				if(i == 9) boomPanel.add(l4);
+
 				boomPanel.add(but[i]);
 				i++;
 			}
@@ -1446,7 +1473,7 @@ public class SSQWorldOfSweets extends JPanel{
 				} else {
 						JOptionPane.showMessageDialog(null, "You're out of boomerangs, dummy!", "No boomerangs", JOptionPane.PLAIN_MESSAGE);
 				}
-	
+
 	}
 
 	private static void AIturn() {
