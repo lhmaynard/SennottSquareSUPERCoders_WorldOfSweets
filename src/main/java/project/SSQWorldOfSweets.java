@@ -1436,7 +1436,7 @@ public class SSQWorldOfSweets extends JPanel{
 				curPlayer = boomPlayer;
 				addLabels(true, 0);
 				curPlayer = savePlayer;
-        changeBoomButton();
+				changeBoomButton();
 				curPlayer++;
 				if(curPlayer == playerObjs.length) curPlayer = 0;
 				JOptionPane.showMessageDialog(null, "It is "+playerObjs[curPlayer].getPlayerName()+"'s turn!", "Whose turn is it?", JOptionPane.PLAIN_MESSAGE);
@@ -1446,8 +1446,7 @@ public class SSQWorldOfSweets extends JPanel{
 				} else {
 						JOptionPane.showMessageDialog(null, "You're out of boomerangs, dummy!", "No boomerangs", JOptionPane.PLAIN_MESSAGE);
 				}
-				drawPlayerArea(playerArea);
-				playerArea.repaint();
+	
 	}
 
 	private static void AIturn() {
@@ -1579,6 +1578,8 @@ public class SSQWorldOfSweets extends JPanel{
 
 	public static void changeBoomButton(){
 		int booms = playerObjs[curPlayer].getBoomerangs();
+		System.out.println(curPlayer);
+		System.out.println(booms);
 		boomButtons[curPlayer][booms].setIcon(null);
 		boomButtons[curPlayer][booms].repaint();
 	}
