@@ -188,6 +188,9 @@ public class SSQWorldOfSweets extends JPanel{
 			displayDrawnCard(lastCardDrawn);
 		}
 		JOptionPane.showMessageDialog(null, "It is "+playerObjs[curPlayer].getPlayerName()+"'s turn!", "Whose turn is it?", JOptionPane.PLAIN_MESSAGE);
+		if(playerObjs[curPlayer].isAI()){
+			AIturn();
+		}
 	}
 
 	/**
@@ -1352,11 +1355,17 @@ public class SSQWorldOfSweets extends JPanel{
 	private static void AIturn() {
 		pressEnter();
 		if(gameMode == 1) {
-			Random r = new Random();
-			r.setSeed(System.currentTimeMillis());
-			if(r.nextInt()%3 == 0) {
-				useBoomerang();
-			} else {
+			if(playerObjs[curPlayer].getBoomerangs() > 0){
+				Random r = new Random();
+				r.setSeed(System.currentTimeMillis());
+				if(r.nextInt()%3 == 0) {
+					useBoomerang();
+				} else {
+					draw();
+					updateTurn();
+				}
+			}
+			else{
 				draw();
 				updateTurn();
 			}
@@ -1459,7 +1468,7 @@ public class SSQWorldOfSweets extends JPanel{
 
 	public static void pressEnter(){
 		try{
-			Thread.sleep(750);
+			Thread.sleep(1000);
 			robot.keyPress(KeyEvent.VK_ENTER);
 		  robot.keyRelease(KeyEvent.VK_ENTER);
 		} catch(Exception e) { System.out.println(e); }
